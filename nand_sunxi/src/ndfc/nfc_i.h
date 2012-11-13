@@ -33,8 +33,8 @@
 
 #if 1
 static unsigned int _reg_dump_tmp;
-#  define NFC_READ_REG(reg)   		((_reg_dump_tmp = (reg)), PRINT("NFC READ "#reg "=%x\n", _reg_dump_tmp), _reg_dump_tmp)
-#  define NFC_WRITE_REG(reg, data) 	(reg) = ((_reg_dump_tmp = (data)), PRINT("NFC WRITE "#reg "=%x\n", _reg_dump_tmp), _reg_dump_tmp)
+#  define NFC_READ_REG(reg)   		((_reg_dump_tmp = (reg)), NFC_DBG("NFC READ "#reg "=%x\n", _reg_dump_tmp), _reg_dump_tmp)
+#  define NFC_WRITE_REG(reg, data) 	(reg) = ((_reg_dump_tmp = (data)), NFC_DBG("NFC WRITE "#reg "=%x\n", _reg_dump_tmp), _reg_dump_tmp)
 #else
 #  define NFC_READ_REG(reg)   		(reg)
 #  define NFC_WRITE_REG(reg,data) 	(reg) = (data)
@@ -50,12 +50,21 @@ static unsigned int _reg_dump_tmp;
 #define LSB_MODE_MAX_REG_NUM	8
 
 /* define various unit data input or output*/
+#if 1
+static inline __u8 NFC_READ_RAM_B(void *ram)    		{ unsigned r = (*((volatile __u8 *)(ram))); NFC_DBG("NFC RAM %p => %02x\n", ram, r); return r;}
+static inline __u8 NFC_WRITE_RAM_B(void *ram, __u8 data)  	{ debug("NFC RAM %p <= %02x\n", data); (*((volatile __u8 *)(ram)) = (data)); return data;}
+static inline __u16 NFC_READ_RAM_HW(void *ram)   		{ unsigned r = (*((volatile __u16 *)(ram))); NFC_DBG("NFC RAM %p => %04x\n", ram, r); return r;}
+static inline __u16 NFC_WRITE_RAM_HW(void *ram, __u16 data) 	{ debug("NFC RAM %p <= %02x\n", data); (*((volatile __u16 *)(ram)) = (data)); return data;}
+static inline __u32 NFC_READ_RAM_W(void *ram)   		{ unsigned r = (*((volatile __u32 *)(ram))); NFC_DBG("NFC RAM %p => %08x\n", ram, r); return r;}
+static inline __u32 NFC_WRITE_RAM_W(void *ram,__u32 data) 	{ debug("NFC RAM %p <= %02x\n", data); (*((volatile __u32 *)(ram)) = (data)); return data;}
+#else
 #define NFC_READ_RAM_B(ram)    		(*((volatile __u8 *)(ram)))
 #define NFC_WRITE_RAM_B(ram,data)  	(*((volatile __u8 *)(ram)) = (data))
 #define NFC_READ_RAM_HW(ram)   		(*((volatile __u16 *)(ram)))
 #define NFC_WRITE_RAM_HW(ram,data) 	(*((volatile __u16 *)(ram)) = (data))
 #define NFC_READ_RAM_W(ram)   		(*((volatile __u32 *)(ram)))
 #define NFC_WRITE_RAM_W(ram,data) 	(*((volatile __u32 *)(ram)) = (data))
+#endif
 
 
 
