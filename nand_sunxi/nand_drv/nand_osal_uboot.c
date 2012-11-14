@@ -322,6 +322,7 @@ int NAND_SetClock(unsigned int nand_max_clock)
 
 	*(volatile unsigned int *)(CCMU_REGS_BASE + 0x80) = cfg;
 
+	printf("NAND Clock: %08x = %dMHz, PLL5=%dMHz\n", cfg, NAND_GetClock(), NAND_GetCmuClk());
 	return 0;
 }
 
