@@ -44,6 +44,7 @@ int watchdog_init(void)
 
 int clock_init(void)
 {
+#if 0
 	/* set clock source to OSC24M */
 	sr32(SUNXI_CCM_CPU_AHB_APB0_CFG, 16, 2, CPU_CLK_SRC_OSC24M);		/* CPU_CLK_SRC_SEL [17:16] */
 
@@ -71,6 +72,7 @@ int clock_init(void)
 	 * at most wait for 8 present running clock cycles
 	 */
 	sdelay(10);
+#endif
 
 	/* config apb1 clock */
 	sr32(SUNXI_CCM_APB1_CLK_DIV, 24, 2, APB1_CLK_SRC_OSC24M);
@@ -80,6 +82,7 @@ int clock_init(void)
 	/* open the clock for uart0 */
 	sr32(SUNXI_CCM_APB1_GATING, 16, 1, CLK_GATE_OPEN);
 
+#if 0
 	/* config nand clock */
 	sr32(SUNXI_CCM_NAND_SCLK_CFG, 24, 2, NAND_CLK_SRC_OSC24);
 	sr32(SUNXI_CCM_NAND_SCLK_CFG, 16, 2, NAND_CLK_DIV_N);
@@ -87,6 +90,7 @@ int clock_init(void)
 	sr32(SUNXI_CCM_NAND_SCLK_CFG, 31, 1, CLK_GATE_OPEN);
 	/* open clock for nand */
 	sr32(SUNXI_CCM_AHB_GATING0, 13, 1, CLK_GATE_OPEN);
+#endif
 
 	return 0;
 }
