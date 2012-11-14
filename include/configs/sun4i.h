@@ -95,14 +95,13 @@
 #define CONFIG_INITRD_TAG
 #define CONFIG_CMDLINE_EDITING
 
-#if 0
 /* mmc config */
+#ifndef CONFIG_SD_UART	/* SD_UART Conflicts with MMC0 */
 #define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_CMD_MMC
 #define CONFIG_MMC_SUNXI
-#define CONFIG_MMC_SUNXI_SLOT			2		/* which mmc slot to use, could be 0,1,2,3 */
-
+#define CONFIG_MMC_SUNXI_SLOT			0		/* which mmc slot to use, could be 0,1,2,3 */
 #define CONFIG_DOS_PARTITION
 #endif
 
@@ -194,5 +193,7 @@
 #define CONFIG_CMD_BOOTA		/* boot android image */
 #define CONFIG_CMD_RUN			/* run a command */
 #define CONFIG_CMD_BOOTD		/* boot the default command */
+
+#define CONFIG_CMD_LOADB
 
 #endif /* __CONFIG_H */
