@@ -111,10 +111,12 @@
  */
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + (1 << 20))
 
-#define CONFIG_FASTBOOT
 #define CONFIG_STORAGE_NAND
+#if 0
+#define CONFIG_FASTBOOT
 #define FASTBOOT_TRANSFER_BUFFER		0x41000000
 #define FASTBOOT_TRANSFER_BUFFER_SIZE	256 << 20 /* 256M */
+#endif
 
 /*
  * Miscellaneous configurable options
@@ -155,11 +157,13 @@
  */
 #define CONFIG_SYS_NO_FLASH
 
-#define CONFIG_SYS_MONITOR_LEN		(256 << 10)	/* 256 KiB */
+#define CONFIG_SYS_MONITOR_LEN		(512 << 10)	/* 256 KiB */
 #define CONFIG_IDENT_STRING			" Allwinner Technology "
 
+#if 0
 #define CONFIG_ENV_IS_IN_NAND_SUNXI	    /* we store env in one partition of our nand */
 #define CONFIG_SUNXI_ENV_PARTITION		"env"	/* the partition name */
+#endif
 
 /*------------------------------------------------------------------------
  * we save the environment in a nand partition, the partition name is defined
@@ -168,7 +172,11 @@
  * */
 #define CONFIG_ENV_ADDR				(256 << 20)
 #define CONFIG_ENV_SIZE				(128 << 10)	/* 128KB */
+#if 0
 #define CONFIG_CMD_SAVEENV
+#endif
+
+#define CONFIG_ENV_IS_NOWHERE
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"bootdelay=3\0" \
