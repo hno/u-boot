@@ -71,13 +71,46 @@
 /* A10-EVB has 1 banks of DRAM, we use only one in U-Boot */
 #define CONFIG_NR_DRAM_BANKS		1
 #define PHYS_SDRAM_1			CONFIG_SYS_SDRAM_BASE
-#if 0
+
 /* Nand config */
-#define CONFIG_NAND
+#ifdef CONFIG_NAND
+
 #define CONFIG_NAND_SUNXI
 #define CONFIG_CMD_NAND                         /* NAND support */
 #define CONFIG_SYS_MAX_NAND_DEVICE      1
 #define CONFIG_SYS_NAND_BASE            0x00
+#define CONFIG_SUNXI_DMA
+#define CONFIG_SPL_NAND_SUPPORT
+#define CONFIG_SPL_NAND_MTD
+#define CONFIG_SPL_NAND_ECC
+#define CONFIG_SPL_NAND_BASE
+#define CONFIG_SPL_NAND_DRIVERS
+#define CONFIG_SPL_DMA_SUPPORT
+#define CONFIG_SYS_NAND_U_BOOT_OFFS     0x100000
+
+#ifdef CONFIG_EM6000
+#define CONFIG_SYS_NAND_PAGE_SIZE 0x2000
+#define CONFIG_SYS_NAND_BLOCK_SIZE 0x100000
+#define CONFIG_SYS_NAND_OOBSIZE 640
+#endif
+
+/* mmc config */
+/* Can't use MMC slot 0 if the UART is directed there */
+#if !defined CONFIG_UART0_PORT_F || CONFIG_MMC_SUNXI_SLOT != 0
+#define CONFIG_MMC
+#endif
+
+#ifdef CONFIG_MMC
+#define CONFIG_GENERIC_MMC
+#define CONFIG_CMD_MMC
+#define CONFIG_MMC_SUNXI
+#ifndef CONFIG_MMC_SUNXI_SLOT
+#define CONFIG_MMC_SUNXI_SLOT		0
+#endif
+#define CONFIG_MMC_SUNXI_USE_DMA
+#define CONFIG_SYS_MMC_ENV_DEV		CONFIG_MMC_SUNXI_SLOT
+#define CONFIG_SPL_MMC_SUPPORT
+#define CONFIG_SPL_LIBDISK_SUPPORT
 #endif
 
 #define CONFIG_CMD_MEMORY
@@ -87,21 +120,6 @@
 #define CONFIG_CMDLINE_TAG
 #define CONFIG_INITRD_TAG
 #define CONFIG_CMDLINE_EDITING
-
-/* mmc config */
-/* Can't use MMC slot 0 if the UART is directed there */
-#if !defined CONFIG_UART0_PORT_F || CONFIG_MMC_SUNXI_SLOT != 0
-#define CONFIG_MMC
-#define CONFIG_GENERIC_MMC
-#define CONFIG_CMD_MMC
-#define CONFIG_MMC_SUNXI
-#ifndef CONFIG_MMC_SUNXI_SLOT
-#define CONFIG_MMC_SUNXI_SLOT		0
-#endif
-#define CONFIG_MMC_SUNXI_USE_DMA
-#define CONFIG_ENV_IS_IN_MMC
-#define CONFIG_SYS_MMC_ENV_DEV		CONFIG_MMC_SUNXI_SLOT
-#endif
 
 /*
  * Size of malloc() pool
@@ -153,6 +171,8 @@
 
 #define CONFIG_ENV_OFFSET		(544 << 10) /* (8 + 24 + 512)KB */
 #define CONFIG_ENV_SIZE			(128 << 10)	/* 128KB */
+
+#ifdef CONFIG_MMC
 
 #define CONFIG_BOOTCOMMAND \
 	"run boot_ram;" \
@@ -256,6 +276,27 @@
 		"\0" \
 	""
 
+#endif
+
+#ifdef CONFIG_NAND
+
+#define CONFIG_EXTRA_ENV_SETTINGS										\
+	"kernel_loadaddr=0x48000000\0"										\
+	"script_loadaddr=0x43000000\0"										\
+	"console=ttyS0,115200n8\0"											\
+	"nandargs=setenv bootargs console=${console} init=/linuxrc "		\
+	    "mtdparts=mtd-nand-sunxi.0:1M,2M,2M,2M,2M,8M,- ubi.mtd=6 "		\
+	    "root=ubi0:rootfs rootwait rootfstype=ubifs "	   				\
+	    "quiet\0"														\
+	"nandboot=run nandargs; "											\
+	    "nand read ${script_loadaddr} 0x700000 0x10000; "  				\
+	    "nand read ${kernel_loadaddr} 0x900000 0x400000; "		   		\
+	    "bootm ${kernel_loadaddr}\0"									\
+	"bootcmd=run nandboot\0"											\
+	"bootdelay=1\0"
+
+#endif
+
 #define CONFIG_BOOTDELAY	3
 #define CONFIG_SYS_BOOT_GET_CMDLINE
 #define CONFIG_AUTO_COMPLETE
@@ -297,6 +338,10 @@
 
 #define CONFIG_SPL_LIBDISK_SUPPORT
 #define CONFIG_SPL_MMC_SUPPORT
+#define CONFIG_SPL_LIBCOMMON_SUPPORT
+#define CONFIG_SPL_SERIAL_SUPPORT
+#define CONFIG_SPL_LIBGENERIC_SUPPORT
+#define CONFIG_SPL_DISPLAY_PRINT
 
 #define CONFIG_SPL_LDSCRIPT "arch/arm/cpu/armv7/sunxi/u-boot-spl.lds"
 
@@ -420,7 +465,15 @@
 #endif
 
 #if !defined CONFIG_ENV_IS_IN_MMC && !defined CONFIG_ENV_IS_IN_NAND && !defined CONFIG_ENV_IS_IN_FAT && !defined CONFIG_ENV_IS_IN_SPI_FLASH
-#define CONFIG_ENV_IS_NOWHERE
+# if defined CONFIG_NAND
+#  define CONFIG_ENV_IS_IN_NAND
+# elif defined CONFIG_MMC
+#  define CONFIG_ENV_IS_IN_MMC
+# elif defined CONFIG_SPI_FLASH
+#  define CONFIG_ENV_IS_IN_SPI_FLASH
+# else
+#  define CONFIG_ENV_IS_NOWHERE
+# endif
 #endif
 
 #endif /* _SUNXI_COMMON_CONFIG_H */
