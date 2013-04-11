@@ -32,6 +32,12 @@
 #define _SUNXI_COMMON_CONFIG_H
 
 /*
+#define DEBUG
+#define CONFIG_MTD_DEBUG
+#define CONFIG_MTD_DEBUG_VERBOSE 99
+*/
+
+/*
  * High Level Configuration Options
  */
 #define CONFIG_ALLWINNER	/* It's a Allwinner chip */
@@ -178,10 +184,17 @@
 #define CONFIG_SYS_MONITOR_LEN		(512 << 10)	/* 512 KB */
 #define CONFIG_IDENT_STRING		" Allwinner Technology"
 
-#define CONFIG_ENV_OFFSET		(544 << 10) /* (8 + 24 + 512)KB */
 #define CONFIG_ENV_SIZE			(128 << 10)	/* 128KB */
 
+#ifdef CONFIG_CMD_WATCHDOG
+#define	RESET_WATCHDOG "watchdog 0"
+#else
+#define RESET_WATCHDOG "true"
+#endif
+
 #ifdef CONFIG_MMC
+
+#define CONFIG_ENV_OFFSET		(544 << 10) /* (8 + 24 + 512)KB */
 
 #define CONFIG_BOOTCOMMAND \
 	"run boot_ram;" \
@@ -199,12 +212,6 @@
 	"fi;" \
 	"run autoboot;" \
 	""
-
-#ifdef CONFIG_CMD_WATCHDOG
-#define	RESET_WATCHDOG "watchdog 0"
-#else
-#define RESET_WATCHDOG "true"
-#endif
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"console=ttyS0,115200\0" \
@@ -284,10 +291,11 @@
 		"fi" \
 		"\0" \
 	""
-
 #endif
 
 #ifdef CONFIG_NAND
+
+#define CONFIG_ENV_OFFSET		0x500000
 
 #define CONFIG_EXTRA_ENV_SETTINGS										\
 	"kernel_loadaddr=0x48000000\0"										\
@@ -300,9 +308,10 @@
 	"nandboot=run nandargs; "											\
 	"nand read ${script_loadaddr} 0xe00000 0x10000; "					\
 	"nand read ${kernel_loadaddr} 0x1100000 0x400000; "					\
+	RESET_WATCHDOG "; " \
 	"bootm ${kernel_loadaddr}\0"										\
 	"bootcmd=run nandboot\0"											\
-	"bootdelay=1\0"
+	"bootdelay=5\0"
 
 #endif /* CONFIG_NAND */
 
