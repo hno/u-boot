@@ -102,9 +102,8 @@
 #define CONFIG_CMD_SPL_WRITE_SIZE       0x400
 #define CONFIG_SYS_SPL_ARGS_ADDR        0x44000000
 #define CONFIG_SYS_NAND_SPL_KERNEL_OFFS 0x1100000
-#define CONFIG_SUNXI_SCRIPT_ADDR        0x43000000
 #define CONFIG_SUNXI_SCRIPT_OFS         0xe00000
-#define CONFIG_SUNXI_SCRIPT_SIZE        0x10000
+#define CONFIG_SUNXI_SPLASH_OFS         0xb00000
 
 #ifdef CONFIG_EM6000
 #define CONFIG_SYS_NAND_PAGE_SIZE 0x2000
@@ -303,7 +302,8 @@
 
 #define CONFIG_EXTRA_ENV_SETTINGS										\
 	"kernel_loadaddr=0x48000000\0"										\
-	"script_loadaddr=0x43000000\0"										\
+	"script_loadaddr=0x42ffffc0\0"										\
+	"splash_loadaddr=0x430fffc0\0"										\
 	"console=ttyS0,115200n8\0"											\
 	"nandargs=setenv bootargs console=${console} init=/linuxrc "		\
 	"mtdparts=mtd-nand-sunxi.0:1M,4M,3M,3M,3M,3M,8M,128M,- ubi.mtd=7 "	\
@@ -312,10 +312,12 @@
 	"nandboot=run nandargs; "											\
 	"nand read ${script_loadaddr} 0xe00000 0x10000; "					\
 	"nand read ${kernel_loadaddr} 0x1100000 0x400000; "					\
-	RESET_WATCHDOG "; " \
+	"nand read ${splash_loadaddr} 0xb00000 0x10000; "					\
+	"nand read ${kernel_loadaddr} 0x1100000 0x500000; "					\
 	"bootm ${kernel_loadaddr}\0"										\
 	"bootcmd=run nandboot\0"											\
 	"bootdelay=5\0"														\
+	"cleanenv=nand erase 0x500000 0x300000\0"							\
 	SHARE_BOOT_ENV
 
 #endif /* CONFIG_NAND */
