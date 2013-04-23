@@ -314,8 +314,9 @@
 	"splash_loadaddr=0x430fffc0\0"										\
 	"console=ttyS0,115200n8\0"											\
 	"nandargs=setenv bootargs console=${console} init=/linuxrc "		\
-	"mtdparts=mtd-nand-sunxi.0:1M,4M,3M,3M,3M,3M,8M,128M,- ubi.mtd=7 "	\
+	"mtdparts=mtd-nand-sunxi.0:14M@0xb00000,64M,- ubi.mtd=2 "			\
 	"root=ubi0:rootfs rootwait rootfstype=ubifs "						\
+	"root2=10:/dev/blockrom1,squashfs,/init "							\
 	"quiet\0"															\
 	"nandboot=run nandargs; "											\
 	"nand read ${script_loadaddr} 0xe00000 0x10000; "					\
