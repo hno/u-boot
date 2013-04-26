@@ -310,25 +310,24 @@
 #define CONFIG_ENV_OFFSET		0x500000
 #define CONFIG_ENV_RANGE        0x300000
 
-#define CONFIG_EXTRA_ENV_SETTINGS										\
-	"kernel_loadaddr=0x47ffffc0\0"										\
-	"script_loadaddr=0x42ffffc0\0"										\
-	"splash_loadaddr=0x430fffc0\0"										\
-	"console=ttyS0,115200n8\0"											\
-	"nandargs=setenv bootargs console=${console} init=/linuxrc "		\
-	"mtdparts=mtd-nand-sunxi.0:14M@0xb00000,64M,- ubi.mtd=2 "			\
-	"root=ubi0:rootfs rootwait rootfstype=ubifs "						\
-	"root2=10:/dev/blockrom1,squashfs,/init "							\
-	"quiet\0"															\
-	"nandboot=run nandargs; "											\
-	"nand read ${script_loadaddr} 0xe00000 0x10000; "					\
-	"nand read ${kernel_loadaddr} 0x1100000 0x400000; "					\
-	"nand read ${splash_loadaddr} 0xb00000 0x10000; "					\
-	"nand read ${kernel_loadaddr} 0x1100000 0x500000; "					\
-	"bootm ${kernel_loadaddr}\0"										\
-	"bootcmd=run nandboot\0"											\
-	"bootdelay=5\0"														\
-	"cleanenv=nand erase 0x500000 0x300000\0"							\
+#define CONFIG_EXTRA_ENV_SETTINGS									\
+	"kernel_loadaddr=0x47ffffc0\0"									\
+	"script_loadaddr=0x42ffffc0\0"									\
+	"splash_loadaddr=0x430fffc0\0"									\
+	"console=ttyS0,115200n8\0"										\
+	"nandargs=setenv bootargs console=${console} init=/linuxrc "	\
+	"mtdparts=mtd-nand-sunxi.0:14M@0xb00000,64M,- ubi.mtd=2 "		\
+	"root=ubi0:rootfs rootwait rootfstype=ubifs "					\
+	"root2=10:/dev/blockrom1,squashfs,/init "						\
+	"quiet\0"														\
+	"nandboot=run nandargs; "										\
+	"nand read ${script_loadaddr} script 0x10000; "					\
+	"nand read ${splash_loadaddr} splash 0x10000; "					\
+	"nand read ${kernel_loadaddr} kernel 0x500000; "				\
+	"bootm ${kernel_loadaddr}\0"									\
+	"bootcmd=run nandboot\0"										\
+	"bootdelay=5\0"													\
+	"cleanenv=nand erase.part env\0"								\
 	SHARE_BOOT_ENV
 
 #endif /* CONFIG_NAND */
