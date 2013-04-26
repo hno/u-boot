@@ -167,7 +167,7 @@ bad:
 	return err;
 }
 
-static int ubi_create_vol(char *volume, int size, int dynamic)
+static int ubi_create_vol(char *volume, size_t size, int dynamic)
 {
 	struct ubi_mkvol_req req;
 	int err;
@@ -191,7 +191,7 @@ static int ubi_create_vol(char *volume, int size, int dynamic)
 		printf("verify_mkvol_req failed %d\n", err);
 		return err;
 	}
-	printf("Creating %s volume %s of size %d\n",
+	printf("Creating %s volume %s of size %u\n",
 		dynamic ? "dynamic" : "static", volume, size);
 	/* Call real ubi create volume */
 	return ubi_create_volume(ubi, &req);
