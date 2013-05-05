@@ -2592,6 +2592,209 @@ static inline int nand_flash_detect_onfi(struct mtd_info *mtd,
 	return 0;
 }
 #endif
+/*
+ * nand_id_has_period - Check if an ID string has a given wraparound period
+ * @id_data: the ID string
+ * @arrlen: the length of the @id_data array
+ * @period: the period of repitition
+ *
+ * Check if an ID string is repeated within a given sequence of bytes at
+ * specific repetition interval period (e.g., {0x20,0x01,0x7F,0x20} has a
+ * period of 3). This is a helper function for nand_id_len(). Returns non-zero
+ * if the repetition has a period of @period; otherwise, returns zero.
+ */
+static int nand_id_has_period(u8 *id_data, int arrlen, int period)
+{
+	int i, j;
+	for (i = 0; i < period; i++)
+		for (j = i + period; j < arrlen; j += period)
+			if (id_data[i] != id_data[j])
+				return 0;
+	return 1;
+}
+
+/*
+ * nand_id_len - Get the length of an ID string returned by CMD_READID
+ * @id_data: the ID string
+ * @arrlen: the length of the @id_data array
+
+ * Returns the length of the ID string, according to known wraparound/trailing
+ * zero patterns. If no pattern exists, returns the length of the array.
+ */
+static int nand_id_len(u8 *id_data, int arrlen)
+{
+	int last_nonzero, period;
+
+	/* Find last non-zero byte */
+	for (last_nonzero = arrlen - 1; last_nonzero >= 0; last_nonzero--)
+		if (id_data[last_nonzero])
+			break;
+
+	/* All zeros */
+	if (last_nonzero < 0)
+		return 0;
+
+	/* Calculate wraparound period */
+	for (period = 1; period < arrlen; period++)
+		if (nand_id_has_period(id_data, arrlen, period))
+			break;
+
+	/* There's a repeated pattern */
+	if (period < arrlen)
+		return period;
+
+	/* There are trailing zeros */
+	if (last_nonzero < arrlen - 1)
+		return last_nonzero + 1;
+
+	/* No pattern detected */
+	return arrlen;
+}
+
+/*
+ * Many new NAND share similar device ID codes, which represent the size of the
+ * chip. The rest of the parameters must be decoded according to generic or
+ * manufacturer-specific "extended ID" decoding patterns.
+ */
+static void nand_decode_ext_id(struct mtd_info *mtd, struct nand_chip *chip,
+				u8 id_data[8], int *busw)
+{
+	int extid, id_len;
+	/* The 3rd id byte holds MLC / multichip data */
+	chip->cellinfo = id_data[2];
+	/* The 4th id byte is the important one */
+	extid = id_data[3];
+
+	id_len = nand_id_len(id_data, 8);
+
+	/*
+	 * Field definitions are in the following datasheets:
+	 * Old style (4,5 byte ID): Samsung K9GAG08U0M (p.32)
+	 * New Samsung (6 byte ID): Samsung K9GAG08U0F (p.44)
+	 * Hynix MLC   (6 byte ID): Hynix H27UBG8T2B (p.22)
+	 *
+	 * Check for ID length, non-zero 6th byte, cell type, and Hynix/Samsung
+	 * ID to decide what to do.
+	 */
+	if (id_len == 6 && id_data[0] == NAND_MFR_SAMSUNG &&
+			(chip->cellinfo & NAND_CI_CELLTYPE_MSK) &&
+			id_data[5] != 0x00) {
+		/* Calc pagesize */
+		mtd->writesize = 2048 << (extid & 0x03);
+		extid >>= 2;
+		/* Calc oobsize */
+		switch (((extid >> 2) & 0x04) | (extid & 0x03)) {
+		case 1:
+			mtd->oobsize = 128;
+			break;
+		case 2:
+			mtd->oobsize = 218;
+			break;
+		case 3:
+			mtd->oobsize = 400;
+			break;
+		case 4:
+			mtd->oobsize = 436;
+			break;
+		case 5:
+			mtd->oobsize = 512;
+			break;
+		case 6:
+		default: /* Other cases are "reserved" (unknown) */
+			mtd->oobsize = 640;
+			break;
+		}
+		extid >>= 2;
+		/* Calc blocksize */
+		mtd->erasesize = (128 * 1024) <<
+			(((extid >> 1) & 0x04) | (extid & 0x03));
+		*busw = 0;
+	} else if (id_len == 6 && id_data[0] == NAND_MFR_HYNIX &&
+			(chip->cellinfo & NAND_CI_CELLTYPE_MSK)) {
+		unsigned int tmp;
+
+		/* Calc pagesize */
+		mtd->writesize = 2048 << (extid & 0x03);
+		extid >>= 2;
+		/* Calc oobsize */
+		switch (((extid >> 2) & 0x04) | (extid & 0x03)) {
+		case 0:
+			mtd->oobsize = 128;
+			break;
+		case 1:
+			mtd->oobsize = 224;
+			break;
+		case 2:
+			mtd->oobsize = 448;
+			break;
+		case 3:
+			mtd->oobsize = 64;
+			break;
+		case 4:
+			mtd->oobsize = 32;
+			break;
+		case 5:
+			mtd->oobsize = 16;
+			break;
+		default:
+			mtd->oobsize = 640;
+			break;
+		}
+		extid >>= 2;
+		/* Calc blocksize */
+		tmp = ((extid >> 1) & 0x04) | (extid & 0x03);
+		if (tmp < 0x03)
+			mtd->erasesize = (128 * 1024) << tmp;
+		else if (tmp == 0x03)
+			mtd->erasesize = 768 * 1024;
+		else
+			mtd->erasesize = (64 * 1024) << tmp;
+		*busw = 0;
+	} else {
+		/* Calc pagesize */
+		mtd->writesize = 1024 << (extid & 0x03);
+		extid >>= 2;
+		/* Calc oobsize */
+		mtd->oobsize = (8 << (extid & 0x01)) *
+			(mtd->writesize >> 9);
+		extid >>= 2;
+		/* Calc blocksize. Blocksize is multiples of 64KiB */
+		mtd->erasesize = (64 * 1024) << (extid & 0x03);
+		extid >>= 2;
+		/* Get buswidth information */
+		*busw = (extid & 0x01) ? NAND_BUSWIDTH_16 : 0;
+	}
+}
+
+/*
+ * Old devices have chip data hardcoded in the device ID table. nand_decode_id
+ * decodes a matching ID table entry and assigns the MTD size parameters for
+ * the chip.
+ */
+static void nand_decode_id(struct mtd_info *mtd, struct nand_chip *chip,
+				struct nand_flash_dev *type, u8 id_data[8],
+				int *busw)
+{
+	int maf_id = id_data[0];
+
+	mtd->erasesize = type->erasesize;
+	mtd->writesize = type->pagesize;
+	mtd->oobsize = mtd->writesize / 32;
+	*busw = type->options & NAND_BUSWIDTH_16;
+
+	/*
+	 * Check for Spansion/AMD ID + repeating 5th, 6th byte since
+	 * some Spansion chips have erasesize that conflicts with size
+	 * listed in nand_ids table.
+	 * Data sheet (5 byte ID): Spansion S30ML-P ORNAND (p.39)
+	 */
+	if (maf_id == NAND_MFR_AMD && id_data[4] != 0x00 && id_data[5] == 0x00
+			&& id_data[6] == 0x00 && id_data[7] == 0x00
+			&& mtd->writesize == 512) {
+		mtd->erasesize = 128 * 1024;
+		mtd->erasesize <<= ((id_data[3] & 0x03) << 1);
+	}
+}
 
 /*
  * Get the flash and manufacturer id and lookup if the type is supported
@@ -2631,7 +2834,7 @@ static const struct nand_flash_dev *nand_get_flash_type(struct mtd_info *mtd,
 
 	chip->cmdfunc(mtd, NAND_CMD_READID, 0x00, -1);
 
-	for (i = 0; i < 2; i++)
+	for (i = 0; i < 8; i++)
 		id_data[i] = chip->read_byte(mtd);
 
 	if (id_data[0] != *maf_id || id_data[1] != *dev_id) {
@@ -2656,13 +2859,6 @@ static const struct nand_flash_dev *nand_get_flash_type(struct mtd_info *mtd,
 			goto ident_done;
 	}
 
-	chip->cmdfunc(mtd, NAND_CMD_READID, 0x00, -1);
-
-	/* Read entire ID string */
-
-	for (i = 0; i < 8; i++)
-		id_data[i] = chip->read_byte(mtd);
-
 	if (!type->name)
 		return ERR_PTR(-ENODEV);
 
@@ -2675,82 +2871,10 @@ static const struct nand_flash_dev *nand_get_flash_type(struct mtd_info *mtd,
 		/* set the pagesize, oobsize, erasesize by the driver*/
 		busw = chip->init_size(mtd, chip, id_data);
 	} else if (!type->pagesize) {
-		int extid;
-		/* The 3rd id byte holds MLC / multichip data */
-		chip->cellinfo = id_data[2];
-		/* The 4th id byte is the important one */
-		extid = id_data[3];
-
-		/*
-		 * Field definitions are in the following datasheets:
-		 * Old style (4,5 byte ID): Samsung K9GAG08U0M (p.32)
-		 * New style   (6 byte ID): Samsung K9GBG08U0M (p.40)
-		 *
-		 * Check for wraparound + Samsung ID + nonzero 6th byte
-		 * to decide what to do.
-		 */
-		if (id_data[0] == id_data[6] && id_data[1] == id_data[7] &&
-				id_data[0] == NAND_MFR_SAMSUNG &&
-				(chip->cellinfo & NAND_CI_CELLTYPE_MSK) &&
-				id_data[5] != 0x00) {
-			/* Calc pagesize */
-			mtd->writesize = 2048 << (extid & 0x03);
-			extid >>= 2;
-			/* Calc oobsize */
-			switch (extid & 0x03) {
-			case 1:
-				mtd->oobsize = 128;
-				break;
-			case 2:
-				mtd->oobsize = 218;
-				break;
-			case 3:
-				mtd->oobsize = 400;
-				break;
-			default:
-				mtd->oobsize = 436;
-				break;
-			}
-			extid >>= 2;
-			/* Calc blocksize */
-			mtd->erasesize = (128 * 1024) <<
-				(((extid >> 1) & 0x04) | (extid & 0x03));
-			busw = 0;
-		} else {
-			/* Calc pagesize */
-			mtd->writesize = 1024 << (extid & 0x03);
-			extid >>= 2;
-			/* Calc oobsize */
-			mtd->oobsize = (8 << (extid & 0x01)) *
-				(mtd->writesize >> 9);
-			extid >>= 2;
-			/* Calc blocksize. Blocksize is multiples of 64KiB */
-			mtd->erasesize = (64 * 1024) << (extid & 0x03);
-			extid >>= 2;
-			/* Get buswidth information */
-			busw = (extid & 0x01) ? NAND_BUSWIDTH_16 : 0;
-		}
+		/* Decode parameters from extended ID */
+		nand_decode_ext_id(mtd, chip, id_data, &busw);
 	} else {
-		/*
-		 * Old devices have chip data hardcoded in the device id table
-		 */
-		mtd->erasesize = type->erasesize;
-		mtd->writesize = type->pagesize;
-		mtd->oobsize = mtd->writesize / 32;
-		busw = type->options & NAND_BUSWIDTH_16;
-
-		/*
-		 * Check for Spansion/AMD ID + repeating 5th, 6th byte since
-		 * some Spansion chips have erasesize that conflicts with size
-		 * listed in nand_ids table
-		 * Data sheet (5 byte ID): Spansion S30ML-P ORNAND (p.39)
-		 */
-		if (*maf_id == NAND_MFR_AMD && id_data[4] != 0x00 &&
-				id_data[5] == 0x00 && id_data[6] == 0x00 &&
-				id_data[7] == 0x00 && mtd->writesize == 512) {
-			mtd->erasesize = 128 * 1024;
-			mtd->erasesize <<= ((id_data[3] & 0x03) << 1);
-		}
+		nand_decode_id(mtd, chip, type, id_data, &busw);
 	}
 	/* Get chip options, preserve non chip based options */
 	chip->options |= type->options;
@@ -2896,6 +3020,8 @@ int nand_scan_ident(struct mtd_info *mtd, int maxchips,
 		chip->select_chip(mtd, -1);
 		return PTR_ERR(type);
 	}
+
+	chip->select_chip(mtd, -1);
 
 	/* Check for a chip array */
 	for (i = 1; i < maxchips; i++) {
