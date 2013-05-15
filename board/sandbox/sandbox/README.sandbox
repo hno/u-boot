@@ -31,6 +31,33 @@ the console. It does not set the terminal into raw mode, so cursor keys and
 history will not work yet.
 
 
+Virtual block devices
+---------------------
+
+The virtual block device "host" allows you to bind any host file or block
+device as a device within u-boot. Bindings are managed using the sb command
+
+There is up to 4 devices, 0-3.
+
+To bind a device to a host path use
+
+ sb bind <dev> <path>
+
+This associates the u-boot "host" device <dev> with the path <path> on the
+host where u-boot sanbox is running.
+
+Example:
+
+ sb bind 0 /images/diskimage1.img
+
+To remove a binding specify a blank path
+
+ sb bind 0
+
+
+The "sb info" command lists current active device bindings
+
+
 Tests
 -----
 
