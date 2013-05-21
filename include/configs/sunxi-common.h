@@ -40,6 +40,12 @@
 #define CONFIG_SYS_DCACHE_OFF
 */
 
+#ifndef CONFIG_MMC
+#ifndef CONFIG_NAND
+#define CONFIG_MMC
+#endif
+#endif
+
 /*
  * High Level Configuration Options
  */
@@ -324,9 +330,7 @@
 	"bootm ${kernel_loadaddr}\0"									\
 	"bootcmd=run nandboot\0"										\
 	"bootdelay=5\0"													\
-	"cleanenv=nand erase.part env\0"								\
-	SHARE_BOOT_ENV
-
+	"cleanenv=nand erase.part env\0"
 #endif /* CONFIG_NAND */
 
 #define CONFIG_BOOTDELAY	3

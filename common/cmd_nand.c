@@ -833,7 +833,8 @@ static int do_nand(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 		if (skip_write)
 			pos++;
 
-		if (arg_off_size(argc - pos, argv + pos, &index, &block_start, &block_size)) {
+		if (arg_off_size(argc - pos, argv + pos, &index, &block_start, &block_size,
+				 &maxsize)) {
 			printf("invalid arguments\n");
 			return -EINVAL;
 		}
