@@ -447,10 +447,10 @@ int get_device_and_partition(const char *ifname, const char *dev_part_str,
 	disk_partition_t tmpinfo;
 
 	/*
-	 * For now, we have a special case for sandbox, since there is no
-	 * real block device support.
+	 * Special case for sandbox, since hostfs do not really have a
+	 * backing block device but the do_... interfaces expects one
 	 */
-	if (0 == strcmp(ifname, "host")) {
+	if (0 == strcmp(ifname, "hostfs")) {
 		*dev_desc = NULL;
 		info->start = info->size =  info->blksz = 0;
 		info->bootable = 0;

@@ -52,9 +52,9 @@ static int do_sandbox(cmd_tbl_t *cmdtp, int flag, int argc,
 U_BOOT_CMD(
 	sb,	8,	1,	do_sandbox,
 	"Miscellaneous sandbox commands",
-	"load host <dev> <addr> <filename> [<bytes> <offset>]  - "
+	"load hostfs 0 <addr> <filename> [<bytes> <offset>]  - "
 		"load a file from host\n"
-	"sb ls host <filename>                      - list files on host\n"
-	"sb save host <dev> <filename> <addr> <bytes> [<offset>] - "
+	"sb ls hostfs 0 <filename>                      - list files on host\n"
+	"sb save hostfs 0 <filename> <addr> <bytes> [<offset>] - "
 		"save a file to host\n"
 );
