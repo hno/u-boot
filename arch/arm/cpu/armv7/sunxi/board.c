@@ -132,6 +132,7 @@ void reset_cpu(ulong addr)
 /* do some early init */
 void s_init(void)
 {
+	timer_init();
 	watchdog_init();
 	clock_init();
 	gpio_init();
