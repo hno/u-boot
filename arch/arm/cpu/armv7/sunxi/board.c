@@ -172,3 +172,19 @@ int cpu_eth_init(bd_t *bis)
 }
 #endif
 
+#if defined(CONFIG_CMD_I2C)
+/*
+ * pinmux the I2C controller and enable module clock
+ */
+void sunxi_i2c_init(int busnum)
+{
+	if (busnum == 0) {
+		sunxi_gpio_set_cfgpin(SUNXI_GPB(0), 2);
+		sunxi_gpio_set_cfgpin(SUNXI_GPB(1), 2);
+	} else {
+		printf("ERROR: No pinmuxing defined for I2C bus %d\n", busnum);
+	}
+	clock_twi_onoff(busnum, 1);
+printf("sunxi i2c enabled\n");
+}
+#endif

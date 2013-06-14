@@ -140,6 +140,7 @@ enum sunxi_boot_type_t {
 
 void sunxi_board_init(void);
 extern void sunxi_reset(void);
+extern void sunxi_i2c_init(int busnum);
 #endif /* __ASSEMBLY__ */
 
 #endif /* _CPU_H */
