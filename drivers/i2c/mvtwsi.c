@@ -1,6 +1,6 @@
 /*
  * Driver for the TWSI (i2c) controller found on the Marvell
- * orion5x and kirkwood SoC families.
+ * orion5x, kirkwood and Allwinner sunxi SoC families
  *
  * Author: Albert Aribaud <albert.u.boot@aribaud.net>
  * Copyright (c) 2010 Albert Aribaud.
@@ -38,6 +38,8 @@
 #include <asm/arch/orion5x.h>
 #elif defined(CONFIG_KIRKWOOD)
 #include <asm/arch/kirkwood.h>
+#elif defined(CONFIG_SUNXI)
+/* config set in configs/... */
 #else
 #error Driver mvtwsi not supported by SoC or board
 #endif
@@ -46,6 +48,19 @@
  * TWSI register structure
  */
 
+#ifdef CONFIG_SUNXI
+struct  mvtwsi_registers {
+	u32 slave_address;
+	u32 xtnd_slave_addr;
+	u32 data;
+	u32 control;
+	u32 status;	/* when reading */
+	u32 baudrate;	/* when writing */
+	u32 soft_reset;
+	u32 efr;
+	u32 line_control;
+};
+#else
 struct  mvtwsi_registers {
 	u32 slave_address;
 	u32 data;
@@ -58,6 +73,7 @@ struct  mvtwsi_registers {
 	u32 reserved[2];
 	u32 soft_reset;
 };
+#endif
 
 /*
  * Control register fields
@@ -256,17 +272,31 @@ static u8 twsi_slave_address;
  */
 static void twsi_reset(void)
 {
+#if defined(CONFIG_SUNXI)
+	int timeout;
+	/* Set up pin muxing, clock gating etc */
+	sunxi_i2c_init(0);
+#endif
+
 	/* ensure controller will be enabled by any twsi*() function */
 	twsi_control_flags = MVTWSI_CONTROL_TWSIEN;
+#if defined(CONFIG_SUNXI)
+	writel(1, &twsi->soft_reset);
+	for (timeout = 1000; timeout; timeout--)
+		if (!(readl(&twsi->soft_reset) & 1))
+			break;
+#else
 	/* reset controller */
 	writel(0, &twsi->soft_reset);
 	/* wait 2 ms -- this is what the Marvell LSP does */
 	udelay(20000);
+#endif
 	/* set baud rate */
 	writel(twsi_baud_rate, &twsi->baudrate);
 	/* set slave address even though we don't use it */
 	writel(twsi_slave_address, &twsi->slave_address);
 	writel(0, &twsi->xtnd_slave_addr);
+	/* TODO: Reset I2C bus */
 	/* assert STOP but don't care for the result */
 	(void) twsi_stop(0);
 }
