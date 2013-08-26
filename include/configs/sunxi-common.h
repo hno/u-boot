@@ -285,7 +285,9 @@
 #define CONFIG_SPL_DISPLAY_PRINT
 
 /* Falcon boot mode support */
+#if 1
 #define CONFIG_SPL_OS_BOOT
+#endif
 
 #ifdef CONFIG_SPL_FEL
 
@@ -293,7 +295,7 @@
 #define CONFIG_SPL_LDSCRIPT "arch/arm/cpu/armv7/sunxi/u-boot-spl-fel.lds"
 #define CONFIG_SPL_START_S_PATH "arch/arm/cpu/armv7/sunxi"
 #define CONFIG_SPL_TEXT_BASE		0x2000
-#define CONFIG_SPL_MAX_SIZE		0x4000		/* 24 KiB */
+#define CONFIG_SPL_MAX_SIZE		0x4000		/* 16 KiB */
 
 #else /* CONFIG_SPL */
 
@@ -301,7 +303,7 @@
 #define CONFIG_SPL_BSS_MAX_SIZE		0x80000		/* 512 KiB */
 
 #define CONFIG_SPL_TEXT_BASE		0x20		/* sram start+header */
-#define CONFIG_SPL_MAX_SIZE		0x6000		/* 24 KiB */
+#define CONFIG_SPL_MAX_SIZE		0x8000
 
 #define CONFIG_SPL_LIBDISK_SUPPORT
 #define CONFIG_SPL_MMC_SUPPORT
@@ -311,7 +313,9 @@
 /* 32KiB offset */
 #define CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR	64
 /* SPL starts at offset 8 KiB im MMC and has the size of 24 KiB */
+#if 0
 #define CONFIG_SPL_PAD_TO		24576		/* decimal for 'dd' */
+#endif
 
 #endif /* CONFIG_SPL */
 /* end of 32 KiB in sram */
