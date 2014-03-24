@@ -52,3 +52,21 @@ u32 sunxi_read_key(void)
 	writel(ints, &sunxi_key_base->ints);
 	return key;
 }
+
+int do_readkey(cmd_tbl_t *cmdtp, int flag, int argc, const char *argv[])
+{
+	u32 key;
+
+	if (argc < 2) {
+		printf("usage: readkey variable\n");
+	}
+	setenv_ulong(argv[1], sunxi_read_key());
+	
+	return 0;
+}
+
+U_BOOT_CMD(
+	readkey, 2, 1, do_readkey,
+	"Read LDADC key value into specified variable",
+	""
+);

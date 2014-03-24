@@ -98,6 +98,9 @@ void s_init(void)
 	clock_init();
 	timer_init();
 	gpio_init();
+#ifndef CONFIG_SPL_BUILD
+	sunxi_key_init();
+#endif
 
 #ifdef CONFIG_SPL_BUILD
 	gd = &gdata;
