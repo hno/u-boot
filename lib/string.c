@@ -392,7 +392,8 @@ char *strswab(const char *s)
 }
 #endif
 
-#ifndef __HAVE_ARCH_MEMSET
+//#ifndef __HAVE_ARCH_MEMSET
+#if 1
 /**
  * memset - Fill a region of memory with the given value
  * @s: Pointer to the start of the area.
@@ -452,7 +453,8 @@ char * bcopy(const char * src, char * dest, int count)
 }
 #endif
 
-#ifndef __HAVE_ARCH_MEMCPY
+//#ifndef __HAVE_ARCH_MEMCPY
+#if 1
 /**
  * memcpy - Copy one area of memory to another
  * @dest: Where to copy to

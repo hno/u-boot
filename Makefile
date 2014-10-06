@@ -154,11 +154,11 @@ sinclude $(obj)include/autoconf.mk
 
 # load ARCH, BOARD, and CPU configuration
 include $(obj)include/config.mk
-export	ARCH CPU BOARD VENDOR SOC
+export	TARGET ARCH CPU BOARD VENDOR SOC
 
 # set default to nothing for native builds
 ifeq ($(HOSTARCH),$(ARCH))
-CROSS_COMPILE ?=
+CROSS_COMPILE ?= arm-linux-gnueabi-
 endif
 
 # load other configuration
@@ -227,20 +227,23 @@ endif
 LIBS += arch/$(ARCH)/lib/lib$(ARCH).o
 LIBS += fs/cramfs/libcramfs.o fs/fat/libfat.o fs/fdos/libfdos.o fs/jffs2/libjffs2.o \
 	fs/reiserfs/libreiserfs.o fs/ext2/libext2fs.o fs/yaffs2/libyaffs2.o \
-	fs/ubifs/libubifs.o
+	fs/ubifs/libubifs.o fs/aw_fs/libawfat.o
 LIBS += net/libnet.o
 LIBS += disk/libdisk.o
 LIBS += drivers/bios_emulator/libatibiosemu.o
 LIBS += drivers/block/libblock.o
 LIBS += drivers/dma/libdma.o
+LIBS += drivers/rsb/librsb.o
 LIBS += drivers/fpga/libfpga.o
 LIBS += drivers/gpio/libgpio.o
 LIBS += drivers/hwmon/libhwmon.o
 LIBS += drivers/i2c/libi2c.o
+LIBS += drivers/p2wi/libp2wi.o
 LIBS += drivers/input/libinput.o
 LIBS += drivers/misc/libmisc.o
 LIBS += drivers/mmc/libmmc.o
-LIBS += drivers/mtd/libmtd.o
+LIBS += drivers/storage_type/libstorage_type.o
+#LIBS += drivers/mtd/libmtd.o
 LIBS += drivers/mtd/nand/libnand.o
 LIBS += drivers/mtd/onenand/libonenand.o
 LIBS += drivers/mtd/ubi/libubi.o
@@ -251,6 +254,7 @@ LIBS += drivers/pci/libpci.o
 LIBS += drivers/pcmcia/libpcmcia.o
 LIBS += drivers/power/libpower.o
 LIBS += drivers/spi/libspi.o
+LIBS += drivers/audio/libaudio.o
 ifeq ($(CPU),mpc83xx)
 LIBS += drivers/qe/libqe.o
 LIBS += arch/powerpc/cpu/mpc8xxx/lib8xxx.o
@@ -272,12 +276,26 @@ LIBS += drivers/usb/gadget/libusb_gadget.o
 LIBS += drivers/usb/host/libusb_host.o
 LIBS += drivers/usb/musb/libusb_musb.o
 LIBS += drivers/usb/phy/libusb_phy.o
-LIBS += drivers/video/libvideo.o
+#LIBS += drivers/video/libvideo.o
+ifeq ($(SOC),sun7i)
+LIBS += drivers/video_sun7i/libvideo_sunxi.o
+else
+ifeq ($(SOC), sun5i)
+LIBS += drivers/video_sun7i/libvideo_sunxi.o
+else
+LIBS += drivers/video_sunxi/libvideo_sunxi.o
+endif
+endif
+LIBS += drivers/pwm/libsunxi_pwm.o
 LIBS += drivers/watchdog/libwatchdog.o
 LIBS += common/libcommon.o
 LIBS += lib/libfdt/libfdt.o
 LIBS += api/libapi.o
 LIBS += post/libpost.o
+LIBS += sprite/libsprite.o
+
+LIBS += usb_sunxi/libsunxi_usb.o
+LIBS += memtest/libsunxi_memtest.o
 
 ifeq ($(SOC),omap3)
 LIBS += $(CPUDIR)/omap-common/libomap-common.o
@@ -293,10 +311,24 @@ ifeq ($(SOC),s5pc2xx)
 LIBS += $(CPUDIR)/s5p-common/libs5p-common.o
 endif
 
+#ifeq ($(SOC),sunxi)
+LIBS += nand_sunxi/$(SOC)/osal/libnand_osal.o
+LIBS += nand_sunxi/$(SOC)/libnand-$(SOC)
+LIBS += nand_sunxi/$(SOC)/nand_interface/libnand_interface.o
+#endif
+
+ifeq ($(SOC),sun9iw1)
+LIBS += drivers/video_sunxi/sunxi_v2/de_bsp/hdmi/aw/libhdcp
+LIBS += drivers/video_sunxi/sunxi_v2/de_bsp/de/lowlevel_sun9iw1/libedp
+LIBS += drivers/video_sunxi/sunxi_v2/de_bsp/de/lowlevel_sun9iw1/libdsi
+endif
+
+LIBS += $(STANDBYDIR)/libstandby.o
+
 LIBS := $(addprefix $(obj),$(sort $(LIBS)))
 .PHONY : $(LIBS) $(TIMESTAMP_FILE)
 
-LIBBOARD = board/$(BOARDDIR)/lib$(BOARD).o
+LIBBOARD = board/$(BOARDDIR)/lib$(BOARD).o board/$(VENDOR)/lib$(VENDOR).o
 LIBBOARD := $(addprefix $(obj),$(LIBBOARD))
 
 # Add GCC lib
@@ -309,7 +341,7 @@ endif
 else
 PLATFORM_LIBGCC = -L $(shell dirname `$(CC) $(CFLAGS) -print-libgcc-file-name`) -lgcc
 endif
-PLATFORM_LIBS += $(PLATFORM_LIBGCC)
+PLATFORM_LIBS += -L./openssl -lssl -lcrypto $(PLATFORM_LIBGCC)
 export PLATFORM_LIBS
 
 # Special flags for CPP when processing the linker script.
@@ -317,6 +349,11 @@ export PLATFORM_LIBS
 # on the fly.
 LDPPFLAGS += \
 	-include $(TOPDIR)/include/u-boot/u-boot.lds.h \
+	-DCPUDIR=$(CPUDIR) \
+	-DSOCDIR=$(SOCDIR) \
+	-DSTANDBYDIR=$(STANDBYDIR) \
+	-DSTANDBY_ADDR=$(CONFIG_STANDBY_RUN_ADDR) \
+	-DBOOTADDR=$(CONFIG_SYS_TEXT_BASE)		  \
 	$(shell $(LD) --version | \
 	  sed -ne 's/GNU ld version \([0-9][0-9]*\)\.\([0-9][0-9]*\).*/-DLD_MAJOR=\1 -DLD_MINOR=\2/p')
 
@@ -342,7 +379,7 @@ BOARD_SIZE_CHECK =
 endif
 
 # Always append ALL so that arch config.mk's can add custom ones
-ALL-y += $(obj)u-boot.srec $(obj)u-boot.bin $(obj)System.map
+ALL-y += $(obj)u-boot.srec $(obj)u-boot.bin $(obj)System.map $(obj)u-boot-$(TARGET).bin
 
 ALL-$(CONFIG_NAND_U_BOOT) += $(obj)u-boot-nand.bin
 ALL-$(CONFIG_ONENAND_U_BOOT) += $(obj)u-boot-onenand.bin
@@ -397,6 +434,10 @@ $(obj)u-boot.dis:	$(obj)u-boot
 $(obj)u-boot.ubl:       $(obj)u-boot-nand.bin
 		$(obj)tools/mkimage -n $(UBL_CONFIG) -T ublimage \
 		-e $(CONFIG_SYS_TEXT_BASE) -d $< $@
+
+$(obj)u-boot-$(TARGET).bin:	$(obj)u-boot.bin
+		@cp $(obj)u-boot.bin         $(obj)u-boot-$(CONFIG_TARGET_NAME).bin
+		-@cp -v $(obj)u-boot-$(CONFIG_TARGET_NAME).bin  $(TOPDIR)/../../tools/pack/chips/$(CONFIG_TARGET_NAME)/bin/u-boot-$(CONFIG_TARGET_NAME).bin
 
 GEN_UBOOT = \
 		UNDEF_SYM=`$(OBJDUMP) -x $(LIBBOARD) $(LIBS) | \
@@ -951,6 +992,7 @@ clean:
 	       $(obj)board/matrix_vision/*/bootscript.img		  \
 	       $(obj)board/voiceblue/eeprom 				  \
 	       $(obj)u-boot.lds						  \
+	       $(obj)u-boot-$(TARGET).bin					\
 	       $(obj)arch/blackfin/cpu/bootrom-asm-offsets.[chs]	  \
 	       $(obj)arch/blackfin/cpu/init.{lds,elf}
 	@rm -f $(obj)include/bmp_logo.h
@@ -966,7 +1008,7 @@ clean:
 	@rm -f $(TIMESTAMP_FILE) $(VERSION_FILE)
 	@find $(OBJTREE) -type f \
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
-		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	\) -print \
+		-o -name '*.o'	-o -name '*.exe'	\) -print \
 		| xargs rm -f
 
 clobber:	clean

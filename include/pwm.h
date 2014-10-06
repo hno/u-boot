@@ -1,8 +1,7 @@
 /*
- * header file for pwm driver.
+ * (C) Copyright 2012
+ *     tyle@allwinnertech.com
  *
- * Copyright (c) 2011 samsung electronics
- * Donghwa Lee <dh09.lee@samsung.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -15,17 +14,26 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA 02111-1307 USA
+ * along with this program;
+ *
  */
+#ifndef _pwm_pub_h_
+#define _pwm_pub_h_
 
-#ifndef _pwm_h_
-#define _pwm_h_
+//int	pwm_init		(int pwm_id, int div, int invert);
+//int	pwm_config		(int pwm_id, int duty_ns, int period_ns);
+//int	pwm_enable		(int pwm_id);
+//void	pwm_disable		(int pwm_id);
 
-int	pwm_init		(int pwm_id, int div, int invert);
-int	pwm_config		(int pwm_id, int duty_ns, int period_ns);
-int	pwm_enable		(int pwm_id);
-void	pwm_disable		(int pwm_id);
+enum pwm_polarity {
+	PWM_POLARITY_NORMAL,
+	PWM_POLARITY_INVERSED,
+};
 
-#endif /* _pwm_h_ */
+int sunxi_pwm_set_polarity(int pwm, enum pwm_polarity polarity);
+int sunxi_pwm_config      (int pwm, int duty_ns, int period_ns);
+int sunxi_pwm_enable      (int pwm);
+void sunxi_pwm_disable    (int pwm);
+void sunxi_pwm_init       (void);
+
+#endif /* _pwm_pub_h_ */

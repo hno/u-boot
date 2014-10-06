@@ -21,7 +21,7 @@
 # MA 02111-1307 USA
 #
 
-CROSS_COMPILE ?= arm-linux-
+CROSS_COMPILE ?= $(CURDIR)/../gcc-linaro/bin/arm-linux-gnueabi-
 
 ifndef CONFIG_STANDALONE_LOAD_ADDR
 ifeq ($(SOC),omap3)
@@ -31,7 +31,7 @@ CONFIG_STANDALONE_LOAD_ADDR = 0xc100000
 endif
 endif
 
-PLATFORM_CPPFLAGS += -DCONFIG_ARM -D__ARM__
+PLATFORM_CPPFLAGS += -DCONFIG_ARM -D__ARM__ -mfpu=neon -D__NEON_SIMD__
 
 # Explicitly specifiy 32-bit ARM ISA since toolchain default can be -mthumb:
 PLATFORM_CPPFLAGS += $(call cc-option,-marm,)

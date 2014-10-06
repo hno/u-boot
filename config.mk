@@ -140,6 +140,9 @@ ifneq ($(SRCTREE)/$(CPUDIR),$(wildcard $(SRCTREE)/$(CPUDIR)))
 CPUDIR=arch/$(ARCH)/cpu
 endif
 
+SOCDIR=$(CPUDIR)/$(SOC)
+STANDBYDIR=board/$(VENDOR)/$(BOARD)/standby
+
 sinclude $(TOPDIR)/arch/$(ARCH)/config.mk	# include architecture dependend rules
 sinclude $(TOPDIR)/$(CPUDIR)/config.mk		# include  CPU	specific rules
 
@@ -233,9 +236,9 @@ LDFLAGS += $(PLATFORM_LDFLAGS)
 LDFLAGS_FINAL += -Bstatic
 
 LDFLAGS_u-boot += -T $(obj)u-boot.lds $(LDFLAGS_FINAL)
-ifneq ($(CONFIG_SYS_TEXT_BASE),)
-LDFLAGS_u-boot += -Ttext $(CONFIG_SYS_TEXT_BASE)
-endif
+#ifneq ($(CONFIG_SYS_TEXT_BASE),)
+#LDFLAGS_u-boot += -Ttext $(CONFIG_SYS_TEXT_BASE)
+#endif
 
 LDFLAGS_u-boot-spl += -T $(obj)u-boot-spl.lds $(LDFLAGS_FINAL)
 ifneq ($(CONFIG_SPL_TEXT_BASE),)
@@ -278,15 +281,20 @@ BCURDIR = $(subst $(SRCTREE)/,,$(CURDIR:$(obj)%=%))
 ALL_AFLAGS = $(AFLAGS) $(AFLAGS_$(BCURDIR)/$(@F)) $(AFLAGS_$(BCURDIR))
 ALL_CFLAGS = $(CFLAGS) $(CFLAGS_$(BCURDIR)/$(@F)) $(CFLAGS_$(BCURDIR))
 $(obj)%.s:	%.S
-	$(CPP) $(ALL_AFLAGS) -o $@ $<
+	@$(CPP) $(ALL_AFLAGS) -o $@ $<
+	@echo " CPP     "$< ...	
 $(obj)%.o:	%.S
-	$(CC)  $(ALL_AFLAGS) -o $@ $< -c
+	@$(CC)  $(ALL_AFLAGS) -o $@ $< -c
+	@echo " CC      "$< ...
 $(obj)%.o:	%.c
-	$(CC)  $(ALL_CFLAGS) -o $@ $< -c
+	@$(CC)  $(ALL_CFLAGS) -o $@ $< -c
+	@echo " CC      "$< ...
 $(obj)%.i:	%.c
-	$(CPP) $(ALL_CFLAGS) -o $@ $< -c
+	@$(CPP) $(ALL_CFLAGS) -o $@ $< -c
+	@echo " CPP     "$< ...	
 $(obj)%.s:	%.c
-	$(CC)  $(ALL_CFLAGS) -o $@ $< -c -S
+	@$(CC)  $(ALL_CFLAGS) -o $@ $< -c -S
+	@echo " CPP     "$< ...	
 
 #########################################################################
 

@@ -39,6 +39,15 @@
 #define MMC_VERSION_2_2		(MMC_VERSION_MMC | 0x22)
 #define MMC_VERSION_3		(MMC_VERSION_MMC | 0x30)
 #define MMC_VERSION_4		(MMC_VERSION_MMC | 0x40)
+#define MMC_VERSION_4_1		(MMC_VERSION_MMC | 0x41)
+#define MMC_VERSION_4_2		(MMC_VERSION_MMC | 0x42)
+#define MMC_VERSION_4_3		(MMC_VERSION_MMC | 0x43)
+#define MMC_VERSION_4_41	(MMC_VERSION_MMC | 0x44)
+#define MMC_VERSION_4_5		(MMC_VERSION_MMC | 0x45)
+#define MMC_VERSION_5_0		(MMC_VERSION_MMC | 0x50)
+
+
+
 
 #define MMC_MODE_HS		0x001
 #define MMC_MODE_HS_52MHz	0x010
@@ -146,6 +155,7 @@
  * EXT_CSD fields
  */
 
+#define EXT_CSD_BOOT_BUS_COND	177	/* R/W */
 #define EXT_CSD_PART_CONF	179	/* R/W */
 #define EXT_CSD_BUS_WIDTH	183	/* R/W */
 #define EXT_CSD_HS_TIMING	185	/* R/W */
@@ -167,6 +177,43 @@
 #define EXT_CSD_BUS_WIDTH_1	0	/* Card is in 1 bit mode */
 #define EXT_CSD_BUS_WIDTH_4	1	/* Card is in 4 bit mode */
 #define EXT_CSD_BUS_WIDTH_8	2	/* Card is in 8 bit mode */
+
+
+
+
+/* MMC_SWITCH boot modes */
+#define MMC_SWITCH_MMCPART_NOAVAILABLE	(0xff)
+#define MMC_SWITCH_PART_ACCESS_MASK		(0x7)
+#define MMC_SWITCH_PART_SUPPORT			(0x1)
+#define MMC_SWITCH_PART_BOOT_PART_MASK	(0x7 << 3)
+#define MMC_SWITCH_PART_BOOT_PART_NONE	(0x0)
+#define MMC_SWITCH_PART_BOOT_PART_1		(0x1)
+#define MMC_SWITCH_PART_BOOT_PART_2		(0x2)
+#define MMC_SWITCH_PART_BOOT_USER		(0x7)
+#define MMC_SWITCH_PART_BOOT_ACK_MASK	(0x1 << 6)
+#define MMC_SWITCH_PART_BOOT_ACK_ENB	(0x1)
+
+/* MMC_SWITCH boot condition */
+#define MMC_SWITCH_MMCBOOT_BUS_NOAVAILABLE	(0xff)
+#define MMC_SWITCH_BOOT_MODE_MASK			(0x3 << 3)
+#define MMC_SWITCH_BOOT_SDR_NORMAL			(0x0)
+#define MMC_SWITCH_BOOT_SDR_HS				(0x1)
+#define MMC_SWITCH_BOOT_DDR					(0x2)
+#define MMC_SWITCH_BOOT_RST_BUS_COND_MASK	(0x1 << 2)
+#define MMC_SWITCH_BOOT_RST_BUS_COND		(0x0)
+#define MMC_SWITCH_BOOT_RETAIN_BUS_COND		(0x1)
+#define MMC_SWITCH_BOOT_BUS_WIDTH_MASK		(0x3 << 0)
+#define MMC_SWITCH_BOOT_BUS_SDRx1_DDRx4		(0x0)
+#define MMC_SWITCH_BOOT_BUS_SDRx4_DDRx4		(0x1)
+#define MMC_SWITCH_BOOT_BUS_SDRx8_DDRx8		(0x2)
+
+
+/*MMC HOST FUNC*/
+#define MMC_HOST_2XMODE_FUNC                      (0x1 << 0)
+#define MMC_NO_FUNC                               (0)
+
+
+
 
 #define R1_ILLEGAL_COMMAND		(1 << 22)
 #define R1_APP_CMD			(1 << 5)
@@ -191,6 +238,12 @@
 #define MMCPART_NOAVAILABLE	(0xff)
 #define PART_ACCESS_MASK	(0x7)
 #define PART_SUPPORT		(0x1)
+
+
+#define USER_PART		0
+#define BOOT1_PART	1
+#define BOOT2_PART	2
+
 
 struct mmc_cid {
 	unsigned long psn;
@@ -276,6 +329,7 @@ struct mmc {
 	uint voltages;
 	uint version;
 	uint has_init;
+	uint control_num;
 	uint f_min;
 	uint f_max;
 	int high_capacity;
@@ -290,6 +344,8 @@ struct mmc {
 	ushort rca;
 	char part_config;
 	char part_num;
+	char part_support;
+	char boot_support;
 	uint tran_speed;
 	uint read_bl_len;
 	uint write_bl_len;
@@ -301,15 +357,28 @@ struct mmc {
 	void (*set_ios)(struct mmc *mmc);
 	int (*init)(struct mmc *mmc);
 	uint b_max;
+    unsigned lba;        /* number of blocks */
+    unsigned user_lba;
+    unsigned boot1_lba;
+    unsigned boot2_lba;
+    unsigned blksz;      /* block size */
+	unsigned char boot_bus_cond;
+	unsigned host_func;
 };
 
 int mmc_register(struct mmc *mmc);
+int mmc_unregister(int sdc_no);
 int mmc_initialize(bd_t *bis);
 int mmc_init(struct mmc *mmc);
 int mmc_read(struct mmc *mmc, u64 src, uchar *dst, int size);
 void mmc_set_clock(struct mmc *mmc, uint clock);
 struct mmc *find_mmc_device(int dev_num);
 int mmc_set_dev(int dev_num);
+
+
+
+int mmc_switch_boot_bus_cond(int dev_num, u32 boot_mode, u32 rst_bus_cond, u32 bus_width);
+int mmc_switch_boot_part(int dev_num, u32 boot_ack, u32 boot_part);
 void print_mmc_devices(char separator);
 int get_mmc_num(void);
 int board_mmc_getcd(u8 *cd, struct mmc *mmc);

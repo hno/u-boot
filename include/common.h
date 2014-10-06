@@ -111,6 +111,10 @@ typedef volatile unsigned char	vu_char;
 #ifdef CONFIG_SOC_DA8XX
 #include <asm/arch/hardware.h>
 #endif
+#ifdef CONFIG_ALLWINNER
+#include <sunxi_board.h>
+#include <sprite.h>
+#endif
 
 #include <part.h>
 #include <flash.h>
@@ -608,6 +612,7 @@ int	prt_83xx_rsr  (void);
 
 /* $(CPU)/interrupts.c */
 int	interrupt_init	   (void);
+int interrupt_exit     (void);
 void	timer_interrupt	   (struct pt_regs *);
 void	external_interrupt (struct pt_regs *);
 void	irq_install_handler(int, interrupt_handler_t *, void *);
@@ -650,6 +655,7 @@ unsigned long long get_ticks(void);
 void	wait_ticks    (unsigned long);
 
 /* arch/$(ARCH)/lib/time.c */
+void    __msdelay      (unsigned long);
 void	__udelay      (unsigned long);
 ulong	usec2ticks    (unsigned long usec);
 ulong	ticks2usec    (unsigned long ticks);
@@ -716,6 +722,7 @@ void	putc(const char c);
 void	puts(const char *s);
 int	printf(const char *fmt, ...)
 		__attribute__ ((format (__printf__, 1, 2)));
+int tick_printf(const char *fmt, ...);
 int	vprintf(const char *fmt, va_list args);
 
 /* stderr */

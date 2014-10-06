@@ -55,6 +55,8 @@ unsigned long do_bootelf_exec (ulong (*entry)(int, char * const[]),
 	return ret;
 }
 
+extern void flush_icache_all(void);
+
 /* ======================================================================
  * Interpreter command to boot an arbitrary ELF image from memory.
  * ====================================================================== */
@@ -67,17 +69,24 @@ int do_bootelf (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	/* -------------------------------------------------- */
 	int rcode = 0;
 
+	printf("argc = %d\n", argc);
 	sload = saddr = NULL;
-	if (argc == 3) {
+	if (argc == 3)
+	{
 		sload = argv[1];
 		saddr = argv[2];
-	} else if (argc == 2) {
+	}
+	else
+	{
 		if (argv[1][0] == '-')
 			sload = argv[1];
-		else
+		else{
 			saddr = argv[1];
+			printf("saddr=%s\n",saddr);
+		}
 	}
 
+	printf("%s\n", saddr);
 	if (saddr)
 		addr = simple_strtoul(saddr, NULL, 16);
 	else
@@ -91,16 +100,28 @@ int do_bootelf (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	else
 		addr = load_elf_image_shdr(addr);
 
-	printf ("## Starting application at 0x%08lx ...\n", addr);
+        flush_icache_all();
+
+        printf ("## Starting application at 0x%08lx ...\n", addr);
 
 	/*
 	 * pass address parameter as argv[0] (aka command name),
 	 * and all remaining args
 	 */
-	rc = do_bootelf_exec ((void *)addr, argc - 1, argv + 1);
+
+	 /*
+	 *
+	 *  modified by jerry, we need the application result but not only 0 or 1
+	 *
+	 */
+#if 0
+	rc = do_bootelf_exec ((void *)addr, argc - 1, argv + 2);
 	if (rc != 0)
 		rcode = 1;
-
+#else
+	rc = do_bootelf_exec ((void *)addr, argc - 1, argv + 2);
+	rcode = rc;
+#endif
 	printf ("## Application terminated, rc = 0x%lx\n", rc);
 	return rcode;
 }

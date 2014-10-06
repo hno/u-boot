@@ -84,6 +84,7 @@
 #define USB_SPEED_FULL		0x0	/* 12Mbps */
 #define USB_SPEED_LOW		0x1	/* 1.5Mbps */
 #define USB_SPEED_HIGH		0x2	/* 480Mbps */
+#define USB_SPEED_SUPER     0x3
 #define USB_SPEED_RESERVED	0x3
 
 /* Descriptor types */

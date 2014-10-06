@@ -80,3 +80,21 @@ int cleanup_before_linux(void)
 
 	return 0;
 }
+
+void __cpu0_set_detected_paras(void)
+{
+}
+
+void cpu0_set_detected_paras(void)
+	__attribute__((weak, alias("__cpu0_set_detected_paras")));
+
+
+int arch_cpu_init (void)
+{
+	cpu0_set_detected_paras();		//add by jerry
+
+	icache_enable();
+
+	return 0;
+}
+

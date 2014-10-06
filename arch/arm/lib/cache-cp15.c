@@ -67,10 +67,13 @@ static inline void dram_bank_mmu_setup(int bank)
 /* to activate the MMU we need to set up virtual memory: use 1M areas */
 static inline void mmu_setup(void)
 {
-	u32 *page_table = (u32 *)gd->tlb_addr;
+	//u32 *page_table = (u32 *)gd->tlb_addr;
+	u32 mmu_base;
+	u32 *page_table = (u32 *)MMU_BASE_ADDRESS;
 	int i;
 	u32 reg;
 
+#if 0
 	arm_init_before_mmu();
 	/* Set up an identity-mapping for all 4GB, rw for everyone */
 	for (i = 0; i < 4096; i++)
@@ -79,13 +82,42 @@ static inline void mmu_setup(void)
 	for (i = 0; i < CONFIG_NR_DRAM_BANKS; i++) {
 		dram_bank_mmu_setup(i);
 	}
-
+#endif
+	/* modified by jerry */
+	arm_init_before_mmu();
+	page_table[0] = (3 << 10) | (15 << 5) | (1 << 3) | (1 << 2) | 0x2;
+	/* the front 1G of memory(treated as 4G for all) is set up as none cacheable */
+	for (i = 1; i < (CONFIG_SYS_SDRAM_BASE>>20); i++)
+		page_table[i] = (i << 20) | (3 << 10) | (15 << 5) | (0 << 3) | 0x2;
+	/* Set up as write through and buffered(not write back) for other 3GB, rw for everyone */
+	for (i = (CONFIG_SYS_SDRAM_BASE>>20); i < 4096; i++)
+		page_table[i] = (i << 20) | (3 << 10) | (15 << 5) | (1 << 3) | (1 << 2) | 0x2;
+#ifdef CONFIG_NONCACHE_MEMORY
+	/* prepare a space as noncachable*/
+	if(!gd->malloc_noncache_start)
+	{
+		printf("this memory range for noncachable is invalid\n");
+	}
+	else
+	{
+		for (i = (gd->malloc_noncache_start>>20); i < (gd->malloc_noncache_start + CONFIG_NONCACHE_MEMORY_SIZE)>>20; i++)
+		page_table[i] = (i << 20) | (3 << 10) | (15 << 5) | (0 << 3) | 0x2;
+	}
+#endif
+	/* flush tlb */
+	asm volatile("mcr p15, 0, %0, c8, c7, 0" : : "r" (0));
 	/* Copy the page table address to cp15 */
+	mmu_base = MMU_BASE_ADDRESS;
+	mmu_base |= (1 << 0) | (1 << 1) | (2 << 3);
 	asm volatile("mcr p15, 0, %0, c2, c0, 0"
-		     : : "r" (page_table) : "memory");
+		     : : "r" (mmu_base) : "memory");
+	asm volatile("mcr p15, 0, %0, c2, c0, 1"
+		     : : "r" (mmu_base) : "memory");
 	/* Set the access control to all-supervisor */
 	asm volatile("mcr p15, 0, %0, c3, c0, 0"
-		     : : "r" (~0));
+		     : : "r" (0x55555555));			//modified, origin value is (~0)
+
+	asm volatile("isb");
 	/* and enable the mmu */
 	reg = get_cr();	/* get control reg. */
 	cp_delay();
@@ -96,16 +128,16 @@ static int mmu_enabled(void)
 {
 	return get_cr() & CR_M;
 }
-
 /* cache_bit must be either CR_I or CR_C */
 static void cache_enable(uint32_t cache_bit)
 {
 	uint32_t reg;
-
 	/* The data cache is not active unless the mmu is enabled too */
 	if ((cache_bit == CR_C) && !mmu_enabled())
 		mmu_setup();
+
 	reg = get_cr();	/* get control reg. */
+
 	cp_delay();
 	set_cr(reg | cache_bit);
 }
@@ -121,6 +153,9 @@ static void cache_disable(uint32_t cache_bit)
 		if ((reg & CR_C) != CR_C)
 			return;
 		/* if disabling data cache, disable mmu too */
+#if defined(CONFIG_ARM_A7)
+		set_cr(reg & ~cache_bit);  /* added by jerry, to avoid the cache error */
+#endif
 		cache_bit |= CR_M;
 		flush_dcache_all();
 	}
@@ -145,6 +180,7 @@ int icache_status (void)
 {
 	return 0;					/* always off */
 }
+
 #else
 void icache_enable(void)
 {
@@ -177,6 +213,7 @@ int dcache_status (void)
 {
 	return 0;					/* always off */
 }
+
 #else
 void dcache_enable(void)
 {
@@ -192,4 +229,6 @@ int dcache_status(void)
 {
 	return (get_cr() & CR_C) != 0;
 }
+
 #endif
+

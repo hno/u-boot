@@ -36,10 +36,11 @@ COBJS-y += image.o
 COBJS-y += s_record.o
 COBJS-$(CONFIG_SERIAL_MULTI) += serial.o
 COBJS-y += xyzModem.o
-
+COBJS-y += cmd_modify_sysconfig.o
 # core command
 COBJS-y += cmd_boot.o
 COBJS-$(CONFIG_CMD_BOOTM) += cmd_bootm.o
+COBJS-$(CONFIG_CMD_BOOTA) += cmd_boota.o
 COBJS-y += cmd_help.o
 COBJS-y += cmd_nvedit.o
 COBJS-y += cmd_version.o
@@ -54,20 +55,31 @@ XCOBJS-$(CONFIG_ENV_IS_IN_FLASH) += env_embedded.o
 COBJS-$(CONFIG_ENV_IS_IN_NVRAM) += env_embedded.o
 COBJS-$(CONFIG_ENV_IS_IN_FLASH) += env_flash.o
 COBJS-$(CONFIG_ENV_IS_IN_MG_DISK) += env_mgdisk.o
-COBJS-$(CONFIG_ENV_IS_IN_MMC) += env_mmc.o
+#COBJS-$(CONFIG_ENV_IS_IN_MMC) += env_mmc.o
 COBJS-$(CONFIG_ENV_IS_IN_NAND) += env_nand.o
+COBJS-y += env_sunxi_flash.o
+#COBJS-$(CONFIG_ENV_IS_IN_NAND_SUNXI) += env_nand_sunxi.o
 COBJS-$(CONFIG_ENV_IS_IN_NVRAM) += env_nvram.o
 COBJS-$(CONFIG_ENV_IS_IN_ONENAND) += env_onenand.o
 COBJS-$(CONFIG_ENV_IS_IN_SPI_FLASH) += env_sf.o
 COBJS-$(CONFIG_ENV_IS_NOWHERE) += env_nowhere.o
 
 # command
+#COBJS-y += cmd_sunxi_display.o
+COBJS-y += cmd_recovery.o
+COBJS-y += cmd_sunxi_flash.o
+COBJS-y += cmd_shutdown.o
+COBJS-y += cmd_fel.o
+COBJS-y += cmd_standby.o
+COBJS-y += cmd_burn.o
+COBJS-y += cmd_sunxi_signature.o
 COBJS-$(CONFIG_CMD_AMBAPP) += cmd_ambapp.o
 COBJS-$(CONFIG_SOURCE) += cmd_source.o
 COBJS-$(CONFIG_CMD_SOURCE) += cmd_source.o
 COBJS-$(CONFIG_CMD_BDI) += cmd_bdinfo.o
 COBJS-$(CONFIG_CMD_BEDBUG) += bedbug.o cmd_bedbug.o
 COBJS-$(CONFIG_CMD_BMP) += cmd_bmp.o
+COBJS-y += cmd_sunxi_bmp.o
 COBJS-$(CONFIG_CMD_BOOTLDR) += cmd_bootldr.o
 COBJS-$(CONFIG_CMD_CACHE) += cmd_cache.o
 COBJS-$(CONFIG_CMD_CONSOLE) += cmd_console.o
@@ -175,10 +187,16 @@ COBJS-$(CONFIG_UPDATE_TFTP) += update.o
 COBJS-$(CONFIG_USB_KEYBOARD) += usb_kbd.o
 endif
 
+COBJS-$(CONFIG_FASTBOOT) += cmd_fastboot.o
+COBJS-y += cmd_svudata.o
+COBJS-y += cmd_onekey_recovery.o
+
 COBJS-y += console.o
 COBJS-y += memsize.o
 COBJS-y += stdio.o
 
+COBJS-$(CONFIG_NONCACHE_MEMORY) += sunxi_mem_alloc.o
+COBJS-y += cmd_sunxi_memtest.o
 
 COBJS	:= $(sort $(COBJS-y))
 XCOBJS	:= $(sort $(XCOBJS-y))

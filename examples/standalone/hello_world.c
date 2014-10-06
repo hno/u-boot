@@ -37,7 +37,7 @@ int hello_world (int argc, char * const argv[])
 
 	printf ("argc = %d\n", argc);
 
-	for (i=0; i<=argc; ++i) {
+	for (i=0; i<argc; ++i) {
 		printf ("argv[%d] = \"%s\"\n",
 			i,
 			argv[i] ? argv[i] : "<NULL>");
@@ -50,5 +50,5 @@ int hello_world (int argc, char * const argv[])
 	(void) getc();
 
 	printf ("\n\n");
-	return (0);
+	return (100);
 }

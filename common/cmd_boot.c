@@ -37,6 +37,8 @@ unsigned long do_go_exec (ulong (*entry)(int, char * const []), int argc, char *
 	return entry (argc, argv);
 }
 
+extern void flush_icache_all(void);
+
 int do_go (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	ulong	addr, rc;
@@ -53,6 +55,9 @@ int do_go (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	 * pass address parameter as argv[0] (aka command name),
 	 * and all remaining args
 	 */
+
+        flush_icache_all();
+
 	rc = do_go_exec ((void *)addr, argc - 1, argv + 1);
 	if (rc != 0) rcode = 1;
 

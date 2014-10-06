@@ -27,6 +27,9 @@ LIB	:= $(obj)libdma.o
 
 COBJS-$(CONFIG_FSLDMAFEC) += MCD_tasksInit.o MCD_dmaApi.o MCD_tasks.o
 COBJS-$(CONFIG_FSL_DMA) += fsl_dma.o
+COBJS-$(CONFIG_SUNXI_DMA) += sunxi_dma.o
+COBJS-$(CONFIG_SUN7I_DMA) += sun7i_dma.o
+COBJS-$(CONFIG_SUN5I_DMA) += sun5i_dma.o
 
 COBJS	:= $(COBJS-y)
 SRCS	:= $(COBJS:.o=.c)

@@ -28,6 +28,25 @@ LIB 	:= $(obj)libpower.o
 COBJS-$(CONFIG_FTPMU010_POWER)	+= ftpmu010.o
 COBJS-$(CONFIG_TWL4030_POWER)	+= twl4030.o
 COBJS-$(CONFIG_TWL6030_POWER)	+= twl6030.o
+COBJS-$(CONFIG_SUNXI_AXP)		+= axp.o
+
+COBJS-$(CONFIG_SUNXI_AXP22)		+= axp22.o
+COBJS-$(CONFIG_SUNXI_AXP22)   	+= axp22_supply.o
+
+COBJS-$(CONFIG_SUNXI_AXP20)		+= axp20.o
+COBJS-$(CONFIG_SUNXI_AXP20)   	+= axp20_supply.o
+
+COBJS-$(CONFIG_SUNXI_AXP15)     += axp15.o
+COBJS-$(CONFIG_SUNXI_AXP15)     += axp15_supply.o
+
+COBJS-$(CONFIG_SUNXI_AXP809)    += axp809.o
+COBJS-$(CONFIG_SUNXI_AXP809)    += axp809_supply.o
+
+COBJS-$(CONFIG_SUNXI_AXP806)    += axp806.o
+COBJS-$(CONFIG_SUNXI_AXP806)    += axp806_supply.o
+
+COBJS-$(CONFIG_SUNXI_AXP238)    += axp238.o
+COBJS-$(CONFIG_SUNXI_AXP238)    += axp238_supply.o
 
 COBJS	:= $(COBJS-y)
 SRCS 	:= $(COBJS:.o=.c)

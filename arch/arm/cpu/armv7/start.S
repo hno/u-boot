@@ -33,6 +33,18 @@
 #include <config.h>
 #include <version.h>
 
+#define  ARMV7_USR_MODE           0x10
+#define  ARMV7_FIQ_MODE           0x11
+#define  ARMV7_IRQ_MODE           0x12
+#define  ARMV7_SVC_MODE           0x13
+#define  ARMV7_MON_MODE        	  0x16
+#define  ARMV7_ABT_MODE           0x17
+#define  ARMV7_UND_MODE           0x1b
+#define  ARMV7_SYSTEM_MODE        0x1f
+#define  ARMV7_MODE_MASK          0x1f
+#define  ARMV7_FIQ_MASK           0x40
+#define  ARMV7_IRQ_MASK           0x80
+
 .globl _start
 _start: b	reset
 	ldr	pc, _undefined_instruction
@@ -112,6 +124,26 @@ _bss_end_ofs:
 _end_ofs:
 	.word _end - _start
 
+.globl  __int_vector_start__
+__int_vector_start__:
+	.word  __int_vector_start - _start
+
+.globl  __int_vector_end__
+__int_vector_end__:
+	.word  __int_vector_end - _start
+
+.globl  _standby_start__
+_standby_start__:
+	.word  _standby_start - _start
+
+.globl  _standby_end__
+_standby_end__:
+	.word  _standby_end - _start
+
+.globl  _standby_start_lma__
+_standby_start_lma__:
+	.word  _standby_start_lma - _start
+
 #ifdef CONFIG_USE_IRQ
 /* IRQ stack memory (calculated at run-time) */
 .globl IRQ_STACK_START
@@ -138,10 +170,26 @@ reset:
 	/*
 	 * set the cpu to SVC32 mode
 	 */
+@	mov r0, #0
+@	cmp r0, #0
+@	beq reset
+here:
 	mrs	r0, cpsr
 	bic	r0, r0, #0x1f
-	orr	r0, r0, #0xd3
+	orr	r0, r0, #0xd3   @switch to svc mode and disable irq/fiq
 	msr	cpsr,r0
+
+#if defined(CONFIG_ARM_A7)
+@set SMP bit
+	mrc 	p15, 0, r0, c1, c0, 1
+	orr		r0, r0, #(1<<6)
+	mcr		p15, 0, r0, c1, c0, 1
+#endif
+#if defined(CONFIG_ARCH_SUN9IW1P1)
+	ldr     r0, =0x008000e0
+	ldr     r1, =0x16aa0001
+	str     r1, [r0]
+#endif
 
 #if defined(CONFIG_OMAP34XX)
 	/* Copy vectors to mask ROM indirect addr */
@@ -165,7 +213,7 @@ next:
 	 */
 	bl	cpy_clk_code		@ put dpll adjust code behind vectors
 #endif /* NAND Boot */
-#endif
+#endif /* CONFIG_OMAP34XX */
 	/* the mask ROM code should have PLL and others stable */
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT
 	bl	cpu_init_crit
@@ -176,6 +224,9 @@ call_board_init_f:
 	ldr	sp, =(CONFIG_SYS_INIT_SP_ADDR)
 	bic	sp, sp, #7 /* 8-byte alignment for ABI compliance */
 	ldr	r0,=0x00000000
+
+	@bl  boot_standby_relocat
+
 	bl	board_init_f
 
 /*------------------------------------------------------------------------------*/
@@ -196,11 +247,31 @@ relocate_code:
 	/* Set up the stack						    */
 stack_setup:
 	mov	sp, r4
+    /* Set up irq stack */
+	add r4, r4, #12
+	add r4, r4, #0x2000
+	mrs r0, cpsr
+    bic r0, r0, #0x1f
+    orr r0, r0, #0x12
+    msr cpsr_c, r0
+	mov sp, r4
+
+    /* Set up svc stack */
+	sub r4, r4, #0x2000
+	sub r4, r4, #12
+	mrs r0, cpsr
+    bic r0, r0, #0x1f
+    orr r0, r0, #0x13
+    msr cpsr_c, r0
 
 	adr	r0, _start
 	cmp	r0, r6
 	moveq	r9, #0		/* no relocation. relocation offset(r9) = 0 */
 	beq	clear_bss		/* skip relocation */
+
+	@ mov r9, #0
+	@ b   clear_bss
+
 	mov	r1, r6			/* r1 <- scratch for copy_loop */
 	ldr	r3, _image_copy_end_ofs
 	add	r2, r0, r3		/* r2 <- source end address	    */
@@ -215,7 +286,8 @@ copy_loop:
 	/*
 	 * fix .rel.dyn relocations
 	 */
-	ldr	r0, _TEXT_BASE		/* r0 <- Text base */
+	@ldr	r0, _TEXT_BASE		/* r0 <- Text base */
+	adr r0, _start
 	sub	r9, r6, r0		/* r9 <- relocation offset */
 	ldr	r10, _dynsym_start_ofs	/* r10 <- sym table ofs */
 	add	r10, r10, r0		/* r10 <- sym table in FLASH */
@@ -279,6 +351,42 @@ clbss_l:str	r2, [r0]		/* clear loop...		    */
 	cmp	r0, r1
 	bne	clbss_l
 
+#ifdef CONFIG_USE_IRQ
+	ldr r0, __int_vector_start__
+	ldr r1, __int_vector_end__
+	sub r1, r1, r0
+	mov r2, #0
+	mov r4, r6
+	add r0, r0, r4
+copy_int_loop:
+	ldmia   r0!, {r7-r8}
+	stmia   r2!, {r7-r8}
+	cmp     r2, r1
+
+	@ldr     r7, [r0]
+	@add     r0, r0, #4
+	@str     r7, [r2]
+	@add     r2, r2, #4
+	@cmp     r2, r1
+
+	blo     copy_int_loop
+#endif
+
+boot_standby_relocate:
+	ldr r0, _standby_start__
+	ldr r1, _standby_end__
+	ldr r2, _standby_start_lma__
+	adr r3, _start
+
+	add r0, r0, r3
+	add r1, r1, r3
+	add r2, r2, r3
+
+copy_standby_loop:
+	ldmia   r2!, {r7-r8}
+	stmia   r0!, {r7-r8}
+	cmp     r0, r1
+	blo     copy_standby_loop
 /*
  * We are done. Do not return, instead branch to second part of board
  * initialization, now running from RAM.
@@ -332,7 +440,7 @@ cpu_init_crit:
 	mrc	p15, 0, r0, c1, c0, 0
 	bic	r0, r0, #0x00002000	@ clear bits 13 (--V-)
 	bic	r0, r0, #0x00000007	@ clear bits 2:0 (-CAM)
-	orr	r0, r0, #0x00000002	@ set bit 1 (--A-) Align
+@	orr	r0, r0, #0x00000002	@ set bit 1 (--A-) Align   ;do not enable this bit, modified by jerry
 	orr	r0, r0, #0x00000800	@ set bit 11 (Z---) BTB
 #ifdef CONFIG_SYS_ICACHE_OFF
 	bic	r0, r0, #0x00001000	@ clear bit 12 (I) I-cache
@@ -514,10 +622,22 @@ not_used:
 
 	.align	5
 irq:
-	get_irq_stack
-	irq_save_user_regs
-	bl	do_irq
-	irq_restore_user_regs
+	sub     lr, lr, #4                                      @; 保存返回地址
+	stmfd   sp!, {r0-r12, lr}@; save context       	        @; 寄存器压栈
+	mrs     r3, spsr                                        @; 读取SPSR
+	stmfd   sp!, {r3}	                                    @; 压栈
+
+    msr     cpsr_c, #(ARMV7_FIQ_MASK | ARMV7_IRQ_MASK | ARMV7_SVC_MODE)     @; 切换到SVC模式
+    stmfd   sp!, {r0-r12, lr}                                @; 保存lr_usr和其它用到的寄存器
+
+	bl      do_irq
+
+    ldmfd   sp!, {r0-r12, lr}                           @; 恢复SYSTEM模式寄存器
+    msr     cpsr_c, #(ARMV7_FIQ_MASK | ARMV7_IRQ_MASK | ARMV7_IRQ_MODE)     @; 切换到IRQ模式
+    ldmfd   sp!, {r3} 	                                    @; 数据出栈
+    msr     spsr_cxsf, r3                                   @; 还原spsr
+
+	ldmfd   sp!, {r0-r12, pc}^    @;从异常模式返回; unknown event ignore
 
 	.align	5
 fiq:

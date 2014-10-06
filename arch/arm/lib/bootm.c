@@ -29,7 +29,16 @@
 #include <fdt.h>
 #include <libfdt.h>
 #include <fdt_support.h>
-
+#include <fastboot.h>
+#include <asm/arch/clock.h>
+#include <asm/arch/drv_display.h>
+#ifdef CONFIG_ALLWINNER
+#include <boot_type.h>
+#include <axp_power.h>
+#include <sunxi_board.h>
+#include <pmu.h>
+#endif
+#include <sys_config.h>
 DECLARE_GLOBAL_DATA_PTR;
 
 #if defined (CONFIG_SETUP_MEMORY_TAGS) || \
@@ -79,10 +88,13 @@ void arch_lmb_reserve(struct lmb *lmb)
 	lmb_reserve(lmb, sp,
 		    gd->bd->bi_dram[0].start + gd->bd->bi_dram[0].size - sp);
 }
-
 static void announce_and_cleanup(void)
 {
-	printf("\nStarting kernel ...\n\n");
+	axp_set_next_poweron_status(0x0e);
+	board_display_wait_lcd_open();		//add by jerry
+	board_display_set_exit_mode(1);
+	sunxi_board_close_source();
+	tick_printf("\nStarting kernel ...\n\n");
 
 #ifdef CONFIG_USB_DEVICE
 	{
@@ -153,6 +165,123 @@ int do_bootm_linux(int flag, int argc, char *argv[], bootm_headers_t *images)
 	announce_and_cleanup();
 
 	kernel_entry(0, machid, bd->bi_boot_params);
+	/* does not return */
+
+	return 1;
+}
+
+/* Boot android style linux kernel and ramdisk */
+int do_boota_linux (struct fastboot_boot_img_hdr *hdr)
+{
+	ulong initrd_start, initrd_end;
+	void (*kernel_entry)(int zero, int arch, uint params);
+	bd_t *bd = gd->bd;
+
+	debug("do_boota_linux storage_type = %d\n", uboot_spare_head.boot_data.storage_type);
+
+	kernel_entry = (void (*)(int, int, uint))(hdr->kernel_addr);
+
+#ifdef CONFIG_CMDLINE_TAG
+	char *commandline = getenv ("bootargs");
+#endif
+
+	initrd_start = hdr->ramdisk_addr;
+	initrd_end = initrd_start + hdr->ramdisk_size;
+#if defined (CONFIG_SETUP_MEMORY_TAGS) || \
+    defined (CONFIG_CMDLINE_TAG) || \
+    defined (CONFIG_INITRD_TAG) || \
+    defined (CONFIG_SERIAL_TAG) || \
+    defined (CONFIG_REVISION_TAG)
+	setup_start_tag (bd);
+#ifdef CONFIG_SERIAL_TAG
+	setup_serial_tag (&params);
+#endif
+#ifdef CONFIG_REVISION_TAG
+	setup_revision_tag (&params);
+#endif
+#ifdef CONFIG_SETUP_MEMORY_TAGS
+	setup_memory_tags (bd);
+#endif
+#ifdef CONFIG_CMDLINE_TAG
+	if(strlen((const char *)hdr->cmdline)) {
+		char *s = getenv("partitions");
+		char *sig = getenv("signature");
+		char data[16] = {0};
+
+		memset(data, 0, 16);
+
+        strcat((char *)hdr->cmdline, " boot_type=");
+        sprintf(data, "%d", uboot_spare_head.boot_data.storage_type);
+        strcat((char *)hdr->cmdline, data);
+
+		if(sig != NULL)
+		{
+			strcat((char *)hdr->cmdline, " signature=");
+			strcat((char *)hdr->cmdline, sig);
+        }
+		if(gd->chargemode == 1)
+		{
+			strcat((char *)hdr->cmdline, " androidboot.mode=");
+			strcat((char *)hdr->cmdline, "charger");
+		}
+
+        strcat((char *)hdr->cmdline, " config_size=");
+        sprintf(data, "%d", script_get_length());
+        strcat((char *)hdr->cmdline, data);
+
+		strcat((char *)hdr->cmdline, " partitions=");
+        strcat((char *)hdr->cmdline, s);
+
+		setup_commandline_tag (bd, (char *)hdr->cmdline);
+	} else {
+
+	//	char *s = getenv("partitions");
+		char *sig = getenv("signature");
+		char cmdline[512];
+		char data[16] = {0};
+
+		memset(cmdline, 0, 512);
+		memset(data, 0, 16);
+
+		strcpy(cmdline, commandline);
+
+		strcat(cmdline, " boot_type=");
+        sprintf(data, "%d", uboot_spare_head.boot_data.storage_type);
+        strcat(cmdline, data);
+
+		if(gd->chargemode == 1)
+		{
+		    strcat(cmdline," androidboot.mode=");
+		    strcat(cmdline,"charger");
+		}
+
+        strcat((char *)cmdline, " config_size=");
+        sprintf(data, "%d", script_get_length());
+        strcat((char *)cmdline, data);
+
+		if(sig != NULL)
+		{	strcat(cmdline, " signature=");
+			strcat(cmdline, sig);
+        }
+
+	//	strcat(cmdline, " partitions=");
+        //strcat(cmdline, s);
+		setup_commandline_tag (bd, cmdline);
+	}
+#endif
+#ifdef CONFIG_INITRD_TAG
+	if (hdr->ramdisk_size)
+		setup_initrd_tag (bd, initrd_start, initrd_end);
+#endif
+#if defined (CONFIG_VFD) || defined (CONFIG_LCD)
+	setup_videolfb_tag ((gd_t *) gd);
+#endif
+	setup_end_tag (bd);
+#endif
+	/* we assume that the kernel is in place */
+	announce_and_cleanup();
+
+	kernel_entry(0, bd->bi_arch_number, bd->bi_boot_params);
 	/* does not return */
 
 	return 1;
@@ -248,7 +377,8 @@ static void setup_memory_tags (bd_t *bd)
 
 		params->u.mem.start = bd->bi_dram[i].start;
 		params->u.mem.size = bd->bi_dram[i].size;
-
+                if(gd->ram_size_mb && (!bd->bi_dram[i].size))
+			params->u.mem.size = gd->ram_size_mb;
 		params = tag_next (params);
 	}
 }

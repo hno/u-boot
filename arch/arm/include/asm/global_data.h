@@ -66,12 +66,35 @@ typedef	struct	global_data {
 #endif
 	unsigned long	relocaddr;	/* Start address of U-Boot in RAM */
 	phys_size_t	ram_size;	/* RAM size */
+        unsigned long   ram_size_mb;    /* RAM size MB*/
 	unsigned long	mon_len;	/* monitor len */
 	unsigned long	irq_sp;		/* irq stack pointer */
 	unsigned long	start_addr_sp;	/* start_addr_stackpointer */
 	unsigned long	reloc_off;
 #if !(defined(CONFIG_SYS_ICACHE_OFF) && defined(CONFIG_SYS_DCACHE_OFF))
 	unsigned long	tlb_addr;
+#endif
+#if defined(CONFIG_ALLWINNER)
+	int             uart_console;
+    int             boot_card_num;
+	unsigned int    layer_para;
+    unsigned int    layer_hd;
+	int             key_pressd_value;
+    int             axp_power_soft_id;
+	int             power_step_level;
+	int             pmu_suspend_chgcur;
+	int             pmu_runtime_chgcur;
+	int             limit_vol;
+	int             limit_cur;
+	int             limit_pcvol;
+	int             limit_pccur;
+
+	char            *script_mod_buf;
+	int             script_main_key_count;
+	int             force_shell;
+	uint            malloc_noncache_start;
+	int             lockflag;
+	uint            chargemode;
 #endif
 	void		**jt;		/* jump table */
 	char		env_buf[32];	/* buffer for getenv() before reloc. */

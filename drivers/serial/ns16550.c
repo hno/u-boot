@@ -101,6 +101,12 @@ char NS16550_getc (NS16550_t com_port)
 int NS16550_tstc (NS16550_t com_port)
 {
 	return ((serial_in(&com_port->lsr) & UART_LSR_DR) != 0);
+//	if(!(serial_in(&com_port->lsr) & UART_LSR_DR))
+//	{
+//		return 0;
+//	}
+
+//	return serial_in(&com_port->rbr);
 }
 
 #endif /* CONFIG_NS16550_MIN_FUNCTIONS */

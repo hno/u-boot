@@ -45,6 +45,10 @@ typedef struct block_dev_desc {
 				      unsigned long start,
 				      lbaint_t blkcnt,
 				      void *buffer);
+	unsigned long	(*block_int_read)(int dev,
+				      unsigned long start,
+				      lbaint_t blkcnt,
+				      void *buffer);
 	unsigned long	(*block_write)(int dev,
 				       unsigned long start,
 				       lbaint_t blkcnt,
@@ -52,6 +56,14 @@ typedef struct block_dev_desc {
 	unsigned long   (*block_erase)(int dev,
 				       unsigned long start,
 				       lbaint_t blkcnt);
+	unsigned long	 (*block_read_mass_pro)(int dev,
+				      unsigned long start,
+				      lbaint_t blkcnt,
+				      void *buffer);	
+	unsigned long	(*block_write_mass_pro)(int dev,
+				       unsigned long start,
+				       lbaint_t blkcnt,
+				       const void *buffer);	
 	void		*priv;		/* driver private struct pointer */
 }block_dev_desc_t;
 
@@ -65,6 +77,8 @@ typedef struct block_dev_desc {
 #define IF_TYPE_MMC		6
 #define IF_TYPE_SD		7
 #define IF_TYPE_SATA		8
+#define IF_TYPE_NAND		9
+#define IF_TYPE_SUNXI_FLASH 10
 
 /* Part types */
 #define PART_TYPE_UNKNOWN	0x00
@@ -105,6 +119,11 @@ block_dev_desc_t* usb_stor_get_dev(int dev);
 block_dev_desc_t* mmc_get_dev(int dev);
 block_dev_desc_t* systemace_get_dev(int dev);
 block_dev_desc_t* mg_disk_get_dev(int dev);
+
+block_dev_desc_t* nand_get_dev(int dev);
+block_dev_desc_t* sunxi_flash_get_dev(int dev);
+
+
 
 /* disk/part.c */
 int get_partition_info (block_dev_desc_t * dev_desc, int part, disk_partition_t *info);

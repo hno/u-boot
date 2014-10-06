@@ -535,6 +535,8 @@ int do_mem_loop (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 		while (i-- > 0)
 			junk = *cp++;
 	}
+
+	return junk;
 }
 
 #ifdef CONFIG_LOOPW

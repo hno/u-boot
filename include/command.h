@@ -28,6 +28,7 @@
 #define __COMMAND_H
 
 #include <config.h>
+#include <boot_type.h>
 
 #ifndef NULL
 #define NULL	0
@@ -64,7 +65,7 @@ typedef struct cmd_tbl_s	cmd_tbl_t;
 extern cmd_tbl_t  __u_boot_cmd_start;
 extern cmd_tbl_t  __u_boot_cmd_end;
 
-
+#include <sunxi_cmd.h>
 /* common/command.c */
 int _do_help (cmd_tbl_t *cmd_start, int cmd_items, cmd_tbl_t * cmdtp, int
 	      flag, int argc, char * const argv[]);

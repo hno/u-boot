@@ -37,6 +37,7 @@
 
 #include <common.h>
 #include <asm/proc-armv/ptrace.h>
+#include <asm/arch/intc.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -51,6 +52,11 @@ int interrupt_init (void)
 	FIQ_STACK_START = IRQ_STACK_START - CONFIG_STACKSIZE_IRQ;
 
 	return arch_interrupt_init();
+}
+
+int interrupt_exit(void)
+{
+    return arch_interrupt_exit();
 }
 
 /* enable IRQ interrupts */
@@ -105,8 +111,13 @@ int disable_interrupts (void)
 
 void bad_mode (void)
 {
+#if 0
 	panic ("Resetting CPU ...\n");
 	reset_cpu (0);
+#else
+	panic ("Holding for test mode\n");
+	for(;;);
+#endif
 }
 
 void show_regs (struct pt_regs *regs)
