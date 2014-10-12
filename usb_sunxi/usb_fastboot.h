@@ -30,9 +30,9 @@
 #define  SUNXI_USB_FASTBOOT_DEV_MAX       (6)
 
 char sunxi_fastboot_normal_LangID[8]     = {0x04, 0x03, 0x09, 0x04, '\0'};
-#define SUNXI_FASTBOOT_DEVICE_MANUFACTURER				"USB Developer"  		/* ³§ÉÌĞÅÏ¢ 	*/
-#define SUNXI_FASTBOOT_DEVICE_PRODUCT					"Android Fastboot"  	/* ²úÆ·ĞÅÏ¢ 	*/
-#define SUNXI_FASTBOOT_DEVICE_SERIAL_NUMBER				"20080411"  			/* ²úÆ·ĞòÁĞºÅ 	*/
+#define SUNXI_FASTBOOT_DEVICE_MANUFACTURER				"USB Developer"  		/* å‚å•†ä¿¡æ¯ 	*/
+#define SUNXI_FASTBOOT_DEVICE_PRODUCT					"Android Fastboot"  	/* äº§å“ä¿¡æ¯ 	*/
+#define SUNXI_FASTBOOT_DEVICE_SERIAL_NUMBER				"20080411"  			/* äº§å“åºåˆ—å· 	*/
 #define SUNXI_FASTBOOT_DEVICE_CONFIG        			"Android Fastboot"
 #define SUNXI_FASTBOOT_DEVICE_INTERFACE     			"Android Bootloader Interface"
 
@@ -63,13 +63,13 @@ char  *sunxi_usb_fastboot_dev[SUNXI_USB_FASTBOOT_DEV_MAX] = {	sunxi_fastboot_nor
 
 typedef struct
 {
-	char *base_recv_buffer;		//´æ·Å½ÓÊÕµ½µÄÊı¾İ
+	char *base_recv_buffer;		//å­˜æ”¾æ¥æ”¶åˆ°çš„æ•°æ®
 	char *act_recv_buffer;
 	uint   try_to_recv;
 	uint   act_recv;
-	char *base_send_buffer;		//´æ·ÅÔ¤·¢ËÍÊı¾İ
+	char *base_send_buffer;		//å­˜æ”¾é¢„å‘é€æ•°æ®
 	char *act_send_buffer;
-	uint   send_size;		        //ĞèÒª·¢ËÍÊı¾İµÄ³¤¶È
+	uint   send_size;		        //éœ€è¦å‘é€æ•°æ®çš„é•¿åº¦
 }
 fastboot_trans_set_t;
 

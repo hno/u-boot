@@ -34,7 +34,7 @@ static s32 SUSB_Send_Dev_EP_CMD(unsigned ep, unsigned cmd, struct susb_gadget_ep
 *                     SUSB_Dev_Stop_Active_Transfer
 *
 * Description:
-*    Çå³şµ±Ç°acitveµÄEP
+*    æ¸…æ¥šå½“å‰acitveçš„EP
 *
 * Arguments:
 *
@@ -42,7 +42,7 @@ static s32 SUSB_Send_Dev_EP_CMD(unsigned ep, unsigned cmd, struct susb_gadget_ep
 * Returns:
 *
 * note:
-*    ÎŞ
+*    æ— 
 ***********************************************************************************
 */
 void SUSB_Dev_Stop_Active_Transfer(void)
@@ -54,7 +54,7 @@ void SUSB_Dev_Stop_Active_Transfer(void)
 *                     SUSB_Dev_Stop_All_Stall_Ep
 *
 * Description:
-*    Í£Ö¹ËùÓĞstall endpoint
+*    åœæ­¢æ‰€æœ‰stall endpoint
 *
 * Arguments:
 *
@@ -62,7 +62,7 @@ void SUSB_Dev_Stop_Active_Transfer(void)
 * Returns:
 *
 * note:
-*    ÎŞ
+*    æ— 
 ***********************************************************************************
 */
 void SUSB_Dev_Stop_All_Stall_Ep(void)
@@ -74,16 +74,16 @@ void SUSB_Dev_Stop_All_Stall_Ep(void)
 *                     SUSB_Dev_SetAddress
 *
 * Description:
-*    Çå³ıhost¸ødevice·ÖÅäµÄµØÖ·
+*    æ¸…é™¤hostç»™deviceåˆ†é…çš„åœ°å€
 *
 * Arguments:
-*    hUSB       :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB       :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *
 * Returns:
 *
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */
@@ -103,10 +103,10 @@ void SUSB_Dev_SetAddress(int address)
 *                     SUSB_Dev_Test_Mode_Cofig
 *
 * Description:
-*    ÅäÖÃdeviceµÄÊÇnormal¹¤×÷Ä£Ê½»¹ÊÇÏàÓ¦µÄTestÄ£Ê½
+*    é…ç½®deviceçš„æ˜¯normalå·¥ä½œæ¨¡å¼è¿˜æ˜¯ç›¸åº”çš„Testæ¨¡å¼
 *
 * Arguments:
-*    hUSB           :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB           :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *    is_Normal_Test :  input.  000b:Test mode disable; 0001b: Test_J; 010b: Test_k
 *                              011b:Test_SE0_NAK; 100b:Test_Pack; 101b:Test_Force
 ***********************************************************************************
@@ -125,17 +125,17 @@ void SUSB_Dev_Test_Mode_Cofig(uint is_Normal_Test)
 *                     SUSBC_Dev_ConectSwitch
 *
 * Description:
-*    ºÍPCÍ¨ĞÅµÄ¿ª¹Ø
+*    å’ŒPCé€šä¿¡çš„å¼€å…³
 *
 * Arguments:
-*    hUSB   :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
-*    is_on  :  input.  1: ´ò¿ªºÍPCÍ¨ĞÅ¿ª¹Ø. 0: ¹Ø±ÕºÍPCÍ¨ĞÅÍ¨µÀ
+*    hUSB   :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
+*    is_on  :  input.  1: æ‰“å¼€å’ŒPCé€šä¿¡å¼€å…³. 0: å…³é—­å’ŒPCé€šä¿¡é€šé“
 *
 * Returns:
 *
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */
@@ -285,7 +285,7 @@ void SUSB_Force_Role(__u32 id_type)
 *
 ************************************************************************************************************
 */
-/* ¼ÓÇ¿usb´«ÊäĞÅºÅ */
+/* åŠ å¼ºusbä¼ è¾“ä¿¡å· */
 void SUSB_EnhanceSignal(void)
 {
 	return;
@@ -293,7 +293,7 @@ void SUSB_EnhanceSignal(void)
 /*
  ***************************************************************************
  *
- * Ñ¡Ôñ usb device µÄËÙ¶ÈÀàĞÍ¡£Èç ³¬¸ßËÙ¡¢¸ßËÙ¡¢È«ËÙ¡¢µÍËÙ¡£
+ * é€‰æ‹© usb device çš„é€Ÿåº¦ç±»å‹ã€‚å¦‚ è¶…é«˜é€Ÿã€é«˜é€Ÿã€å…¨é€Ÿã€ä½é€Ÿã€‚
  *
  ***************************************************************************
  */
@@ -385,23 +385,23 @@ static void __SUSBC_Dev_TsMode_Ss(void)
 *                     SUSBC_Dev_ConfigTransferMode
 *
 * Description:
-*    ÅäÖÃdeviceµÄ´«ÊäÀàĞÍºÍËÙ¶ÈÄ£Ê½
+*    é…ç½®deviceçš„ä¼ è¾“ç±»å‹å’Œé€Ÿåº¦æ¨¡å¼
 *
 * Arguments:
-*    hUSB       :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
-*    speed_mode :  input.  ËÙ¶ÈÄ£Ê½
+*    hUSB       :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
+*    speed_mode :  input.  é€Ÿåº¦æ¨¡å¼
 *
 * Returns:
 *
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */
 void SUSB_Dev_ConfigTransferMode(__u32 speed_mode)
 {
-     //--Ñ¡Ôñ´«ÊäËÙ¶È
+     //--é€‰æ‹©ä¼ è¾“é€Ÿåº¦
     switch(speed_mode)
     {
 		case USBC_TS_MODE_HS:
@@ -427,15 +427,15 @@ void SUSB_Dev_ConfigTransferMode(__u32 speed_mode)
 *                     SUSB_Dev_EnaDisa_Ep_Function
 *
 * Description:
-*    Ê¹ÄÜÏàÓ¦µÄphysical endpoint function
+*    ä½¿èƒ½ç›¸åº”çš„physical endpoint function
 *
 * Arguments:
-*    hUSB       :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB       :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *    is_Ena     :  1: Enable ep,  0: Disable ep
 *    bit_map    :  endpoint bit_map
 *
 * note:
-*    ÎŞ
+*    æ— 
 ***********************************************************************************
 */
 void SUSB_Dev_EnaDisa_Ep_Function(__u32 is_Ena, __u32 bit_map)
@@ -544,7 +544,7 @@ void SUSB_Config_Dev_Size(void)
 *
 *SUSB_Dev_Core_Rest - Issues core soft reset and PHY reset
 *
-*@hUSB:USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*@hUSB:USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *
 */
 void SUSB_Dev_Core_Rest(void)
@@ -634,7 +634,7 @@ void SUSB_Event_Buffers_Setup(struct susb_event_buffer *event_buffer)
 /**
  * SUSB_Event_Buffers_Setup - setup our allocated event buffers
  *
- * @usbc_base_addr:¼ÇÂ¼ÁËsusbµÄbasic address
+ * @usbc_base_addr:è®°å½•äº†susbçš„basic address
  *
  * @phy_ep:the physical endpoint number that will receive the command
  *

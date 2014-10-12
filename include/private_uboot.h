@@ -50,17 +50,17 @@ struct spare_boot_data_head
 	unsigned int                dram_para[32];
 	int							run_clock;				// Mhz
 	int							run_core_vol;			// mV
-	int							uart_port;              // UART¿ØÖÆÆ÷±àºÅ
-	normal_gpio_cfg             uart_gpio[2];           // UART¿ØÖÆÆ÷(µ÷ÊÔ´òÓ¡¿Ú)GPIOĞÅÏ¢
-	int							twi_port;               // TWI¿ØÖÆÆ÷±àºÅ
-	normal_gpio_cfg             twi_gpio[2];            // TWI¿ØÖÆÆ÷GPIOĞÅÏ¢£¬ÓÃÓÚ¿ØÖÆTWI
-	int		                    work_mode;              // ¹¤×÷Ä£Ê½
-    int                         storage_type;           // ´æ´¢½éÖÊÀàĞÍ  0£ºnand   1£ºsdcard    2: spinor
-    normal_gpio_cfg             nand_gpio[32];          // nand GPIOĞÅÏ¢
-    char						nand_spare_data[256];	// nand ¶îÍâĞÅÏ¢
-    normal_gpio_cfg             sdcard_gpio[32];		// sdcard GPIOĞÅÏ¢
-    char             			sdcard_spare_data[256];	// sdcard ¶îÍâĞÅÏ¢
-    int							reserved[6];			// ±£ÁôÊı¾İÎ», 256bytes align
+	int							uart_port;              // UARTæ§åˆ¶å™¨ç¼–å·
+	normal_gpio_cfg             uart_gpio[2];           // UARTæ§åˆ¶å™¨(è°ƒè¯•æ‰“å°å£)GPIOä¿¡æ¯
+	int							twi_port;               // TWIæ§åˆ¶å™¨ç¼–å·
+	normal_gpio_cfg             twi_gpio[2];            // TWIæ§åˆ¶å™¨GPIOä¿¡æ¯ï¼Œç”¨äºæ§åˆ¶TWI
+	int		                    work_mode;              // å·¥ä½œæ¨¡å¼
+    int                         storage_type;           // å­˜å‚¨ä»‹è´¨ç±»å‹  0ï¼šnand   1ï¼šsdcard    2: spinor
+    normal_gpio_cfg             nand_gpio[32];          // nand GPIOä¿¡æ¯
+    char						nand_spare_data[256];	// nand é¢å¤–ä¿¡æ¯
+    normal_gpio_cfg             sdcard_gpio[32];		// sdcard GPIOä¿¡æ¯
+    char             			sdcard_spare_data[256];	// sdcard é¢å¤–ä¿¡æ¯
+    int							reserved[6];			// ä¿ç•™æ•°æ®ä½, 256bytes align
 
 };
 

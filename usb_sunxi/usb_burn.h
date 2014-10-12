@@ -68,14 +68,14 @@ const unsigned char pburn_RequestSense[20] = {0x07,0x00,0x02,0x00,0x00,0x00,0x00
 
 typedef struct
 {
-	uchar *base_recv_buffer;		//´æ·Å½ÓÊÕµ½µÄÊı¾İµÄÊ×µØÖ·£¬±ØĞë×ã¹»´ó
+	uchar *base_recv_buffer;		//å­˜æ”¾æ¥æ”¶åˆ°çš„æ•°æ®çš„é¦–åœ°å€ï¼Œå¿…é¡»è¶³å¤Ÿå¤§
 	uint   act_recv_buffer;//
 	uint   recv_size;
 	uint   to_be_recved_size;
-	uchar *base_send_buffer;		//´æ·Å½«Òªµ½µÄÊı¾İµÄÊ×µØÖ·£¬±ØĞë×ã¹»´ó
+	uchar *base_send_buffer;		//å­˜æ”¾å°†è¦åˆ°çš„æ•°æ®çš„é¦–åœ°å€ï¼Œå¿…é¡»è¶³å¤Ÿå¤§
 	uint   act_send_buffer;//
-	uint   send_size;		//ĞèÒª·¢ËÍÊı¾İµÄ³¤¶È
-	uint   flash_start;			//ÆğÊ¼Î»ÖÃ£¬¿ÉÄÜÊÇÄÚ´æ£¬Ò²¿ÉÄÜÊÇflashÉÈÇø
+	uint   send_size;		//éœ€è¦å‘é€æ•°æ®çš„é•¿åº¦
+	uint   flash_start;			//èµ·å§‹ä½ç½®ï¼Œå¯èƒ½æ˜¯å†…å­˜ï¼Œä¹Ÿå¯èƒ½æ˜¯flashæ‰‡åŒº
 	uint   flash_sectors;
 }
 pburn_trans_set_t;
@@ -83,9 +83,9 @@ pburn_trans_set_t;
 
 typedef struct
 {
-	char  magic[16];       	//ÌØÕ÷×Ö·û´®£¬¹Ì¶¨ÊÇ "usbhandshake"£¬²»×ãµÄÌî¿Õ
-	int   sizelo;			//ÅÌ·ûµÄµÍ32Î»£¬µ¥Î»ÊÇÉÈÇø
-	int   sizehi;			//ÅÌ·ûµÄ¸ß32Î»£¬µ¥Î»ÊÇÉÈÇø
+	char  magic[16];       	//ç‰¹å¾å­—ç¬¦ä¸²ï¼Œå›ºå®šæ˜¯ "usbhandshake"ï¼Œä¸è¶³çš„å¡«ç©º
+	int   sizelo;			//ç›˜ç¬¦çš„ä½32ä½ï¼Œå•ä½æ˜¯æ‰‡åŒº
+	int   sizehi;			//ç›˜ç¬¦çš„é«˜32ä½ï¼Œå•ä½æ˜¯æ‰‡åŒº
 	int   res1;
 	int   res2;
 }

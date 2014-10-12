@@ -83,7 +83,7 @@ __u32 TFDecode(HTF hTF, void * ibuf, uint len, void * obuf)
 
     iaddr = (unsigned char *)ibuf;
     oaddr = (unsigned char *)obuf;
-	//逐个分组进行处理
+	//閫愪釜鍒嗙粍杩涜澶勭悊
 	while(left_len > 0)
 	{
 		this_len = (left_len > TF_SIZE)? (TF_SIZE) : (left_len);

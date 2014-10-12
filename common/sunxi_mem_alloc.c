@@ -25,9 +25,9 @@
 
 struct alloc_struct_t
 {
-    uint address;                      //ÉêÇëÄÚ´æµÄµØÖ·
-    uint size;                         //·ÖÅäµÄÄÚ´æ´óĞ¡£¬ÓÃ»§Êµ¼ÊµÃµ½µÄÄÚ´æ´óĞ¡
-    uint o_size;                       //ÓÃ»§ÉêÇëµÄÄÚ´æ´óĞ¡
+    uint address;                      //ç”³è¯·å†…å­˜çš„åœ°å€
+    uint size;                         //åˆ†é…çš„å†…å­˜å¤§å°ï¼Œç”¨æˆ·å®é™…å¾—åˆ°çš„å†…å­˜å¤§å°
+    uint o_size;                       //ç”¨æˆ·ç”³è¯·çš„å†…å­˜å¤§å°
     struct alloc_struct_t *next;
 };
 

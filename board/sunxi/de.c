@@ -221,14 +221,14 @@ int board_display_set_exit_mode(int lcd_off_only)
 *                     board_display_layer_open
 *
 * Description:
-*    ´ò¿ªÍ¼²ã
+*    æ‰“å¼€å›¾å±‚
 *
 * Parameters:
-*    Layer_hd    :  input. Í¼²ã¾ä±ú
+*    Layer_hd    :  input. å›¾å±‚å¥æŸ„
 *
 * Return value:
-*    0  :  ³É¹¦
-*   !0  :  Ê§°Ü
+*    0  :  æˆåŠŸ
+*   !0  :  å¤±è´¥
 *
 * note:
 *    void
@@ -259,14 +259,14 @@ int board_display_layer_open(void)
 *                     board_display_layer_close
 *
 * Description:
-*    ¹Ø±ÕÍ¼²ã
+*    å…³é—­å›¾å±‚
 *
 * Parameters:
-*    Layer_hd    :  input. Í¼²ã¾ä±ú
+*    Layer_hd    :  input. å›¾å±‚å¥æŸ„
 *
 * Return value:
-*    0  :  ³É¹¦
-*   !0  :  Ê§°Ü
+*    0  :  æˆåŠŸ
+*   !0  :  å¤±è´¥
 *
 * note:
 *    void

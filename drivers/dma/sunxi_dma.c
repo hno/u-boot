@@ -64,12 +64,12 @@ typedef struct sunxi_dma_channal_set_t
 {
 	volatile unsigned int enable;
 	volatile unsigned int pause;
-	volatile unsigned int start_addr;		//ÆğÊ¼µØÖ·
+	volatile unsigned int start_addr;		//èµ·å§‹åœ°å€
 	volatile unsigned int config;
-	volatile unsigned int cur_src_addr;		//µ±Ç°´«ÊäµØÖ·
+	volatile unsigned int cur_src_addr;		//å½“å‰ä¼ è¾“åœ°å€
 	volatile unsigned int cur_dst_addr;
-	volatile unsigned int left_bytes;		//Ê£ÓàÎ´´«×Ö½ÚÊı
-	volatile unsigned int parameters;		//²ÎÊı
+	volatile unsigned int left_bytes;		//å‰©ä½™æœªä¼ å­—èŠ‚æ•°
+	volatile unsigned int parameters;		//å‚æ•°
 }
 sunxi_dma_channal_set;
 

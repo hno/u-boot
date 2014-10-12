@@ -45,7 +45,7 @@
 
 
 //-----------------------------------------------------------------------------
-//   Êı¾İ½á¹¹
+//   æ•°æ®ç»“æ„
 //-----------------------------------------------------------------------------
 #if defined(SUNXI_USB_30)
 typedef struct sunxi_udc
@@ -62,7 +62,7 @@ sunxi_udc_t;
 
 #else
 //-----------------------------------------------------------------------------
-//   usb3.0¿ØÖÆÆ÷ Êı¾İ½á¹¹
+//   usb3.0æ§åˆ¶å™¨ æ•°æ®ç»“æ„
 //-----------------------------------------------------------------------------
 typedef struct sunxi_udc
 {
@@ -116,12 +116,12 @@ struct umass_bbb_csw_t
 typedef struct sunxi_ubuf_s
 {
 	uchar *rx_base_buffer;
-	uchar *rx_req_buffer;			//bulk´«ÊäµÄÇëÇó½×¶Îbuffer
-	uint   rx_req_length;			//bulk´«ÊäµÄÇëÇó½×¶ÎÊı¾İ³¤¶È
+	uchar *rx_req_buffer;			//bulkä¼ è¾“çš„è¯·æ±‚é˜¶æ®µbuffer
+	uint   rx_req_length;			//bulkä¼ è¾“çš„è¯·æ±‚é˜¶æ®µæ•°æ®é•¿åº¦
 
-	uint   rx_ready_for_data;		//±íÊ¾Êı¾İ½ÓÊÕÒÑ¾­Íê³É±êÖ¾
+	uint   rx_ready_for_data;		//è¡¨ç¤ºæ•°æ®æ¥æ”¶å·²ç»å®Œæˆæ ‡å¿—
 
-	uint   request_size;			//ĞèÒª·¢ËÍµÄÊı¾İ³¤¶È
+	uint   request_size;			//éœ€è¦å‘é€çš„æ•°æ®é•¿åº¦
 }
 sunxi_ubuf_t;
 

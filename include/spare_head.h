@@ -29,15 +29,15 @@
 #define WORK_MODE_PRODUCT      (1<<4)
 #define WORK_MODE_UPDATE       (1<<5)
 
-#define WORK_MODE_BOOT			0x00	//Õý³£Æô¶¯
-#define WORK_MODE_USB_PRODUCT	0x10	//ÓÃÓÚUSBÁ¿²ú
-#define WORK_MODE_CARD_PRODUCT	0x11	//ÓÃÓÚ¿¨Á¿²ú
-#define WORK_MODE_USB_DEBUG	    0x12    //ÀûÓÃusbÁ¿²úÐ­ÒéÍê³ÉµÄ²âÊÔ
-#define WORK_MODE_USB_UPDATE	0x20	//ÓÃÓÚUSBÉý¼¶
-#define WORK_MODE_OUTER_UPDATE	0x21	//ÓÃÓÚÍâ²¿ÅÌÉý¼¶
+#define WORK_MODE_BOOT			0x00	//æ­£å¸¸å¯åŠ¨
+#define WORK_MODE_USB_PRODUCT	0x10	//ç”¨äºŽUSBé‡äº§
+#define WORK_MODE_CARD_PRODUCT	0x11	//ç”¨äºŽå¡é‡äº§
+#define WORK_MODE_USB_DEBUG	    0x12    //åˆ©ç”¨usbé‡äº§åè®®å®Œæˆçš„æµ‹è¯•
+#define WORK_MODE_USB_UPDATE	0x20	//ç”¨äºŽUSBå‡çº§
+#define WORK_MODE_OUTER_UPDATE	0x21	//ç”¨äºŽå¤–éƒ¨ç›˜å‡çº§
 
-#define WORK_MODE_USB_TOOL_PRODUCT	0x04	//ÓÃÓÚÁ¿²ú
-#define WORK_MODE_USB_TOOL_UPDATE	0x08	//ÓÃÓÚÉý¼¶
+#define WORK_MODE_USB_TOOL_PRODUCT	0x04	//ç”¨äºŽé‡äº§
+#define WORK_MODE_USB_TOOL_UPDATE	0x08	//ç”¨äºŽå‡çº§
 
 #define UBOOT_MAGIC				"uboot"
 #define STAMP_VALUE             0x5F0A6C39
@@ -56,23 +56,23 @@
 
 typedef struct _normal_gpio_cfg
 {
-    char      port;                       //¶Ë¿ÚºÅ
-    char      port_num;                   //¶Ë¿ÚÄÚ±àºÅ
-    char      mul_sel;                    //¹¦ÄÜ±àºÅ
-    char      pull;                       //µç×è×´Ì¬
-    char      drv_level;                  //Çý¶¯Çý¶¯ÄÜÁ¦
-    char      data;                       //Êä³öµçÆ½
-    char      reserved[2];                //±£ÁôÎ»£¬±£Ö¤¶ÔÆë
+    char      port;                       //ç«¯å£å·
+    char      port_num;                   //ç«¯å£å†…ç¼–å·
+    char      mul_sel;                    //åŠŸèƒ½ç¼–å·
+    char      pull;                       //ç”µé˜»çŠ¶æ€
+    char      drv_level;                  //é©±åŠ¨é©±åŠ¨èƒ½åŠ›
+    char      data;                       //è¾“å‡ºç”µå¹³
+    char      reserved[2];                //ä¿ç•™ä½ï¼Œä¿è¯å¯¹é½
 }
 normal_gpio_cfg;
 
-//SD¿¨Ïà¹ØÊý¾Ý½á¹¹
+//SDå¡ç›¸å…³æ•°æ®ç»“æž„
 typedef struct sdcard_spare_info_t
 {
-	int 			card_no[4];                   //µ±Ç°Æô¶¯µÄ¿¨¿ØÖÆÆ÷±àºÅ
-	int 			speed_mode[4];                //¿¨µÄËÙ¶ÈÄ£Ê½£¬0£ºµÍËÙ£¬ÆäËü£º¸ßËÙ
-	int				line_sel[4];                  //¿¨µÄÏßÖÆ£¬0: 1Ïß£¬ÆäËü£¬4Ïß
-	int				line_count[4];                //¿¨Ê¹ÓÃÏßµÄ¸öÊý
+	int 			card_no[4];                   //å½“å‰å¯åŠ¨çš„å¡æŽ§åˆ¶å™¨ç¼–å·
+	int 			speed_mode[4];                //å¡çš„é€Ÿåº¦æ¨¡å¼ï¼Œ0ï¼šä½Žé€Ÿï¼Œå…¶å®ƒï¼šé«˜é€Ÿ
+	int				line_sel[4];                  //å¡çš„çº¿åˆ¶ï¼Œ0: 1çº¿ï¼Œå…¶å®ƒï¼Œ4çº¿
+	int				line_count[4];                //å¡ä½¿ç”¨çº¿çš„ä¸ªæ•°
 }
 sdcard_spare_info;
 

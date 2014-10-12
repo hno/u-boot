@@ -1,12 +1,12 @@
 /*===============================================================
 *   Copyright (C) 2013 AllWinner Technology. All Rights Reserved.
 *   
-*   file name£ºaxp_power.h
-*   author£ºMartin Zheng <zhengjiewen@allwinnertech.com>
-*   date£º2013Äê03ÔÂ28ÈÕ
-*   brief£º
+*   file nameï¼šaxp_power.h
+*   authorï¼šMartin Zheng <zhengjiewen@allwinnertech.com>
+*   dateï¼š2013å¹´03æœˆ28æ—¥
+*   briefï¼š
 *
-*   version£º1.0.0
+*   versionï¼š1.0.0
 ================================================================*/
 
 #ifndef _AXP_POWER_H_

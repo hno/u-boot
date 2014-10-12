@@ -28,46 +28,46 @@
 #include <asm/arch/intc.h>
 
 //================================
-//======    DMA ÅäÖÃ     =========
+//======    DMA é…ç½®     =========
 //================================
 
-/* DMA »ù´¡ÅäÖÃ  */
+/* DMA åŸºç¡€é…ç½®  */
 #define DMAC_CFG_CONTINUOUS_ENABLE              (0x01)
 #define DMAC_CFG_CONTINUOUS_DISABLE             (0x00)
 
-/* DMA ´«ÊäÄ¿µÄ¶Ë ÅäÖÃ */
-/* DMA Ä¿µÄ¶Ë ´«Êä¿í¶È */
+/* DMA ä¼ è¾“ç›®çš„ç«¯ é…ç½® */
+/* DMA ç›®çš„ç«¯ ä¼ è¾“å®½åº¦ */
 #define	DMAC_CFG_DEST_DATA_WIDTH_8BIT			(0x00)
 #define	DMAC_CFG_DEST_DATA_WIDTH_16BIT			(0x01)
 #define	DMAC_CFG_DEST_DATA_WIDTH_32BIT			(0x02)
 
-/* DMA Ä¿µÄ¶Ë Í»·¢´«ÊäÄ£Ê½ */
+/* DMA ç›®çš„ç«¯ çªå‘ä¼ è¾“æ¨¡å¼ */
 #define	DMAC_CFG_DEST_1_BURST       			(0x00)
 #define	DMAC_CFG_DEST_4_BURST		    		(0x01)
 #define	DMAC_CFG_DEST_8_BURST					(0x02)
 
-/* DMA Ä¿µÄ¶Ë µØÖ·±ä»¯Ä£Ê½ */
+/* DMA ç›®çš„ç«¯ åœ°å€å˜åŒ–æ¨¡å¼ */
 #define	DMAC_CFG_DEST_ADDR_TYPE_LINEAR_MODE		(0x00)
 #define	DMAC_CFG_DEST_ADDR_TYPE_IO_MODE 		(0x01)
 
 
-/* DMA ´«ÊäÔ´¶Ë ÅäÖÃ */
-/* DMA Ô´¶Ë ´«Êä¿í¶È */
+/* DMA ä¼ è¾“æºç«¯ é…ç½® */
+/* DMA æºç«¯ ä¼ è¾“å®½åº¦ */
 #define	DMAC_CFG_SRC_DATA_WIDTH_8BIT			(0x00)
 #define	DMAC_CFG_SRC_DATA_WIDTH_16BIT			(0x01)
 #define	DMAC_CFG_SRC_DATA_WIDTH_32BIT			(0x02)
 
-/* DMA Ô´¶Ë Í»·¢´«ÊäÄ£Ê½ */
+/* DMA æºç«¯ çªå‘ä¼ è¾“æ¨¡å¼ */
 #define	DMAC_CFG_SRC_1_BURST       				(0x00)
 #define	DMAC_CFG_SRC_4_BURST		    		(0x01)
 #define	DMAC_CFG_SRC_8_BURST		    		(0x02)
 
-/* DMA Ô´¶Ë µØÖ·±ä»¯Ä£Ê½ */
+/* DMA æºç«¯ åœ°å€å˜åŒ–æ¨¡å¼ */
 #define	DMAC_CFG_SRC_ADDR_TYPE_LINEAR_MODE		(0x00)
 #define	DMAC_CFG_SRC_ADDR_TYPE_IO_MODE 			(0x01)
 
 
-/* DMA ´«ÊäÄ¿µÄ¶Ë ÅäÖÃ */
+/* DMA ä¼ è¾“ç›®çš„ç«¯ é…ç½® */
 #define	DMAC_CFG_DEST_TYPE_SRAM					(0x00)
 #define	DMAC_CFG_DEST_TYPE_DRAM		    		(0x01)
 
@@ -78,7 +78,7 @@
 #define	DMAC_CFG_DEST_TYPE_OTG_EP3	    		(19)
 #define	DMAC_CFG_DEST_TYPE_OTG_EP4	    		(20)
 #define	DMAC_CFG_DEST_TYPE_OTG_EP5	    		(21)
-/* DMA ´«ÊäÔ´¶Ë ÅäÖÃ */
+/* DMA ä¼ è¾“æºç«¯ é…ç½® */
 #define	DMAC_CFG_SRC_TYPE_SRAM					(0x00)
 #define	DMAC_CFG_SRC_TYPE_DRAM		    	   	(0x01)
 
@@ -106,15 +106,15 @@ sunxi_dma_start_t;
 
 typedef struct
 {
-    unsigned int      src_drq_type     : 5;            //Ô´µØÖ·´æ´¢ÀàĞÍ£¬ÈçDRAM, SPI,NANDµÈ£¬²Î¼û  __ndma_drq_type_t
-    unsigned int      src_addr_mode    : 2;            //Ô­µØÖ·ÀàĞÍ 0:µİÔöÄ£Ê½  1:±£³Ö²»±ä
-    unsigned int      src_burst_length : 2;            //·¢ÆğÒ»´Îburst¿í¶È 0:1   1:4   2:8
-    unsigned int      src_data_width   : 2;            //Êı¾İ´«Êä¿í¶È£¬0:Ò»´Î´«Êä8bit£¬1:Ò»´Î´«Êä16bit£¬2:Ò»´Î´«Êä32bit£¬3:±£Áô
+    unsigned int      src_drq_type     : 5;            //æºåœ°å€å­˜å‚¨ç±»å‹ï¼Œå¦‚DRAM, SPI,NANDç­‰ï¼Œå‚è§  __ndma_drq_type_t
+    unsigned int      src_addr_mode    : 2;            //åŸåœ°å€ç±»å‹ 0:é€’å¢æ¨¡å¼  1:ä¿æŒä¸å˜
+    unsigned int      src_burst_length : 2;            //å‘èµ·ä¸€æ¬¡burstå®½åº¦ 0:1   1:4   2:8
+    unsigned int      src_data_width   : 2;            //æ•°æ®ä¼ è¾“å®½åº¦ï¼Œ0:ä¸€æ¬¡ä¼ è¾“8bitï¼Œ1:ä¸€æ¬¡ä¼ è¾“16bitï¼Œ2:ä¸€æ¬¡ä¼ è¾“32bitï¼Œ3:ä¿ç•™
     unsigned int      reserved0        : 5;
-    unsigned int      dst_drq_type     : 5;            //Ä¿µÄµØÖ·´æ´¢ÀàĞÍ£¬ÈçDRAM, SPI,NANDµÈ
-    unsigned int      dst_addr_mode    : 2;            //Ä¿µÄµØÖ·ÀàĞÍ£¬ÈçµİÔö£¬»òÕß²»±ä  0:µİÔöÄ£Ê½  1:±£³Ö²»±ä
-    unsigned int      dst_burst_length : 2;            //·¢ÆğÒ»´Îburst¿í¶È Ìî0¶ÔÓ¦ÓÚ1£¬Ìî1¶ÔÓ¦ÓÚ4,
-    unsigned int      dst_data_width   : 2;            //Êı¾İ´«Êä¿í¶È£¬0:Ò»´Î´«Êä8bit£¬1:Ò»´Î´«Êä16bit£¬2:Ò»´Î´«Êä32bit£¬3:±£Áô
+    unsigned int      dst_drq_type     : 5;            //ç›®çš„åœ°å€å­˜å‚¨ç±»å‹ï¼Œå¦‚DRAM, SPI,NANDç­‰
+    unsigned int      dst_addr_mode    : 2;            //ç›®çš„åœ°å€ç±»å‹ï¼Œå¦‚é€’å¢ï¼Œæˆ–è€…ä¸å˜  0:é€’å¢æ¨¡å¼  1:ä¿æŒä¸å˜
+    unsigned int      dst_burst_length : 2;            //å‘èµ·ä¸€æ¬¡burstå®½åº¦ å¡«0å¯¹åº”äº1ï¼Œå¡«1å¯¹åº”äº4,
+    unsigned int      dst_data_width   : 2;            //æ•°æ®ä¼ è¾“å®½åº¦ï¼Œ0:ä¸€æ¬¡ä¼ è¾“8bitï¼Œ1:ä¸€æ¬¡ä¼ è¾“16bitï¼Œ2:ä¸€æ¬¡ä¼ è¾“32bitï¼Œ3:ä¿ç•™
     unsigned int      reserved1        : 5;
 }
 sunxi_dma_channal_config;

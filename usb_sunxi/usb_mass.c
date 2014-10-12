@@ -156,10 +156,10 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 {
 	int ret = SUNXI_USB_REQ_SUCCESSED;
 
-	//»ñÈ¡ÃèÊö·û
+	//èŽ·å–æè¿°ç¬¦
 	switch(req->wValue >> 8)
 	{
-		case USB_DT_DEVICE:		//Éè±¸ÃèÊö·û
+		case USB_DT_DEVICE:		//è®¾å¤‡æè¿°ç¬¦
 		{
 			struct usb_device_descriptor *dev_dscrptr;
 
@@ -175,7 +175,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 #else
 			dev_dscrptr->bcdUSB             = 0x200;
 #endif
-			dev_dscrptr->bDeviceClass       = 0;		//Éè±¸Àà£º´óÈÝÁ¿´æ´¢
+			dev_dscrptr->bDeviceClass       = 0;		//è®¾å¤‡ç±»ï¼šå¤§å®¹é‡å­˜å‚¨
 			dev_dscrptr->bDeviceSubClass    = 0;
 			dev_dscrptr->bDeviceProtocol    = 0;
 			dev_dscrptr->bMaxPacketSize0    = 0x40;
@@ -191,7 +191,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 		}
 		break;
 
-		case USB_DT_CONFIG:		//ÅäÖÃÃèÊö·û
+		case USB_DT_CONFIG:		//é…ç½®æè¿°ç¬¦
 		{
 			struct usb_configuration_descriptor *config_dscrptr;
 			struct usb_interface_descriptor 	*inter_dscrptr;
@@ -227,7 +227,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 			config_dscrptr->bConfigurationValue	= 1;
 			config_dscrptr->iConfiguration     	= 0;
 			config_dscrptr->bmAttributes       	= 0xc0;
-			config_dscrptr->bMaxPower          	= 0xFA;		//×î´óµçÁ÷500ms(0xfa * 2)
+			config_dscrptr->bMaxPower          	= 0xFA;		//æœ€å¤§ç”µæµ500ms(0xfa * 2)
 
 			bytes_remaining 				   -= config_dscrptr->bLength;
 			/* interface */
@@ -517,7 +517,7 @@ static void sunxi_mass_reset(void)
 static void  sunxi_mass_usb_rx_dma_isr(void *p_arg)
 {
 	sunxi_usb_dbg("dma int for usb rx occur\n");
-	//Í¨ÖªÖ÷Ñ­»·£¬¿ÉÒÔÐ´ÈëÊý¾Ý
+	//é€šçŸ¥ä¸»å¾ªçŽ¯ï¼Œå¯ä»¥å†™å…¥æ•°æ®
 	sunxi_usb_mass_write_enable = 1;
 }
 /*
@@ -633,7 +633,7 @@ static int sunxi_mass_nonstandard_req_op(uint cmd, struct usb_device_request *re
 {
 	int ret = SUNXI_USB_REQ_SUCCESSED;
 
-	switch(req->bmRequestType)		//MASS ÌØÓÐÇëÇó
+	switch(req->bmRequestType)		//MASS ç‰¹æœ‰è¯·æ±‚
 	{
 		case 161:
 			if(req->bRequest == 0xFE)
@@ -778,9 +778,9 @@ static int sunxi_mass_state_loop(void  *buffer)
 					sunxi_usb_dbg("asked size 0x%x\n", cbw->dCBWDataTransferLength);
 					{
 						trans_data.base_send_buffer[0] = 3;
-						trans_data.base_send_buffer[1] = 0;		//½éÖÊÀàÐÍ£¬Îª0
-						trans_data.base_send_buffer[2] = 0;		//Éè±¸±êÊ¶²ÎÊý, Îª0
-						trans_data.base_send_buffer[3] = 0;		//¿éÃèÊö·û³¤¶È£¬¿ÉÒÔÎª0
+						trans_data.base_send_buffer[1] = 0;		//ä»‹è´¨ç±»åž‹ï¼Œä¸º0
+						trans_data.base_send_buffer[2] = 0;		//è®¾å¤‡æ ‡è¯†å‚æ•°, ä¸º0
+						trans_data.base_send_buffer[3] = 0;		//å—æè¿°ç¬¦é•¿åº¦ï¼Œå¯ä»¥ä¸º0
 
 						trans_data.act_send_buffer = (uint)trans_data.base_send_buffer;
 						trans_data.send_size = min(cbw->dCBWDataTransferLength, 4);

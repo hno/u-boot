@@ -34,32 +34,32 @@
 #define IMAGE_HEAD_SIZE     	  1024
 #define IMAGE_ITEM_TABLE_SIZE     1024
 //------------------------------------------------------------------------------------------------------------
-///ImageÎÄ¼şÍ·Êı¾İ½á¹¹
+///Imageæ–‡ä»¶å¤´æ•°æ®ç»“æ„
 //------------------------------------------------------------------------------------------------------------
 #pragma pack(push, 1)
 typedef struct tag_ImageHead
 {
 	u8	magic[8];		//IMAGE_MAGIC
-	u32 version;		//±¾½á¹¹µÄ°æ±¾ºÅ£¬IMAGE_HEAD_VERSION
-	u32	size;			//±¾½á¹¹µÄ³¤¶È
-	u32 attr;			//±¾½á¹¹µÄÊôĞÔ£¬¸ñÊ½°´ÕÕversionÀ´È·¶¨£¬¼ÓÃÜ£¬Ñ¹ËõµÈ
-	u32 imagever;		//imageµÄ°æ±¾£¬ÓÉ½Å±¾Ö¸¶¨
-	u32 lenLo;			//imageÎÄ¼şµÄ×Ü³¤¶È µÍÎ»
-	u32 lenHi;			//imageÎÄ¼şµÄ×Ü³¤¶È ¸ßÎ»
-	u32	align;			//Êı¾İµÄ¶ÔÆë±ß½ç£¬È±Ê¡1024
-	u32 pid;			//PIDĞÅÏ¢
-	u32 vid;			//VIDĞÅÏ¢
-	u32 hardwareid; 	//Ó²¼şÆ½Ì¨ID
-	u32 firmwareid; 	//Èí¼şÆ½Ì¨ID
-	u32 itemattr;		//item±íµÄÊôĞÔ,"¼ÓÃÜ"
-	u32	itemsize;		//itemÊı¾İÏîµÄ´óĞ¡
-	u32	itemcount;		//itemÊı¾İÏîµÄ¸öÊı
-	u32	itemoffset;		//item±íÆ«ÒÆÁ¿
-	u32	imageattr;		//imageÎÄ¼şÊôĞÔ
-	u32 appendsize;		//¸½¼ÓÊı¾İµÄ³¤¶È
-	u32 appendoffsetLo;	//¸½¼ÓÊı¾İµÄÆ«ÒÆÁ¿
-	u32 appendoffsetHi;	//¸½¼ÓÊı¾İµÄÆ«ÒÆÁ¿
-	u8  reserve[980];	//Ô¤Áô
+	u32 version;		//æœ¬ç»“æ„çš„ç‰ˆæœ¬å·ï¼ŒIMAGE_HEAD_VERSION
+	u32	size;			//æœ¬ç»“æ„çš„é•¿åº¦
+	u32 attr;			//æœ¬ç»“æ„çš„å±æ€§ï¼Œæ ¼å¼æŒ‰ç…§versionæ¥ç¡®å®šï¼ŒåŠ å¯†ï¼Œå‹ç¼©ç­‰
+	u32 imagever;		//imageçš„ç‰ˆæœ¬ï¼Œç”±è„šæœ¬æŒ‡å®š
+	u32 lenLo;			//imageæ–‡ä»¶çš„æ€»é•¿åº¦ ä½ä½
+	u32 lenHi;			//imageæ–‡ä»¶çš„æ€»é•¿åº¦ é«˜ä½
+	u32	align;			//æ•°æ®çš„å¯¹é½è¾¹ç•Œï¼Œç¼ºçœ1024
+	u32 pid;			//PIDä¿¡æ¯
+	u32 vid;			//VIDä¿¡æ¯
+	u32 hardwareid; 	//ç¡¬ä»¶å¹³å°ID
+	u32 firmwareid; 	//è½¯ä»¶å¹³å°ID
+	u32 itemattr;		//itemè¡¨çš„å±æ€§,"åŠ å¯†"
+	u32	itemsize;		//itemæ•°æ®é¡¹çš„å¤§å°
+	u32	itemcount;		//itemæ•°æ®é¡¹çš„ä¸ªæ•°
+	u32	itemoffset;		//itemè¡¨åç§»é‡
+	u32	imageattr;		//imageæ–‡ä»¶å±æ€§
+	u32 appendsize;		//é™„åŠ æ•°æ®çš„é•¿åº¦
+	u32 appendoffsetLo;	//é™„åŠ æ•°æ®çš„åç§»é‡
+	u32 appendoffsetHi;	//é™„åŠ æ•°æ®çš„åç§»é‡
+	u8  reserve[980];	//é¢„ç•™
 }ImageHead_t;
 #pragma pack(pop)
 
@@ -89,30 +89,30 @@ typedef struct tagImageHeadAttr{
 #define MAINTYPE_LEN		8
 #define SUBTYPE_LEN			16
 #define FILE_PATH			256
-#define IMAGE_ITEM_RCSIZE   640 // Êı¾İÏîÔ¤Áô´óĞ¡
+#define IMAGE_ITEM_RCSIZE   640 // æ•°æ®é¡¹é¢„ç•™å¤§å°
 
 
 //------------------------------------------------------------------------------------------------------------
-///Êı¾İÏîÊı¾İ½á¹¹
+///æ•°æ®é¡¹æ•°æ®ç»“æ„
 //------------------------------------------------------------------------------------------------------------
 #pragma pack(push, 1)
 typedef struct tag_ImageItem
 {
-	u32 version;				//±¾½á¹¹µÄ°æ±¾ºÅIMAGE_ITEM_VERSION
-	u32	size;					//±¾½á¹¹µÄ³¤¶È
-	u8	mainType[MAINTYPE_LEN];	//ÃèÊöµÄÎÄ¼şµÄÀàĞÍ
-	u8	subType[SUBTYPE_LEN];	//ÃèÊö×ÓÀàĞÍ£¬Ä¬ÈÏÓÉimageÅäÖÃ½Å±¾Ö¸¶¨
-	u32	attr;					//ÃèÊöµÄÎÄ¼şµÄÊôĞÔ,¸ñÊ½°´ÕÕversionÀ´È·¶¨£¬¼ÓÃÜ£¬Ñ¹ËõµÈ
-	u8	name[FILE_PATH];		//ÎÄ¼şÃû³Æ 260
-	u32	datalenLo;				//ÎÄ¼şÊı¾İÔÚimageÎÄ¼şÖĞµÄ³¤¶È
-	u32	datalenHi;				//¸ßÎ» ÎÄ¼şÊı¾İÔÚimageÎÄ¼şÖĞµÄ³¤¶È
-	u32 filelenLo;				//ÎÄ¼şµÄÊµ¼Ê³¤¶È
-	u32 filelenHi;				//¸ßÎ» ÎÄ¼şµÄÊµ¼Ê³¤¶È
-	u32 offsetLo;				//ÎÄ¼şÆğÊ¼Î»ÖÃÆ«ÒÆÁ¿
-	u32 offsetHi;				//¸ßÎ» ÎÄ¼şÆğÊ¼Î»ÖÃÆ«ÒÆÁ¿
-	u8	encryptID[64];			//¼ÓÃÜ²å¼şID£¬Èç¹û¸ÃÎÄ¼ş²»¼ÓÃÜ£¬¸Ã×Ö¶Î"\0"±íÊ¾²»¼ÓÃÜ
-	u32 checksum;				//ÃèÊöµÄÎÄ¼şµÄĞ£ÑéºÍ
-	u8	res[IMAGE_ITEM_RCSIZE];	//±£Áô
+	u32 version;				//æœ¬ç»“æ„çš„ç‰ˆæœ¬å·IMAGE_ITEM_VERSION
+	u32	size;					//æœ¬ç»“æ„çš„é•¿åº¦
+	u8	mainType[MAINTYPE_LEN];	//æè¿°çš„æ–‡ä»¶çš„ç±»å‹
+	u8	subType[SUBTYPE_LEN];	//æè¿°å­ç±»å‹ï¼Œé»˜è®¤ç”±imageé…ç½®è„šæœ¬æŒ‡å®š
+	u32	attr;					//æè¿°çš„æ–‡ä»¶çš„å±æ€§,æ ¼å¼æŒ‰ç…§versionæ¥ç¡®å®šï¼ŒåŠ å¯†ï¼Œå‹ç¼©ç­‰
+	u8	name[FILE_PATH];		//æ–‡ä»¶åç§° 260
+	u32	datalenLo;				//æ–‡ä»¶æ•°æ®åœ¨imageæ–‡ä»¶ä¸­çš„é•¿åº¦
+	u32	datalenHi;				//é«˜ä½ æ–‡ä»¶æ•°æ®åœ¨imageæ–‡ä»¶ä¸­çš„é•¿åº¦
+	u32 filelenLo;				//æ–‡ä»¶çš„å®é™…é•¿åº¦
+	u32 filelenHi;				//é«˜ä½ æ–‡ä»¶çš„å®é™…é•¿åº¦
+	u32 offsetLo;				//æ–‡ä»¶èµ·å§‹ä½ç½®åç§»é‡
+	u32 offsetHi;				//é«˜ä½ æ–‡ä»¶èµ·å§‹ä½ç½®åç§»é‡
+	u8	encryptID[64];			//åŠ å¯†æ’ä»¶IDï¼Œå¦‚æœè¯¥æ–‡ä»¶ä¸åŠ å¯†ï¼Œè¯¥å­—æ®µ"\0"è¡¨ç¤ºä¸åŠ å¯†
+	u32 checksum;				//æè¿°çš„æ–‡ä»¶çš„æ ¡éªŒå’Œ
+	u8	res[IMAGE_ITEM_RCSIZE];	//ä¿ç•™
 }ImageItem_t;
 
 #pragma pack(pop)

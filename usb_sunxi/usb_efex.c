@@ -202,10 +202,10 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 {
 	int ret = SUNXI_USB_REQ_SUCCESSED;
 
-	//»ñÈ¡ÃèÊö·û
+	//è·å–æè¿°ç¬¦
 	switch(req->wValue >> 8)
 	{
-		case USB_DT_DEVICE:		//Éè±¸ÃèÊö·û
+		case USB_DT_DEVICE:		//è®¾å¤‡æè¿°ç¬¦
 		{
 			struct usb_device_descriptor *dev_dscrptr;
 
@@ -241,7 +241,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 		}
 		break;
 
-		case USB_DT_CONFIG:		//ÅäÖÃÃèÊö·û
+		case USB_DT_CONFIG:		//é…ç½®æè¿°ç¬¦
 		{
 			struct usb_configuration_descriptor *config_dscrptr;
 			struct usb_interface_descriptor 	*inter_dscrptr;
@@ -277,7 +277,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 			config_dscrptr->bConfigurationValue	= 1;
 			config_dscrptr->iConfiguration     	= 0;
 			config_dscrptr->bmAttributes       	= 0x80;		//not self powered
-			config_dscrptr->bMaxPower          	= 0xFA;		//×î´óµçÁ÷500ms(0xfa * 2)
+			config_dscrptr->bMaxPower          	= 0xFA;		//æœ€å¤§ç”µæµ500ms(0xfa * 2)
 
 			bytes_remaining 				   -= config_dscrptr->bLength;
 			/* interface */
@@ -575,7 +575,7 @@ static void sunxi_efex_reset(void)
 static void  sunxi_efex_usb_rx_dma_isr(void *p_arg)
 {
 	sunxi_usb_dbg("dma int for usb rx occur\n");
-	//Í¨ÖªÖ÷Ñ­»·£¬¿ÉÒÔĞ´ÈëÊı¾İ
+	//é€šçŸ¥ä¸»å¾ªç¯ï¼Œå¯ä»¥å†™å…¥æ•°æ®
 	sunxi_usb_efex_write_enable = 1;
 }
 /*
@@ -784,7 +784,7 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 				memcpy(app_verify_dev->tag, AL_VERIFY_DEV_TAG_DATA, sizeof(AL_VERIFY_DEV_TAG_DATA));
 				app_verify_dev->platform_id_hw 		= FES_PLATFORM_HW_ID;
 				app_verify_dev->platform_id_fw 		= 0x0001;
-				app_verify_dev->mode 				= AL_VERIFY_DEV_MODE_SRV;//¹Ì¶¨µÄ£¬
+				app_verify_dev->mode 				= AL_VERIFY_DEV_MODE_SRV;//å›ºå®šçš„ï¼Œ
 				app_verify_dev->pho_data_flag 		= 'D';
 				app_verify_dev->pho_data_len 		= PHOENIX_PRIV_DATA_LEN_NR;
 				app_verify_dev->pho_data_start_addr = PHOENIX_PRIV_DATA_ADDR;
@@ -856,13 +856,13 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 		case FEX_CMD_fes_trans:
 			sunxi_usb_dbg("FEX_CMD_fes_trans\n");
 
-			//ĞèÒª·¢ËÍÊı¾İ
+			//éœ€è¦å‘é€æ•°æ®
 			{
 				fes_trans_old_t  *fes_old_data = (fes_trans_old_t *)cmd_buf;
 
 				if(fes_old_data->len)
 				{
-					if(fes_old_data->u2.DOU == 2)		//ÉÏ´«Êı¾İ
+					if(fes_old_data->u2.DOU == 2)		//ä¸Šä¼ æ•°æ®
 					{
 #ifdef SUNXI_USB_DEBUG
 						uint value;
@@ -870,12 +870,12 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 						value = *(uint *)fes_old_data->addr;
 #endif
 						sunxi_usb_dbg("send id 0x%x, addr 0x%x, length 0x%x\n", value, fes_old_data->addr, fes_old_data->len);
-						trans_data.act_send_buffer   = fes_old_data->addr;	//ÉèÖÃ·¢ËÍµØÖ·
-						trans_data.send_size         = fes_old_data->len;	//ÉèÖÃ·¢ËÍ³¤¶È
+						trans_data.act_send_buffer   = fes_old_data->addr;	//è®¾ç½®å‘é€åœ°å€
+						trans_data.send_size         = fes_old_data->len;	//è®¾ç½®å‘é€é•¿åº¦
 						trans_data.last_err          = 0;
 						trans_data.app_next_status   = SUNXI_USB_EFEX_APPS_SEND_DATA;
 					}
-					else	//(fes_old_data->u2.DOU == (0 or 1))	//ÏÂÔØÊı¾İ
+					else	//(fes_old_data->u2.DOU == (0 or 1))	//ä¸‹è½½æ•°æ®
 					{
 #ifdef SUNXI_USB_DEBUG
 						uint value;
@@ -884,9 +884,9 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 #endif
 						sunxi_usb_dbg("receive id 0x%x, addr 0x%x, length 0x%x\n", value, fes_old_data->addr, fes_old_data->len);
 
-						trans_data.type = SUNXI_EFEX_DRAM_TAG;		//Ğ´µ½dramµÄÊı¾İ
-						trans_data.act_recv_buffer   = fes_old_data->addr;	//ÉèÖÃ½ÓÊÕµØÖ·
-						trans_data.recv_size         = fes_old_data->len;	//ÉèÖÃ½ÓÊÕ³¤¶È
+						trans_data.type = SUNXI_EFEX_DRAM_TAG;		//å†™åˆ°dramçš„æ•°æ®
+						trans_data.act_recv_buffer   = fes_old_data->addr;	//è®¾ç½®æ¥æ”¶åœ°å€
+						trans_data.recv_size         = fes_old_data->len;	//è®¾ç½®æ¥æ”¶é•¿åº¦
 						trans_data.last_err          = 0;
 						trans_data.app_next_status   = SUNXI_USB_EFEX_APPS_RECEIVE_DATA;
 					}
@@ -961,8 +961,8 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 			{
 				fes_trans_t  *trans = (fes_trans_t *)cmd_buf;
 
-				trans_data.type  = trans->type;									 //Êı¾İÀàĞÍ£¬MBR,BOOT1,BOOT0...ÒÔ¼°·ÖÇøÀàĞÍ
-				if((trans->type & SUNXI_EFEX_DRAM_MASK) == SUNXI_EFEX_DRAM_MASK) //Èç¹ûÊôÓÚÄÚ´æÊı¾İ£¬ÔòÖ´ĞĞÕâÀï
+				trans_data.type  = trans->type;									 //æ•°æ®ç±»å‹ï¼ŒMBR,BOOT1,BOOT0...ä»¥åŠåˆ†åŒºç±»å‹
+				if((trans->type & SUNXI_EFEX_DRAM_MASK) == SUNXI_EFEX_DRAM_MASK) //å¦‚æœå±äºå†…å­˜æ•°æ®ï¼Œåˆ™æ‰§è¡Œè¿™é‡Œ
 				{
 					if((SUNXI_EFEX_DRAM_MASK | SUNXI_EFEX_TRANS_FINISH_TAG) == trans->type)
 					{
@@ -972,16 +972,16 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 					}
 					else
 					{
-						trans_data.act_recv_buffer   = (uint)trans_data.base_recv_buffer + trans_data.to_be_recved_size;	 //ÉèÖÃ½ÓÊÕµØÖ·
+						trans_data.act_recv_buffer   = (uint)trans_data.base_recv_buffer + trans_data.to_be_recved_size;	 //è®¾ç½®æ¥æ”¶åœ°å€
 					}
-					trans_data.recv_size         = trans->len;	//ÉèÖÃ½ÓÊÕ³¤¶È£¬×Ö½Úµ¥Î»
+					trans_data.recv_size         = trans->len;	//è®¾ç½®æ¥æ”¶é•¿åº¦ï¼Œå­—èŠ‚å•ä½
 					trans_data.to_be_recved_size += trans->len;
 					sunxi_usb_dbg("down dram: start 0x%x, sectors 0x%x\n", trans_data.flash_start, trans_data.flash_sectors);
 				}
-				else	//ÊôÓÚflashÊı¾İ£¬·Ö±ğ±íÊ¾ÆğÊ¼ÉÈÇø£¬ÉÈÇøÊı
+				else	//å±äºflashæ•°æ®ï¼Œåˆ†åˆ«è¡¨ç¤ºèµ·å§‹æ‰‡åŒºï¼Œæ‰‡åŒºæ•°
 				{
-					trans_data.act_recv_buffer   = (uint)(trans_data.base_recv_buffer + SUNXI_EFEX_RECV_MEM_SIZE/2);	 //ÉèÖÃ½ÓÊÕµØÖ·
-					trans_data.recv_size         = trans->len;	//ÉèÖÃ½ÓÊÕ³¤¶È£¬×Ö½Úµ¥Î»
+					trans_data.act_recv_buffer   = (uint)(trans_data.base_recv_buffer + SUNXI_EFEX_RECV_MEM_SIZE/2);	 //è®¾ç½®æ¥æ”¶åœ°å€
+					trans_data.recv_size         = trans->len;	//è®¾ç½®æ¥æ”¶é•¿åº¦ï¼Œå­—èŠ‚å•ä½
 
 					trans_data.flash_start       = trans->addr;
 					trans_data.flash_sectors     = (trans->len + 511) >> 9;
@@ -1000,8 +1000,8 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 
 				trans_data.last_err          	 = 0;
 				trans_data.app_next_status   	 = SUNXI_USB_EFEX_APPS_SEND_DATA;
-				trans_data.type  = trans->type;									 //Êı¾İÀàĞÍ£¬MBR,BOOT1,BOOT0...ÒÔ¼°·ÖÇøÀàĞÍ
-				if((trans->type & SUNXI_EFEX_DRAM_MASK) == SUNXI_EFEX_DRAM_MASK) //Èç¹ûÊôÓÚÄÚ´æÊı¾İ£¬ÔòÖ´ĞĞÕâÀï
+				trans_data.type  = trans->type;									 //æ•°æ®ç±»å‹ï¼ŒMBR,BOOT1,BOOT0...ä»¥åŠåˆ†åŒºç±»å‹
+				if((trans->type & SUNXI_EFEX_DRAM_MASK) == SUNXI_EFEX_DRAM_MASK) //å¦‚æœå±äºå†…å­˜æ•°æ®ï¼Œåˆ™æ‰§è¡Œè¿™é‡Œ
 				{
 #if 0
 					if((SUNXI_EFEX_DRAM_MASK | SUNXI_EFEX_TRANS_FINISH_TAG) == trans->type)
@@ -1012,20 +1012,20 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 					}
 					else
 					{
-						trans_data.act_send_buffer   = (uint)trans_data.base_send_buffer + trans_data.send_size;	 //ÉèÖÃ·¢ËÍÊı¾İµØÖ·
+						trans_data.act_send_buffer   = (uint)trans_data.base_send_buffer + trans_data.send_size;	 //è®¾ç½®å‘é€æ•°æ®åœ°å€
 					}
 #endif
 
-					trans_data.act_send_buffer   = trans->addr;	//ÉèÖÃ·¢ËÍµØÖ·£¬ÊôÓÚ×Ö½Úµ¥Î»
-					trans_data.send_size         = trans->len;	//ÉèÖÃ½ÓÊÕ³¤¶È£¬×Ö½Úµ¥Î»
+					trans_data.act_send_buffer   = trans->addr;	//è®¾ç½®å‘é€åœ°å€ï¼Œå±äºå­—èŠ‚å•ä½
+					trans_data.send_size         = trans->len;	//è®¾ç½®æ¥æ”¶é•¿åº¦ï¼Œå­—èŠ‚å•ä½
 					sunxi_usb_dbg("dram read: start 0x%x: length 0x%x\n", trans->addr, trans->len);
 				}
-				else	//ÊôÓÚflashÊı¾İ£¬·Ö±ğ±íÊ¾ÆğÊ¼ÉÈÇø£¬ÉÈÇøÊı
+				else	//å±äºflashæ•°æ®ï¼Œåˆ†åˆ«è¡¨ç¤ºèµ·å§‹æ‰‡åŒºï¼Œæ‰‡åŒºæ•°
 				{
-					trans_data.act_send_buffer   = (uint)trans_data.base_send_buffer;	 //ÉèÖÃ·¢ËÍµØÖ·
-					trans_data.send_size         = trans->len;	//ÉèÖÃ½ÓÊÕ³¤¶È£¬×Ö½Úµ¥Î»
+					trans_data.act_send_buffer   = (uint)trans_data.base_send_buffer;	 //è®¾ç½®å‘é€åœ°å€
+					trans_data.send_size         = trans->len;	//è®¾ç½®æ¥æ”¶é•¿åº¦ï¼Œå­—èŠ‚å•ä½
 
-					trans_data.flash_start       = trans->addr; //ÉèÖÃ·¢ËÍµØÖ·£¬ÊôÓÚÉÈÇøµ¥Î»
+					trans_data.flash_start       = trans->addr; //è®¾ç½®å‘é€åœ°å€ï¼Œå±äºæ‰‡åŒºå•ä½
 					trans_data.flash_sectors     = (trans->len + 511) >> 9;
 
 					sunxi_usb_dbg("upload flash: start 0x%x, sectors 0x%x\n", trans_data.flash_start, trans_data.flash_sectors);
@@ -1047,11 +1047,11 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 //				fes_efex_verify_t *verify_data= (fes_efex_verify_t *)trans_data.base_send_buffer;
 //
 //				printf("FEX_CMD_fes_verify cmd tag = 0x%x\n", cmd_verify->tag);
-//				if(cmd_verify->tag == 0)		//À´×ÔÓÚflashµÄĞ£Ñé
+//				if(cmd_verify->tag == 0)		//æ¥è‡ªäºflashçš„æ ¡éªŒ
 //				{
 //					verify_data->media_crc = sunxi_sprite_part_rawdata_verify(cmd_verify->start, cmd_verify->size);
 //				}
-//				else							//À´×ÔÓÚÌØ±ğÊı¾İµÄĞ£Ñé
+//				else							//æ¥è‡ªäºç‰¹åˆ«æ•°æ®çš„æ ¡éªŒ
 //				{
 //					verify_data->media_crc = trans_data.last_err;
 //				}
@@ -1061,20 +1061,20 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 //				trans_data.act_send_buffer   = (uint)trans_data.base_send_buffer;
 //				trans_data.send_size         = sizeof(fes_efex_verify_t);
 //				trans_data.app_next_status   = SUNXI_USB_EFEX_APPS_SEND_DATA;
-////				//Ä¿Ç°Ö»Ö§³ÖĞ£ÑéºÍ£¬»òÕß²é¿´×´Ì¬µÄ·½Ê½
-////				if(data_type == SUNXI_EFEX_MBR_TAG)			//´«ÊäMBRÒÑ¾­Íê³É
+////				//ç›®å‰åªæ”¯æŒæ ¡éªŒå’Œï¼Œæˆ–è€…æŸ¥çœ‹çŠ¶æ€çš„æ–¹å¼
+////				if(data_type == SUNXI_EFEX_MBR_TAG)			//ä¼ è¾“MBRå·²ç»å®Œæˆ
 ////				{
 ////					verify_data->flag = EFEX_CRC32_VALID_FLAG;
 ////				}
-////				else if(data_type == SUNXI_EFEX_BOOT1_TAG)	//´«ÊäBOOT1ÒÑ¾­Íê³É
+////				else if(data_type == SUNXI_EFEX_BOOT1_TAG)	//ä¼ è¾“BOOT1å·²ç»å®Œæˆ
 ////				{
 ////					verify_data->flag = EFEX_CRC32_VALID_FLAG;
 ////				}
-////				else if(data_type == SUNXI_EFEX_BOOT0_TAG)	//´«ÊäBOOT0ÒÑ¾­Íê³É
+////				else if(data_type == SUNXI_EFEX_BOOT0_TAG)	//ä¼ è¾“BOOT0å·²ç»å®Œæˆ
 ////				{
 ////					verify_data->flag = EFEX_CRC32_VALID_FLAG;
 ////				}
-////				else										//ÆäËüÊı¾İ£¬Ö±½ÓĞ´ÈëÄÚ´æ
+////				else										//å…¶å®ƒæ•°æ®ï¼Œç›´æ¥å†™å…¥å†…å­˜
 ////				{
 ////					memcpy((void *)trans_data.start, sunxi_ubuf->rx_data_buffer, trans_data.size);
 ////				}
@@ -1168,7 +1168,7 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 				fes_efex_tool_t *fes_work = (fes_efex_tool_t *)cmd_buf;
 
 				if(fes_work->tool_mode== WORK_MODE_USB_TOOL_UPDATE)
-				{	//Èç¹ûÊÇÉı¼¶¹¤¾ß£¬ÔòÖ±½ÓÖØÆô
+				{	//å¦‚æœæ˜¯å‡çº§å·¥å…·ï¼Œåˆ™ç›´æ¥é‡å¯
 					if(fes_work->next_mode == 0)
 					{
 						sunxi_efex_next_action = SUNXI_UPDATE_NEXT_ACTION_REBOOT;
@@ -1179,12 +1179,12 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 					}
 					trans_data.app_next_status = SUNXI_USB_EFEX_APPS_EXIT;
 				}
-				else  //Èç¹ûÊÇÁ¿²ú¹¤¾ß£¬Ôò¸ù¾İÅäÖÃ´¦Àí
+				else  //å¦‚æœæ˜¯é‡äº§å·¥å…·ï¼Œåˆ™æ ¹æ®é…ç½®å¤„ç†
 				{
 					if(!fes_work->next_mode)
 					{
 						if(script_parser_fetch("platform", "next_work", (int *)&sunxi_efex_next_action, 1))
-						{	//Èç¹ûÃ»ÓĞÅäÖÃ£¬Ôò²»´¦ÀíÈÎºÎÊÂÇé
+						{	//å¦‚æœæ²¡æœ‰é…ç½®ï¼Œåˆ™ä¸å¤„ç†ä»»ä½•äº‹æƒ…
 							sunxi_efex_next_action = SUNXI_UPDATE_NEXT_ACTION_NORMAL;
 						}
 					}
@@ -1322,16 +1322,16 @@ static int __sunxi_usb_efex_op_cmd(u8 *cmd_buffer)
 */
 static void dram_data_recv_finish(uint data_type)
 {
-	if(data_type == SUNXI_EFEX_MBR_TAG)			//´«ÊäMBRÒÑ¾­Íê³É
+	if(data_type == SUNXI_EFEX_MBR_TAG)			//ä¼ è¾“MBRå·²ç»å®Œæˆ
 	{
-		//¼ì²éMBRµÄÕıÈ·ĞÔ
+		//æ£€æŸ¥MBRçš„æ­£ç¡®æ€§
 		trans_data.last_err = sunxi_sprite_verify_mbr((void *)trans_data.base_recv_buffer);
 		if(!trans_data.last_err)
 		{
 			nand_get_mbr((char *)trans_data.base_recv_buffer, 16 * 1024);
-			//×¼±¸²Á³ı
+			//å‡†å¤‡æ“¦é™¤
 			if(!sunxi_sprite_erase_flash((void *)trans_data.base_recv_buffer))
-			{//ÉÕÂ¼mbr
+			{//çƒ§å½•mbr
 				printf("SUNXI_EFEX_MBR_TAG\n");
 				printf("mbr size = 0x%x\n", trans_data.to_be_recved_size);
 				trans_data.last_err = sunxi_sprite_download_mbr((void *)trans_data.base_recv_buffer, trans_data.to_be_recved_size);
@@ -1342,13 +1342,13 @@ static void dram_data_recv_finish(uint data_type)
 			}
 		}
 	}
-	else if(data_type == SUNXI_EFEX_BOOT1_TAG)	//´«ÊäBOOT1ÒÑ¾­Íê³É
+	else if(data_type == SUNXI_EFEX_BOOT1_TAG)	//ä¼ è¾“BOOT1å·²ç»å®Œæˆ
 	{
 		printf("SUNXI_EFEX_BOOT1_TAG\n");
 		printf("boot1 size = 0x%x\n", trans_data.to_be_recved_size);
 		trans_data.last_err = sunxi_sprite_download_uboot((void *)trans_data.base_recv_buffer, uboot_spare_head.boot_data.storage_type, 0);
 	}
-	else if(data_type == SUNXI_EFEX_BOOT0_TAG)	//´«ÊäBOOT0ÒÑ¾­Íê³É
+	else if(data_type == SUNXI_EFEX_BOOT0_TAG)	//ä¼ è¾“BOOT0å·²ç»å®Œæˆ
 	{
 		printf("SUNXI_EFEX_BOOT0_TAG\n");
 		printf("boot0 size = 0x%x\n", trans_data.to_be_recved_size);
@@ -1393,7 +1393,7 @@ static void dram_data_recv_finish(uint data_type)
 		printf("begin to set address to unsequency memory\n");
 		memcpy(unseq_mem, (void *)trans_data.act_recv_buffer, trans_data.recv_size);
 	}
-    else//ÆäËüÊı¾İ£¬Ö±½ÓĞ´ÈëÄÚ´æ
+    else//å…¶å®ƒæ•°æ®ï¼Œç›´æ¥å†™å…¥å†…å­˜
 	{
         memcpy((void *)trans_data.dram_trans_buffer, (void *)trans_data.act_recv_buffer, trans_data.recv_size);
 
@@ -1498,7 +1498,7 @@ static int sunxi_efex_state_loop(void  *buffer)
 			if(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_IDLE)
 			{
 				sunxi_usb_dbg("APPS: SUNXI_USB_EFEX_APPS_IDLE\n");
-				if(cbw->cmd_package.direction == TL_CMD_RECEIVE)	//Ğ¡»ú¶Ë½ÓÊÕÊı¾İ
+				if(cbw->cmd_package.direction == TL_CMD_RECEIVE)	//å°æœºç«¯æ¥æ”¶æ•°æ®
 				{
 					sunxi_usb_dbg("APPS: SUNXI_USB_EFEX_APPS_IDLE: TL_CMD_RECEIVE\n");
 					sunxi_ubuf->request_size = min(cbw->data_transfer_len, CBW_MAX_CMD_SIZE);
@@ -1514,11 +1514,11 @@ static int sunxi_efex_state_loop(void  *buffer)
 
 						return -1;
 					}
-					//ÏÂÒ»½×¶Î½ÓÊÕµ½µÄÊı¾İÊÇapp
-					sunxi_usb_efex_status   = SUNXI_USB_EFEX_RECEIVE_DATA;	//´«Êä½×¶Î£¬ÏÂÒ»½×¶Î½«½ÓÊÕÊı¾İ
-					sunxi_usb_efex_app_step = SUNXI_USB_EFEX_APPS_CMD;		//ÃüÁî½×¶Î£¬ÏÂÒ»½×¶Î½ÓÊÕµÄÊÇÃüÁî
+					//ä¸‹ä¸€é˜¶æ®µæ¥æ”¶åˆ°çš„æ•°æ®æ˜¯app
+					sunxi_usb_efex_status   = SUNXI_USB_EFEX_RECEIVE_DATA;	//ä¼ è¾“é˜¶æ®µï¼Œä¸‹ä¸€é˜¶æ®µå°†æ¥æ”¶æ•°æ®
+					sunxi_usb_efex_app_step = SUNXI_USB_EFEX_APPS_CMD;		//å‘½ä»¤é˜¶æ®µï¼Œä¸‹ä¸€é˜¶æ®µæ¥æ”¶çš„æ˜¯å‘½ä»¤
 				}
-				else	//setup½×¶Î¼´usbµÄbulk´«ÊäµÚÒ»½×¶Î£¬Ö»ÄÜ½ÓÊÕÊı¾İ£¬²»ÄÜ·¢ËÍ
+				else	//setupé˜¶æ®µå³usbçš„bulkä¼ è¾“ç¬¬ä¸€é˜¶æ®µï¼Œåªèƒ½æ¥æ”¶æ•°æ®ï¼Œä¸èƒ½å‘é€
 				{
 					printf("APPS: SUNXI_USB_EFEX_APPS_IDLE: INVALID direction\n");
 					printf("sunxi usb efex app cmd err: usb transfer direction is receive only\n");
@@ -1527,15 +1527,15 @@ static int sunxi_efex_state_loop(void  *buffer)
 				}
 			}
 			else if((sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_SEND_DATA) ||			\
-				(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_RECEIVE_DATA))	//ÊÕµ½µÄµÚ¶ş½×¶Î£¬´ËÊ±¿ªÊ¼½âÎöÃüÁî
+				(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_RECEIVE_DATA))	//æ”¶åˆ°çš„ç¬¬äºŒé˜¶æ®µï¼Œæ­¤æ—¶å¼€å§‹è§£æå‘½ä»¤
 			{
 				sunxi_usb_dbg("APPS: SUNXI_USB_EFEX_APPS_DATA\n");
-				if(cbw->cmd_package.direction == TL_CMD_RECEIVE)	//Èç¹ûÒª½ÓÊÕÊı¾İ£¬ÔòÊÂÏÈÆô¶¯dma¿ªÊ¼½ÓÊÕ
+				if(cbw->cmd_package.direction == TL_CMD_RECEIVE)	//å¦‚æœè¦æ¥æ”¶æ•°æ®ï¼Œåˆ™äº‹å…ˆå¯åŠ¨dmaå¼€å§‹æ¥æ”¶
 				{
 					sunxi_usb_dbg("APPS: SUNXI_USB_EFEX_APPS_DATA: TL_CMD_RECEIVE\n");
-					sunxi_ubuf->request_size = MIN(cbw->data_transfer_len, trans_data.recv_size);	//½ÓÊÕ³¤¶È
+					sunxi_ubuf->request_size = MIN(cbw->data_transfer_len, trans_data.recv_size);	//æ¥æ”¶é•¿åº¦
 					//sunxi_usb_dbg("try to receive data 0x%x\n", sunxi_ubuf->request_size);
-					sunxi_usb_efex_write_enable = 0;				//ÉèÖÃ±êÖ¾
+					sunxi_usb_efex_write_enable = 0;				//è®¾ç½®æ ‡å¿—
 					if(sunxi_ubuf->request_size)
 					{
 						sunxi_usb_dbg("dma recv addr = 0x%x\n", trans_data.act_recv_buffer);
@@ -1548,17 +1548,17 @@ static int sunxi_efex_state_loop(void  *buffer)
 						return -1;
 					}
 				}
-				//´¦ÀíÃüÁî£¬·µ»ØÃüÁî½×¶ÎµÄÏÂÒ»¸ö×´Ì¬
-				sunxi_usb_efex_app_step = trans_data.app_next_status;	//¸ù¾İÃüÁî£¬»ñÈ¡ÏÂÒ»ÃüÁî½×¶Î×´Ì¬
+				//å¤„ç†å‘½ä»¤ï¼Œè¿”å›å‘½ä»¤é˜¶æ®µçš„ä¸‹ä¸€ä¸ªçŠ¶æ€
+				sunxi_usb_efex_app_step = trans_data.app_next_status;	//æ ¹æ®å‘½ä»¤ï¼Œè·å–ä¸‹ä¸€å‘½ä»¤é˜¶æ®µçŠ¶æ€
 				//sunxi_usb_dbg("APPS: SUNXI_USB_EFEX_APPS_CMD_DECODE finish\n");
 				//sunxi_usb_dbg("sunxi_usb_efex_app_step = 0x%x\n", sunxi_usb_efex_app_step);
-				sunxi_usb_efex_status   = sunxi_usb_efex_app_step & 0xffff;						//Ê¶±ğ³ö´«Êä½×¶ÎÏÂÒ»½×¶Î×´Ì¬
-																								//¿ÉÄÜÊÇ·¢ËÍÊı¾İ£¬½ÓÊÕÊı¾İ£¬·¢ËÍ×´Ì¬(csw)
+				sunxi_usb_efex_status   = sunxi_usb_efex_app_step & 0xffff;						//è¯†åˆ«å‡ºä¼ è¾“é˜¶æ®µä¸‹ä¸€é˜¶æ®µçŠ¶æ€
+																								//å¯èƒ½æ˜¯å‘é€æ•°æ®ï¼Œæ¥æ”¶æ•°æ®ï¼Œå‘é€çŠ¶æ€(csw)
 			}
 			else if(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_STATUS)
 			{
 				sunxi_usb_dbg("APPS: SUNXI_USB_EFEX_APPS_STATUS\n");
-				if(cbw->cmd_package.direction == TL_CMD_TRANSMIT)		//·¢ËÍÊı¾İ
+				if(cbw->cmd_package.direction == TL_CMD_TRANSMIT)		//å‘é€æ•°æ®
 				{
 					sunxi_usb_dbg("APPS: SUNXI_USB_EFEX_APPS_STATUS: TL_CMD_TRANSMIT\n");
 					__sunxi_usb_efex_fill_status();
@@ -1566,7 +1566,7 @@ static int sunxi_efex_state_loop(void  *buffer)
 					sunxi_usb_efex_status = SUNXI_USB_EFEX_SEND_DATA;
 					sunxi_usb_efex_app_step = SUNXI_USB_EFEX_APPS_IDLE;
 				}
-				else	//×îºóÒ»¸ö½×¶Î£¬Ö»ÄÜ·¢ËÍÊı¾İ£¬²»ÄÜ½ÓÊÕ
+				else	//æœ€åä¸€ä¸ªé˜¶æ®µï¼Œåªèƒ½å‘é€æ•°æ®ï¼Œä¸èƒ½æ¥æ”¶
 				{
 					printf("APPS: SUNXI_USB_EFEX_APPS_STATUS: INVALID direction\n");
 					printf("sunxi usb efex app status err: usb transfer direction is transmit only\n");
@@ -1597,7 +1597,7 @@ static int sunxi_efex_state_loop(void  *buffer)
 					sunxi_udc_send_data((void *)trans_data.act_send_buffer, tx_length);
 				}
 				sunxi_usb_efex_status = SUNXI_USB_EFEX_STATUS;
-				if(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_SEND_DATA)//À´×ÔÓÚÃüÁî½×¶Î£¬ÒªÇó·¢ËÍÊı¾İ£¬ÏÂÒ»½×¶ÎÖ»ÄÜÊÇ·¢ËÍ×´Ì¬(status_t)
+				if(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_SEND_DATA)//æ¥è‡ªäºå‘½ä»¤é˜¶æ®µï¼Œè¦æ±‚å‘é€æ•°æ®ï¼Œä¸‹ä¸€é˜¶æ®µåªèƒ½æ˜¯å‘é€çŠ¶æ€(status_t)
 				{
 					sunxi_usb_dbg("SUNXI_USB_EFEX_SEND_DATA next: SUNXI_USB_EFEX_APPS_STATUS\n");
 					sunxi_usb_efex_app_step = SUNXI_USB_EFEX_APPS_STATUS;
@@ -1614,15 +1614,15 @@ static int sunxi_efex_state_loop(void  *buffer)
 	  	case SUNXI_USB_EFEX_RECEIVE_DATA:
 
 	  		sunxi_usb_dbg("SUNXI_USB_RECEIVE_DATA\n");
-			if(sunxi_usb_efex_write_enable == 1)		//Êı¾İ²¿·Ö½ÓÊÕÍê±Ï
+			if(sunxi_usb_efex_write_enable == 1)		//æ•°æ®éƒ¨åˆ†æ¥æ”¶å®Œæ¯•
 			{
 				csw.status = 0;
-				//Çø·Ö³öÊÇÃüÁî»¹ÊÇÊı¾İ
+				//åŒºåˆ†å‡ºæ˜¯å‘½ä»¤è¿˜æ˜¯æ•°æ®
 				if(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_CMD)
 				{
-					//¿½±´µ½cmd_buf£¬ÏÂ´Î´¦ÀíÒ²ĞèÒª
+					//æ‹·è´åˆ°cmd_bufï¼Œä¸‹æ¬¡å¤„ç†ä¹Ÿéœ€è¦
 					sunxi_usb_dbg("SUNXI_USB_RECEIVE_DATA: SUNXI_USB_EFEX_APPS_CMD\n");
-					if(sunxi_ubuf->request_size != CBW_MAX_CMD_SIZE)		//´íÎóµÄÊı¾İ£¬Ôò·µ»Ø
+					if(sunxi_ubuf->request_size != CBW_MAX_CMD_SIZE)		//é”™è¯¯çš„æ•°æ®ï¼Œåˆ™è¿”å›
 					{
 						printf("sunxi usb efex err: received cmd size 0x%x is not equal to CBW_MAX_CMD_SIZE 0x%x\n", sunxi_ubuf->request_size, CBW_MAX_CMD_SIZE);
 
@@ -1634,26 +1634,26 @@ static int sunxi_efex_state_loop(void  *buffer)
 						__sunxi_usb_efex_op_cmd(cmd_buf);
 						csw.status = trans_data.last_err;
 					}
-					//sunxi_usb_efex_app_step = SUNXI_USB_EFEX_APPS_DATA;	//ÃüÁî½×¶Î£¬ÃüÁî½ÓÊÕÍê³É£¬ÏÂÒ»½×¶Î´¦ÀíÊı¾İ
+					//sunxi_usb_efex_app_step = SUNXI_USB_EFEX_APPS_DATA;	//å‘½ä»¤é˜¶æ®µï¼Œå‘½ä»¤æ¥æ”¶å®Œæˆï¼Œä¸‹ä¸€é˜¶æ®µå¤„ç†æ•°æ®
 					sunxi_usb_efex_app_step = trans_data.app_next_status;
 				}
-				else if(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_RECEIVE_DATA)//À´×ÔÓÚÃüÁî½×¶Î£¬ÒªÇó½ÓÊÕÊı¾İ£¬ÏÂÒ»½×¶ÎÖ»ÄÜÊÇ·¢ËÍ×´Ì¬(status_t)
+				else if(sunxi_usb_efex_app_step == SUNXI_USB_EFEX_APPS_RECEIVE_DATA)//æ¥è‡ªäºå‘½ä»¤é˜¶æ®µï¼Œè¦æ±‚æ¥æ”¶æ•°æ®ï¼Œä¸‹ä¸€é˜¶æ®µåªèƒ½æ˜¯å‘é€çŠ¶æ€(status_t)
 				{
-					//±íÊ¾µ±´ÎÊı¾İÒÑ¾­½ÓÊÕÍê³É
+					//è¡¨ç¤ºå½“æ¬¡æ•°æ®å·²ç»æ¥æ”¶å®Œæˆ
 					uint data_type = trans_data.type & SUNXI_EFEX_DATA_TYPE_MASK;
 
 					sunxi_usb_dbg("SUNXI_USB_RECEIVE_DATA: SUNXI_USB_EFEX_APPS_RECEIVE_DATA\n");
 					sunxi_usb_efex_app_step = SUNXI_USB_EFEX_APPS_STATUS;
-					if(trans_data.type & SUNXI_EFEX_DRAM_MASK)		//±íÊ¾ÊôÓÚÄÚ´æÊı¾İ£¬ĞèÒªÊÂÏÈ±£´æµ½ÄÚ´æÖĞ
+					if(trans_data.type & SUNXI_EFEX_DRAM_MASK)		//è¡¨ç¤ºå±äºå†…å­˜æ•°æ®ï¼Œéœ€è¦äº‹å…ˆä¿å­˜åˆ°å†…å­˜ä¸­
 					{
 						sunxi_usb_dbg("SUNXI_EFEX_DRAM_MASK\n");
-						if(trans_data.type & SUNXI_EFEX_TRANS_FINISH_TAG)	//±íÊ¾µ±Ç°ÀàĞÍÊı¾İÒÑ¾­½ÓÊÕÍê³É
+						if(trans_data.type & SUNXI_EFEX_TRANS_FINISH_TAG)	//è¡¨ç¤ºå½“å‰ç±»å‹æ•°æ®å·²ç»æ¥æ”¶å®Œæˆ
 						{
                             dram_data_recv_finish(data_type);
                         }
-						//Êı¾İ»¹Ã»ÓĞ½ÓÊÕÍê±Ï£¬µÈ´ı¼ÌĞø½ÓÊÕ
+						//æ•°æ®è¿˜æ²¡æœ‰æ¥æ”¶å®Œæ¯•ï¼Œç­‰å¾…ç»§ç»­æ¥æ”¶
 					}
-					else		//±íÊ¾µ±Ç°Êı¾İĞèÒªĞ´Èëflash
+					else		//è¡¨ç¤ºå½“å‰æ•°æ®éœ€è¦å†™å…¥flash
 					{
 						sunxi_usb_dbg("SUNXI_EFEX_FLASH_MASK\n");
 						if(!sunxi_sprite_write(trans_data.flash_start, trans_data.flash_sectors, (void *)trans_data.act_recv_buffer))
@@ -1666,7 +1666,7 @@ static int sunxi_efex_state_loop(void  *buffer)
 						}
 					}
 				}
-				sunxi_usb_efex_status   = SUNXI_USB_EFEX_STATUS;			//´«Êä½×¶Î£¬ÏÂÒ»½×¶Î´«Êä×´Ì¬(csw)
+				sunxi_usb_efex_status   = SUNXI_USB_EFEX_STATUS;			//ä¼ è¾“é˜¶æ®µï¼Œä¸‹ä¸€é˜¶æ®µä¼ è¾“çŠ¶æ€(csw)
 			}
 
 			break;
@@ -1712,8 +1712,8 @@ static int sunxi_efex_state_loop(void  *buffer)
                 {
                     sunxi_usb_efex_status = SUNXI_USB_EFEX_RECEIVE_DATA_NEW;
 
-                    sunxi_ubuf->request_size =  trans_data.recv_size;   //½ÓÊÕ³¤¶È
-                    sunxi_usb_efex_write_enable = 0;                //ÉèÖÃ±êÖ¾
+                    sunxi_ubuf->request_size =  trans_data.recv_size;   //æ¥æ”¶é•¿åº¦
+                    sunxi_usb_efex_write_enable = 0;                //è®¾ç½®æ ‡å¿—
                     if(sunxi_ubuf->request_size)
                     {
                         sunxi_usb_dbg("dma recv addr = 0x%x, size =0x%x\n", trans_data.act_recv_buffer,sunxi_ubuf->request_size);
@@ -1779,18 +1779,18 @@ static int sunxi_efex_state_loop(void  *buffer)
                 }
                 sunxi_usb_dbg("SUNXI_USB_RECEIVE_DATA_NEW\n");
 
-                //±íÊ¾µ±´ÎÊı¾İÒÑ¾­½ÓÊÕÍê³É
+                //è¡¨ç¤ºå½“æ¬¡æ•°æ®å·²ç»æ¥æ”¶å®Œæˆ
                 uint data_type = trans_data.type & SUNXI_EFEX_DATA_TYPE_MASK;
-                if(trans_data.type & SUNXI_EFEX_DRAM_MASK)      //±íÊ¾ÊôÓÚÄÚ´æÊı¾İ£¬ĞèÒªÊÂÏÈ±£´æµ½ÄÚ´æÖĞ
+                if(trans_data.type & SUNXI_EFEX_DRAM_MASK)      //è¡¨ç¤ºå±äºå†…å­˜æ•°æ®ï¼Œéœ€è¦äº‹å…ˆä¿å­˜åˆ°å†…å­˜ä¸­
                 {
                     sunxi_usb_dbg("SUNXI_EFEX_DRAM_MASK\n");
-                    if(trans_data.type & SUNXI_EFEX_TRANS_FINISH_TAG)   //±íÊ¾µ±Ç°ÀàĞÍÊı¾İÒÑ¾­½ÓÊÕÍê³É
+                    if(trans_data.type & SUNXI_EFEX_TRANS_FINISH_TAG)   //è¡¨ç¤ºå½“å‰ç±»å‹æ•°æ®å·²ç»æ¥æ”¶å®Œæˆ
                     {
                         dram_data_recv_finish(data_type);
                     }
-                    //Êı¾İ»¹Ã»ÓĞ½ÓÊÕÍê±Ï£¬µÈ´ı¼ÌĞø½ÓÊÕ
+                    //æ•°æ®è¿˜æ²¡æœ‰æ¥æ”¶å®Œæ¯•ï¼Œç­‰å¾…ç»§ç»­æ¥æ”¶
                 }
-                else        //±íÊ¾µ±Ç°Êı¾İĞèÒªĞ´Èëflash
+                else        //è¡¨ç¤ºå½“å‰æ•°æ®éœ€è¦å†™å…¥flash
                 {
                     sunxi_usb_dbg("SUNXI_EFEX_FLASH_MASK\n");
 #ifdef _EFEX_USE_BUF_QUEUE_

@@ -67,10 +67,10 @@ typedef struct
 {
 	const char *pmu_name;
 
-	int (* set_supply_status)  (int vol_name, int vol_value, int onoff);	//ÉèÖÃÊä³ö×´Ì¬£¬µçÑ¹ºÍ¿ª¹Ø
-	int (* set_supply_status_byname)(char *vol_type, int vol_value, int onoff);	//ÉèÖÃÊä³ö×´Ì¬£¬µçÑ¹ºÍ¿ª¹Ø
-	int (* probe_supply_status)(int vol_name, int vol_value, int onoff);    //»ñÈ¡Êä³ö×´Ì¬£¬µçÑ¹ºÍ¿ª¹Ø
-	int (* probe_supply_status_byname)(char *vol_name);                     //»ñÈ¡Êä³öµçÑ¹
+	int (* set_supply_status)  (int vol_name, int vol_value, int onoff);	//è®¾ç½®è¾“å‡ºçŠ¶æ€ï¼Œç”µå‹å’Œå¼€å…³
+	int (* set_supply_status_byname)(char *vol_type, int vol_value, int onoff);	//è®¾ç½®è¾“å‡ºçŠ¶æ€ï¼Œç”µå‹å’Œå¼€å…³
+	int (* probe_supply_status)(int vol_name, int vol_value, int onoff);    //è·å–è¾“å‡ºçŠ¶æ€ï¼Œç”µå‹å’Œå¼€å…³
+	int (* probe_supply_status_byname)(char *vol_name);                     //è·å–è¾“å‡ºç”µå‹
 
 	int (* set_next_sys_mode)(int status);
 	int (* probe_pre_sys_mode)(void);

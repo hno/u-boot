@@ -33,7 +33,7 @@ HTF    handle = NULL;
 *                    get_code_key
 *
 * Description:
-*     »ñµÃÃÜ³×
+*     è·å¾—å¯†åŒ™
 * Parameters:
 *     void
 * Return value:
@@ -47,7 +47,7 @@ int  get_code_key(uint * key_new, uint keylen)
 {
     uint  i = 0;
 
-    //ÔİÊ±ÓÃÃ÷ÎÄµÄkey£¬µÈÕÒµ½ºÃµÄËã·¨ÒÔºóÔÙÌæ»»
+    //æš‚æ—¶ç”¨æ˜æ–‡çš„keyï¼Œç­‰æ‰¾åˆ°å¥½çš„ç®—æ³•ä»¥åå†æ›¿æ¢
  //   _mem_cpy(key_new, key_old, keylen);
 
     key_new[0] = 5;
@@ -64,7 +64,7 @@ int  get_code_key(uint * key_new, uint keylen)
 *                    init_code
 *
 * Description:
-*     ¼ÓÃÜËã·¨³õÊ¼»¯
+*     åŠ å¯†ç®—æ³•åˆå§‹åŒ–
 * Parameters:
 *     void
 * Return value:
@@ -102,7 +102,7 @@ int  init_code(void)
 *                    encode
 *
 * Description:
-*     ¼ÓÃÜ
+*     åŠ å¯†
 * Parameters:
 *     ibuf  :  input.  originality buffer
 *     obuf  :  output. cryptograph buffer
@@ -126,7 +126,7 @@ uint  encode(void * ibuf, void * obuf, uint len)
 *                    decode
 *
 * Description:
-*     ½âÃÜ
+*     è§£å¯†
 * Parameters:
 *     ibuf  :  input.  originality buffer
 *     obuf  :  output. cryptograph buffer
@@ -163,7 +163,7 @@ uint  decode(void * ibuf, void * obuf, uint len)
 *                    exit_code
 *
 * Description:
-*     ¹Ø±Õ
+*     å…³é—­
 * Parameters:
 *     void
 * Return value:

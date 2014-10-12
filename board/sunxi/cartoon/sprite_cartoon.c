@@ -56,7 +56,7 @@ int sprite_cartoon_screen_set(void)
     return 0;
 #else
 	uint arg[4] = { 0 };
-	/* ³õÊ¼»¯Í¼ĞÎ²ÎÊı */
+	/* åˆå§‹åŒ–å›¾å½¢å‚æ•° */
 #if (defined CONFIG_ARCH_SUN9IW1P1) || (defined CONFIG_ARCH_SUN8IW5P1) || (defined CONFIG_ARCH_SUN8IW8P1)|| (defined CONFIG_ARCH_SUN8IW7P1) 
 	sprite_source.screen_width  = disp_ioctl(NULL, DISP_CMD_GET_SCN_WIDTH, (void*)arg);
 	sprite_source.screen_height = disp_ioctl(NULL, DISP_CMD_GET_SCN_HEIGHT, (void*)arg);

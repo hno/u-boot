@@ -52,7 +52,7 @@ int initqueue(queue *q, int each_size, int buffer_count)
     	return -1;
     }
 	memset(q, 0, sizeof(queue));
-    q->count = buffer_count;    //¶àÊ¹ÓÃÒ»¸öbuffer
+    q->count = buffer_count;    //å¤šä½¿ç”¨ä¸€ä¸ªbuffer
     q->size  = each_size;
     q->base_addr = (void *)malloc(buffer_count * each_size * 2);
     if(!q->base_addr)
@@ -179,7 +179,7 @@ void outqueue(queue *q, int *element)
 *
 *    return        :
 *
-*    note          :  ²ÉÓÃ±£ÁôÒ»¸öbuffer²»ÓÃµÄ°ì·¨£¬µ±Í·Î²Ö¸ÕëÖ¸ÏòÍ¬Ò»¸öbufferÊ±£¬±íÊ¾queueÎª¿Õ
+*    note          :  é‡‡ç”¨ä¿ç•™ä¸€ä¸ªbufferä¸ç”¨çš„åŠæ³•ï¼Œå½“å¤´å°¾æŒ‡é’ˆæŒ‡å‘åŒä¸€ä¸ªbufferæ—¶ï¼Œè¡¨ç¤ºqueueä¸ºç©º
 *
 *
 ************************************************************************************************************
@@ -199,7 +199,7 @@ int isqueueempty(queue *q)
 *
 *    return        :
 *
-*    note          :  ²ÉÓÃ±£ÁôÒ»¸öbuffer²»ÓÃµÄ°ì·¨£¬µ±Í·Î²Ö¸ÕëÔö¼Ó1¼´µÈÓÚÍ·Ö¸ÕëÊ±£¬±íÊ¾queueÎªÂú
+*    note          :  é‡‡ç”¨ä¿ç•™ä¸€ä¸ªbufferä¸ç”¨çš„åŠæ³•ï¼Œå½“å¤´å°¾æŒ‡é’ˆå¢åŠ 1å³ç­‰äºå¤´æŒ‡é’ˆæ—¶ï¼Œè¡¨ç¤ºqueueä¸ºæ»¡
 *
 *
 ************************************************************************************************************
@@ -226,8 +226,8 @@ int isqueuefull(queue *q)
 *
 *    return        :
 *
-*    note          :  ³¢ÊÔ´Ó¶ÓÁĞÖĞÈ¡³öÒ»¸öbuffer£¬Ğ´ÈëÊı¾İµ½bufferÖĞ
-*                     µ±È¡³ö³É¹¦£¬rearÖ¸Õë²»±ä
+*    note          :  å°è¯•ä»é˜Ÿåˆ—ä¸­å–å‡ºä¸€ä¸ªbufferï¼Œå†™å…¥æ•°æ®åˆ°bufferä¸­
+*                     å½“å–å‡ºæˆåŠŸï¼ŒrearæŒ‡é’ˆä¸å˜
 *
 ************************************************************************************************************
 */
@@ -240,9 +240,9 @@ int inqueue_query(queue *q, queue_data *qdata)
 	{
 		tmp_rear = 0;
 	}
-	if(q->front == tmp_rear)   //Âú×ãÊ±£¬queueÂú
+	if(q->front == tmp_rear)   //æ»¡è¶³æ—¶ï¼Œqueueæ»¡
 	{
-		//ÎŞ·¨Ê¹ÓÃrear´¦buffer
+		//æ— æ³•ä½¿ç”¨rearå¤„buffer
 		return -1;
 	}
 
@@ -261,7 +261,7 @@ int inqueue_query(queue *q, queue_data *qdata)
 *
 *    return        :
 *
-*    note          :  °Ñpickqueue_ex¹é»¹µ½buffer¶ÓÁĞÖĞ£¬rearÖ¸Õë¼Ó1
+*    note          :  æŠŠpickqueue_exå½’è¿˜åˆ°bufferé˜Ÿåˆ—ä¸­ï¼ŒrearæŒ‡é’ˆåŠ 1
 *
 *
 *
@@ -276,9 +276,9 @@ int inqueue_ex(queue *q)
 	{
 		tmp_rear = 0;
 	}
-	if(q->front == tmp_rear)   //¶ÓÁĞÒÑÂú
+	if(q->front == tmp_rear)   //é˜Ÿåˆ—å·²æ»¡
 	{
-		//ÎŞ·¨Ê¹ÓÃrear´¦buffer
+		//æ— æ³•ä½¿ç”¨rearå¤„buffer
 		return -1;
 	}
 	q->rear = tmp_rear;
@@ -296,7 +296,7 @@ int inqueue_ex(queue *q)
 *
 *    return        :
 *
-*    note          :  ²éÑ¯µ±Ç°front´¦bufferÊÇ·ñ¿ÉÓÃ£¬µ±¿ÉÓÃÊ±È¡³ö£¬frontÖ¸Õë²»±ä
+*    note          :  æŸ¥è¯¢å½“å‰frontå¤„bufferæ˜¯å¦å¯ç”¨ï¼Œå½“å¯ç”¨æ—¶å–å‡ºï¼ŒfrontæŒ‡é’ˆä¸å˜
 *
 *
 ************************************************************************************************************
@@ -305,9 +305,9 @@ int outqueue_query(queue *q, queue_data *qdata, queue_data *next_qdata)
 {
 	int next;
 
-	if(q->front == q->rear)   //Âú×ãÊ±£¬queue¿Õ
+	if(q->front == q->rear)   //æ»¡è¶³æ—¶ï¼Œqueueç©º
 	{
-		//ÎŞ·¨Ê¹ÓÃfront´¦buffer
+		//æ— æ³•ä½¿ç”¨frontå¤„buffer
 		return -1;
 	}
 	next = q->front + 1;
@@ -331,7 +331,7 @@ int outqueue_query(queue *q, queue_data *qdata, queue_data *next_qdata)
 *
 *    return        :
 *
-*    note          : °Ñqueryqueue_ex¹é»¹µ½buffer¶ÓÁĞÖĞ£¬frontÖ¸Õë¼Ó1
+*    note          : æŠŠqueryqueue_exå½’è¿˜åˆ°bufferé˜Ÿåˆ—ä¸­ï¼ŒfrontæŒ‡é’ˆåŠ 1
 *
 *
 ************************************************************************************************************
@@ -340,7 +340,7 @@ int outqueue_ex(queue *q)
 {
 	int tmp_front;
 
-	if(q->front == q->rear)   //Âú×ãÊ±£¬queue¿Õ£¬ÎŞ·¨ÍË³öµ±Ç°buffer
+	if(q->front == q->rear)   //æ»¡è¶³æ—¶ï¼Œqueueç©ºï¼Œæ— æ³•é€€å‡ºå½“å‰buffer
 	{
 		return -1;
 	}

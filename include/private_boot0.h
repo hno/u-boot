@@ -54,12 +54,12 @@ typedef struct _boot0_private_head_t
 	__u32                       prvt_head_size;
 	char                        prvt_head_vsn[4];       // the version of boot0_private_head_t
 	unsigned int                dram_para[32];;         // DRAM patameters for initialising dram. Original values is arbitrary,
-	__s32						uart_port;              // UART¿ØÖÆÆ÷±àºÅ
-	normal_gpio_cfg             uart_ctrl[2];           // UART¿ØÖÆÆ÷(µ÷ÊÔ´òÓ¡¿Ú)Êı¾İĞÅÏ¢
+	__s32						uart_port;              // UARTæ§åˆ¶å™¨ç¼–å·
+	normal_gpio_cfg             uart_ctrl[2];           // UARTæ§åˆ¶å™¨(è°ƒè¯•æ‰“å°å£)æ•°æ®ä¿¡æ¯
 	__s32                       enable_jtag;            // 1 : enable,  0 : disable
-    normal_gpio_cfg	            jtag_gpio[5];           // ±£´æJTAGµÄÈ«²¿GPIOĞÅÏ¢
-    normal_gpio_cfg             storage_gpio[32];       // ´æ´¢Éè±¸ GPIOĞÅÏ¢
-    char                        storage_data[512 - sizeof(normal_gpio_cfg) * 32];      // ÓÃ»§±£ÁôÊı¾İĞÅÏ¢
+    normal_gpio_cfg	            jtag_gpio[5];           // ä¿å­˜JTAGçš„å…¨éƒ¨GPIOä¿¡æ¯
+    normal_gpio_cfg             storage_gpio[32];       // å­˜å‚¨è®¾å¤‡ GPIOä¿¡æ¯
+    char                        storage_data[512 - sizeof(normal_gpio_cfg) * 32];      // ç”¨æˆ·ä¿ç•™æ•°æ®ä¿¡æ¯
     //boot_nand_connect_info_t    nand_connect_info;
 }boot0_private_head_t;
 

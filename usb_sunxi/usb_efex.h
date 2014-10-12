@@ -49,11 +49,11 @@
 
 #define SRAM_AREA_A				    0x00000000
 
-#define	PHOENIX_PRIV_DATA_LEN_NR	8								//2µÄ8´Î = 256
-#define PHOENIX_PRIV_DATA_ADDR	    (SRAM_AREA_A + 0x7e00)			//¸øphoenix±£ÁôµÄ¿Õ¼ä
-#define PHOENIX_PRIV_DATA_LEN	    (1 << PHOENIX_PRIV_DATA_LEN_NR)	//¿Õ¼ä´óÐ¡
+#define	PHOENIX_PRIV_DATA_LEN_NR	8								//2çš„8æ¬¡ = 256
+#define PHOENIX_PRIV_DATA_ADDR	    (SRAM_AREA_A + 0x7e00)			//ç»™phoenixä¿ç•™çš„ç©ºé—´
+#define PHOENIX_PRIV_DATA_LEN	    (1 << PHOENIX_PRIV_DATA_LEN_NR)	//ç©ºé—´å¤§å°
 
-//--hgl--´«Êä²ãµÄÃüÁî
+//--hgl--ä¼ è¾“å±‚çš„å‘½ä»¤
 typedef struct tag_TRANSFERDATA
 {
 	u8	direction;					///
@@ -64,12 +64,12 @@ typedef struct tag_TRANSFERDATA
 
 struct sunxi_efex_cbw_t
 {
-	u32	magic;				//±ØÐëÎªCBW_MAGIC
+	u32	magic;				//å¿…é¡»ä¸ºCBW_MAGIC
 	u32	tag;
-	u32	data_transfer_len;	//±íÊ¾±¾´Î´«ÊäµÄÊý¾Ý½×¶ÎÒª´«µÝµÄÊý¾Ý´óÐ¡
+	u32	data_transfer_len;	//è¡¨ç¤ºæœ¬æ¬¡ä¼ è¾“çš„æ•°æ®é˜¶æ®µè¦ä¼ é€’çš„æ•°æ®å¤§å°
 	u16	reserved_1;
 	u8	reserved_2;
-	u8	cmd_len;			//cmd_packageµÄÊµ¼ÊÓÐÐ§³¤¶È
+	u8	cmd_len;			//cmd_packageçš„å®žé™…æœ‰æ•ˆé•¿åº¦
 	//u8	cmd_package[CBW_MAX_CMD_SIZE];
 	tTransferData  cmd_package;
 }__attribute__ ((packed));
@@ -78,10 +78,10 @@ struct sunxi_efex_cbw_t
 #define CSW_TOTAL_LEN	13
 struct sunxi_efex_csw_t
 {
-	u32	magic;		//±ØÐëÎªCSW_MAGIC
+	u32	magic;		//å¿…é¡»ä¸ºCSW_MAGIC
 	u32	tag;
-	u32	residue;		//Ã»ÓÐ·¢ËÍ/½ÓÊÕµÄÊý¾Ý³¤¶È
-	u8	status;		//ÎªCSW_STATUS_PASS»ò	CSW_STATUS_FAIL
+	u32	residue;		//æ²¡æœ‰å‘é€/æŽ¥æ”¶çš„æ•°æ®é•¿åº¦
+	u8	status;		//ä¸ºCSW_STATUS_PASSæˆ–	CSW_STATUS_FAIL
 }__attribute__ ((packed));
 
 
@@ -100,7 +100,7 @@ struct sunxi_efex_csw_t
 #define TRANSPORT_INFO_IS_CONNECT_TRUE	0x01
 
 
-//==app layerÖ®¹«¹²ÃüÁî
+//==app layerä¹‹å…¬å…±å‘½ä»¤
 #define APP_LAYER_COMMEN_CMD_VERIFY_DEV			0x0001
 #define APP_LAYER_COMMEN_CMD_SWITCH_ROLE		0x0002
 #define APP_LAYER_COMMEN_CMD_IS_READY			0x0003
@@ -125,7 +125,7 @@ struct sunxi_efex_csw_t
 #define FEX_CMD_fes_unseqmem_read   			0x0212
 #define FEX_CMD_fes_unseqmem_write  			0x0213
 
-//¸÷¸öappÃüÁîµÄcmd,data²¿·Ö£¬status²¿·ÖÊÇ¹²ÓÃµÄ
+//å„ä¸ªappå‘½ä»¤çš„cmd,dataéƒ¨åˆ†ï¼Œstatuséƒ¨åˆ†æ˜¯å…±ç”¨çš„
 
 //====================verify_dev====================
 struct global_cmd_s
@@ -137,7 +137,7 @@ struct global_cmd_s
 
 struct verify_dev_cmd_s
 {
-	u16	app_cmd;					//±ØÐëÎªAPP_LAYER_COMMEN_CMD_VERIFY_DEV
+	u16	app_cmd;					//å¿…é¡»ä¸ºAPP_LAYER_COMMEN_CMD_VERIFY_DEV
 	u16	tag;
 	u8	reserved[12];
 }__attribute__ ((packed));
@@ -145,42 +145,42 @@ struct verify_dev_cmd_s
 
 struct verify_dev_data_s
 {
-	u8 tag[AL_VERIFY_DEV_TAG_LEN];	//±ØÐëÎªAL_VERIFY_DEV_TAG_DATA£¬ÓÃÀ´Çø·Ö
+	u8 tag[AL_VERIFY_DEV_TAG_LEN];	//å¿…é¡»ä¸ºAL_VERIFY_DEV_TAG_DATAï¼Œç”¨æ¥åŒºåˆ†
 	u32 platform_id_hw;
 	u32	platform_id_fw;
-	u16 mode;						//ÈçAL_VERIFY_DEV_MODE_NULL
+	u16 mode;						//å¦‚AL_VERIFY_DEV_MODE_NULL
 	u8 pho_data_flag;
 	u8 pho_data_len;				//
-	u32 pho_data_start_addr;		//phoenix dataµÄ start addr
+	u32 pho_data_start_addr;		//phoenix dataçš„ start addr
 	u8 reserved_2[8];
 }__attribute__ ((packed));
 
 //====================switch_role====================
 struct switch_role_cmd_s{
-	u16 app_cmd;					//±ØÐëÎªAPP_LAYER_COMMEN_CMD_SWITCH_ROLE
-	u16	state;						//ÈçAL_VERIFY_DEV_MODE_FEL
+	u16 app_cmd;					//å¿…é¡»ä¸ºAPP_LAYER_COMMEN_CMD_SWITCH_ROLE
+	u16	state;						//å¦‚AL_VERIFY_DEV_MODE_FEL
 	u8	reserved[12];
 };
 
 
 //====================is_ready====================
 struct is_ready_cmd_s{
-	u16	app_cmd;					//±ØÐëÎªAPP_LAYER_COMMEN_CMD_IS_READY
-	u16 	state;						//Ä¿±êstate,ÈçAL_VERIFY_DEV_MODE_FEL
+	u16	app_cmd;					//å¿…é¡»ä¸ºAPP_LAYER_COMMEN_CMD_IS_READY
+	u16 	state;						//ç›®æ ‡state,å¦‚AL_VERIFY_DEV_MODE_FEL
 	u8 reserved[12];
 }__attribute__ ((packed));
 
 #define AL_IS_READY_STATE_NULL		0x00	//
-#define AL_IS_READY_STATE_BUSY		0x01	//Ã¦£¬ÇëµÈ´ý
-#define AL_IS_READY_STATE_READY		0x02	//¾ÍÐ÷
-#define AL_IS_READY_STATE_FAIL			0x03	//Ê§°Ü
+#define AL_IS_READY_STATE_BUSY		0x01	//å¿™ï¼Œè¯·ç­‰å¾…
+#define AL_IS_READY_STATE_READY		0x02	//å°±ç»ª
+#define AL_IS_READY_STATE_FAIL			0x03	//å¤±è´¥
 
 struct is_ready_data_s
 {
-	u16	state;						//µ±Ç°Ëù´¦µÄ×´Ì¬£¬ÈçAL_IS_READY_STATE_READY
-	u16	interval_ms;					//ÏÂ´Î·¢ËÍis_readyÃüÁîµÄÑÓÊ±£¬µ¥Î»Îªms
-									//ÍÆ¼öÎª500 ~2000 £¬¸Ã×Ö¶ÎÖ»ÓÐµ±
-									//state == AL_IS_READY_STATE_BUSYÊ±ºò²ÅÓÐÐ§
+	u16	state;						//å½“å‰æ‰€å¤„çš„çŠ¶æ€ï¼Œå¦‚AL_IS_READY_STATE_READY
+	u16	interval_ms;					//ä¸‹æ¬¡å‘é€is_readyå‘½ä»¤çš„å»¶æ—¶ï¼Œå•ä½ä¸ºms
+									//æŽ¨èä¸º500 ~2000 ï¼Œè¯¥å­—æ®µåªæœ‰å½“
+									//state == AL_IS_READY_STATE_BUSYæ—¶å€™æ‰æœ‰æ•ˆ
 	u8	reserved[12];
 }__attribute__ ((packed));
 
@@ -188,17 +188,17 @@ struct is_ready_data_s
 //====================get_cmd_set_ver====================
 struct get_cmd_set_ver_cmd_s
 {
-	u16	app_cmd;			//±ØÐëÎªAPP_LAYER_COMMEN_CMD_GET_CMD_SET_VER
+	u16	app_cmd;			//å¿…é¡»ä¸ºAPP_LAYER_COMMEN_CMD_GET_CMD_SET_VER
 	u16	tag;
-	u16	state;				//Òª²éÑ¯cmd_setµÄstate
+	u16	state;				//è¦æŸ¥è¯¢cmd_setçš„state
 	u8	reserved[10];
 }__attribute__ ((packed));
 
 
 struct get_cmd_set_ver_data_s
 {
-	u16	ver_high;		//versionµÄ¸ßword²¿·Ö
-	u16	ver_low;		//versionµÄµÍword²¿·Ö
+	u16	ver_high;		//versionçš„é«˜wordéƒ¨åˆ†
+	u16	ver_low;		//versionçš„ä½Žwordéƒ¨åˆ†
 	u8	reserved[12];
 
 }__attribute__ ((packed));
@@ -237,14 +237,14 @@ typedef struct tag_fes_trans_old
 	u32	len;				///
 	struct
 	{
-		u8	logicunit_index : 4;	///µÍ4±ÈÌØ
-		u8	media_index     : 4;	///¸ß4±ÈÌØ
+		u8	logicunit_index : 4;	///ä½Ž4æ¯”ç‰¹
+		u8	media_index     : 4;	///é«˜4æ¯”ç‰¹
 	}u1;
 	struct
 	{
-		u8	res		: 4;	///µÍ4±ÈÌØ
-		u8	DOU		: 2;	///ÖÐ¼ä2±ÈÌØ ±êÊ¶ Download Or Upload
-		u8	OOC     : 2;	///¸ß2±ÈÌØ
+		u8	res		: 4;	///ä½Ž4æ¯”ç‰¹
+		u8	DOU		: 2;	///ä¸­é—´2æ¯”ç‰¹ æ ‡è¯† Download Or Upload
+		u8	OOC     : 2;	///é«˜2æ¯”ç‰¹
 	}u2;
 	u8	reserved[2];		///
 }fes_trans_old_t;
@@ -272,10 +272,10 @@ typedef struct tag_fes_cmd_verify_status_s
 
 typedef  struct  tag_efex_verify_s
 {
-    u32  flag;				//±êÖ¾crc¼ÆËãÍê³É, ¹Ì¶¨Îª0x6a617603
+    u32  flag;				//æ ‡å¿—crcè®¡ç®—å®Œæˆ, å›ºå®šä¸º0x6a617603
 
-    s32  fes_crc;			//fes½ÓÊÕÊý¾ÝµÄcrc
-    s32  media_crc;         //mediaÊý¾ÝµÄcrc
+    s32  fes_crc;			//fesæŽ¥æ”¶æ•°æ®çš„crc
+    s32  media_crc;         //mediaæ•°æ®çš„crc
 }fes_efex_verify_t;
 
 typedef struct tag_FES_RUN
@@ -359,15 +359,15 @@ struct multi_unseq_mem_s
 
 typedef struct
 {
-	uint type;			//´æ´¢ÄÚÐÍ£¬¼ûÏÂÃæµÄºê¶¨Òå
-	uchar *base_recv_buffer;		//´æ·Å½ÓÊÕµ½µÄÊý¾ÝµÄÊ×µØÖ·£¬±ØÐë×ã¹»´ó
+	uint type;			//å­˜å‚¨å†…åž‹ï¼Œè§ä¸‹é¢çš„å®å®šä¹‰
+	uchar *base_recv_buffer;		//å­˜æ”¾æŽ¥æ”¶åˆ°çš„æ•°æ®çš„é¦–åœ°å€ï¼Œå¿…é¡»è¶³å¤Ÿå¤§
 	uint   act_recv_buffer;//
 	uint   recv_size;
 	uint   to_be_recved_size;
-	uchar *base_send_buffer;		//´æ·Å½«Òªµ½µÄÊý¾ÝµÄÊ×µØÖ·£¬±ØÐë×ã¹»´ó
+	uchar *base_send_buffer;		//å­˜æ”¾å°†è¦åˆ°çš„æ•°æ®çš„é¦–åœ°å€ï¼Œå¿…é¡»è¶³å¤Ÿå¤§
 	uint   act_send_buffer;//
-	uint   send_size;		//ÐèÒª·¢ËÍÊý¾ÝµÄ³¤¶È
-	uint   flash_start;			//ÆðÊ¼Î»ÖÃ£¬¿ÉÄÜÊÇÄÚ´æ£¬Ò²¿ÉÄÜÊÇflashÉÈÇø
+	uint   send_size;		//éœ€è¦å‘é€æ•°æ®çš„é•¿åº¦
+	uint   flash_start;			//èµ·å§‹ä½ç½®ï¼Œå¯èƒ½æ˜¯å†…å­˜ï¼Œä¹Ÿå¯èƒ½æ˜¯flashæ‰‡åŒº
 	uint   flash_sectors;
 	uint   dram_trans_buffer;
 	int  last_err;

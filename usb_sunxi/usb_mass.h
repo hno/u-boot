@@ -68,14 +68,14 @@ const unsigned char RequestSense[20] = {0x07,0x00,0x02,0x00,0x00,0x00,0x00,0x0a,
 
 typedef struct
 {
-	uchar *base_recv_buffer;		//存放接收到的数据的首地址，必须足够大
+	uchar *base_recv_buffer;		//瀛樻斁鎺ユ敹鍒扮殑鏁版嵁鐨勯鍦板潃锛屽繀椤昏冻澶熷ぇ
 	uint   act_recv_buffer;//
 	uint   recv_size;
 	uint   to_be_recved_size;
-	uchar *base_send_buffer;		//存放将要到的数据的首地址，必须足够大
+	uchar *base_send_buffer;		//瀛樻斁灏嗚鍒扮殑鏁版嵁鐨勯鍦板潃锛屽繀椤昏冻澶熷ぇ
 	uint   act_send_buffer;//
-	uint   send_size;		//需要发送数据的长度
-	uint   flash_start;			//起始位置，可能是内存，也可能是flash扇区
+	uint   send_size;		//闇�瑕佸彂閫佹暟鎹殑闀垮害
+	uint   flash_start;			//璧峰浣嶇疆锛屽彲鑳芥槸鍐呭瓨锛屼篃鍙兘鏄痜lash鎵囧尯
 	uint   flash_sectors;
 }
 mass_trans_set_t;

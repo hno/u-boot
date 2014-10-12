@@ -36,13 +36,13 @@ extern int boot_standby_action;
 *
 *                                             function
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜Ž    ï¼š
 *
 *
 ************************************************************************************************************
@@ -62,7 +62,7 @@ static void power_int_irq(void *p_arg)
 		tick_printf("int status %d %x\n", i, power_int_status[i]);
 	}
 #endif
-	if(power_int_status[0] & 0x48)   //Íâ²¿µçÔ´²åÈë
+	if(power_int_status[0] & 0x48)   //å¤–éƒ¨ç”µæºæ’å…¥
 	{
 		axp_power_get_dcin_battery_exist(&dc_exist, &bat_exist);
 		if(dc_exist)
@@ -72,7 +72,7 @@ static void power_int_irq(void *p_arg)
 			boot_standby_action |= 0x04;
 		}
 	}
-	if(power_int_status[0] & 0x8)   //usb ²åÈëÖÐ¶Ï£¬Æô¶¯usb¼ì²â
+	if(power_int_status[0] & 0x8)   //usb æ’å…¥ä¸­æ–­ï¼Œå¯åŠ¨usbæ£€æµ‹
 	{
 		tick_printf("usb in\n");
 		boot_standby_action |= 8;
@@ -85,13 +85,13 @@ static void power_int_irq(void *p_arg)
 		boot_standby_action |= 0x10;
 		usb_detect_exit();
 	}
-	if(power_int_status[2] & 0x2)	//¶Ì°´¼ü
+	if(power_int_status[2] & 0x2)	//çŸ­æŒ‰é”®
 	{
 		tick_printf("short key\n");
 		boot_standby_action |= 2;
 
 	}
-	if(power_int_status[2] & 0x1)	//³¤°´¼ü
+	if(power_int_status[2] & 0x1)	//é•¿æŒ‰é”®
 	{
 		tick_printf("long key\n");
 		boot_standby_action |= 1;
@@ -104,13 +104,13 @@ static void power_int_irq(void *p_arg)
 *
 *                                             function
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜Ž    ï¼š
 *
 *
 ************************************************************************************************************
@@ -136,13 +136,13 @@ void power_limit_detect_enter(void)
 *
 *                                             function
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜Ž    ï¼š
 *
 *
 ************************************************************************************************************
@@ -160,18 +160,18 @@ void power_limit_detect_exit(void)
 *
 *                                             function
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜Ž    ï¼š
 *
 *
 ************************************************************************************************************
 */
-int __usb_probe_vbus_type(void)		//Èç¹ûÃ»ÓÐÉùÃ÷£¬Ä¬ÈÏÎªpcÀàÐÍµçÔ´
+int __usb_probe_vbus_type(void)		//å¦‚æžœæ²¡æœ‰å£°æ˜Žï¼Œé»˜è®¤ä¸ºpcç±»åž‹ç”µæº
 {
 	return 0;
 }
@@ -190,7 +190,7 @@ void power_limit_init(void)
 
 	do
 	{
-		axp_power_get_dcin_battery_exist(&dcin_exist, &battery_exist);//ÅÐ¶Ïµç³ØÊÇ·ñ´æÔÚ
+		axp_power_get_dcin_battery_exist(&dcin_exist, &battery_exist);//åˆ¤æ–­ç”µæ± æ˜¯å¦å­˜åœ¨
 		if(battery_exist >= 0)
 		{
 			break;
@@ -200,7 +200,7 @@ void power_limit_init(void)
 	}
 	while(i < 4);
 
-	if(battery_exist != BATTERY_EXIST)			//µç³Ø²»´æÔÚ£¬ÔòÖ±½ÓÏÞÁ÷µ½DCÄ£Ê½
+	if(battery_exist != BATTERY_EXIST)			//ç”µæ± ä¸å­˜åœ¨ï¼Œåˆ™ç›´æŽ¥é™æµåˆ°DCæ¨¡å¼
 	{
 		axp_set_vbus_limit_dc();
 		puts("no battery, limit to dc\n");
@@ -208,7 +208,7 @@ void power_limit_init(void)
 		return ;
 	}
 
-	if(dcin_exist == AXP_DCIN_EXIST)		//Èç¹ûÆÕÍ¨Íâ²¿µçÔ´´æÔÚ£¬²»ÊÇVBUSÀàÐÍ
+	if(dcin_exist == AXP_DCIN_EXIST)		//å¦‚æžœæ™®é€šå¤–éƒ¨ç”µæºå­˜åœ¨ï¼Œä¸æ˜¯VBUSç±»åž‹
 	{
 		axp_set_vbus_limit_dc();
 		puts("normal dc exist, limit to dc\n");
@@ -216,25 +216,25 @@ void power_limit_init(void)
 		return ;
 	}
 
-	if(dcin_exist == AXP_VBUS_EXIST)		//Èç¹ûVBUSµçÔ´´æÔÚ
+	if(dcin_exist == AXP_VBUS_EXIST)		//å¦‚æžœVBUSç”µæºå­˜åœ¨
 	{
 		vbus_type = usb_probe_vbus_type();
 
-		if(vbus_type == 1)					//ÊôÓÚdcÀàÐÍµçÔ´
+		if(vbus_type == 1)					//å±žäºŽdcç±»åž‹ç”µæº
 		{
-			axp_set_vbus_limit_dc();    //dp_dm À­¸ß
+			axp_set_vbus_limit_dc();    //dp_dm æ‹‰é«˜
 			puts("vbus dc exist, limit to dc\n");
 		}
 		else
 		{
-			axp_set_vbus_limit_pc();    //dp_dm À­µÍ
+			axp_set_vbus_limit_pc();    //dp_dm æ‹‰ä½Ž
 			puts("vbus pc exist, limit to pc\n");
 		}
 
 		return ;
 	}
 
-	axp_set_vbus_limit_dc();				//Ö»ÓÐµç³Ø´æÔÚ
+	axp_set_vbus_limit_dc();				//åªæœ‰ç”µæ± å­˜åœ¨
 	puts("only battery exist, limit to dc\n");
 
 	return ;

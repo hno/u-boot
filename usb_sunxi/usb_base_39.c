@@ -102,7 +102,7 @@ void sunxi_usb_irq(void *data)
 *
 *    return        :
 *
-*    note          :   usb³õÊ¼»¯¶¯×÷£¬Íê³Éºó£¬¼´¿É¿ªÆôÖĞ¶Ïºó£¬Ê¹ÓÃÖĞ¶Ï´¦Àí³ÌĞò
+*    note          :   usbåˆå§‹åŒ–åŠ¨ä½œï¼Œå®Œæˆåï¼Œå³å¯å¼€å¯ä¸­æ–­åï¼Œä½¿ç”¨ä¸­æ–­å¤„ç†ç¨‹åº
 *
 *
 ************************************************************************************************************
@@ -115,9 +115,9 @@ int sunxi_usb_init(int delaytime)
 
 		return -1;
 	}
-	//Ô¤ÏÈ¹Ø±ÕusbÖĞ¶Ï
+	//é¢„å…ˆå…³é—­usbä¸­æ–­
 	irq_disable(AW_IRQ_USB_OTG);
-	//³õÊ¼»¯ sunxi_udcÓÃµ½µÄ×ÊÔ´
+	//åˆå§‹åŒ– sunxi_udcç”¨åˆ°çš„èµ„æº
     memset(&sunxi_udc_source, 0, sizeof(sunxi_udc_t));
     sunxi_udc_source.standard_reg = (struct usb_device_request *)malloc_noncache(sizeof(struct usb_device_request));
     if(!sunxi_udc_source.standard_reg)
@@ -126,14 +126,14 @@ int sunxi_usb_init(int delaytime)
 
     	return -1;
     }
-	//¶Ï¿ªusb
+	//æ–­å¼€usb
 	SUSB_Dev_ConectSwitch(USBC_DEVICE_SWITCH_OFF);
-	//Ô¤ÏÈ¹Ø±ÕusbÊ±ÖÓ
+	//é¢„å…ˆå…³é—­usbæ—¶é’Ÿ
 	usb_close_clock();
-	//ÑÓÊ± delaytime ms
+	//å»¶æ—¶ delaytime ms
 	__msdelay(delaytime);
 
-	//¼Ù¶¨usbÔËĞĞÔÚ¸ßËÙÄ£Ê½ÏÂ
+	//å‡å®šusbè¿è¡Œåœ¨é«˜é€Ÿæ¨¡å¼ä¸‹
 	sunxi_udc_source.address = 0;
 	sunxi_udc_source.speed = USB_SPEED_HIGH;
 
@@ -166,13 +166,13 @@ int sunxi_usb_init(int delaytime)
     SUSB_Event_Buffers_Setup(usb_mem_cfg.event_buf[0]);
     //Make sure that USB Disconnect
     SUSB_Dev_ConectSwitch(USBC_DEVICE_SWITCH_OFF);
-	//ÉèÖÃÎªdeviceÄ£Ê½
+	//è®¾ç½®ä¸ºdeviceæ¨¡å¼
     SUSB_Force_Role(USBC_ID_TYPE_DEVICE);
     //Enable Phy
     SUSB_Dev_PHY_Config(1, USBC_TS_MODE_HS);
     //Config FIFO Size
     SUSB_Config_Dev_Size();
-	//¼ÓÇ¿ĞÅºÅµÄÇı¶¯ÄÜÁ¦
+	//åŠ å¼ºä¿¡å·çš„é©±åŠ¨èƒ½åŠ›
     SUSB_EnhanceSignal();
 	//Select Speed Mode: default high speed
 #if defined(CONFIG_SUSB_1_1_DEVICE)

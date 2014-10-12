@@ -169,10 +169,10 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 {
 	int ret = SUNXI_USB_REQ_SUCCESSED;
 
-	//»ñÈ¡ÃèÊö·û
+	//èŽ·å–æè¿°ç¬¦
 	switch(req->wValue >> 8)
 	{
-		case USB_DT_DEVICE:		//Éè±¸ÃèÊö·û
+		case USB_DT_DEVICE:		//è®¾å¤‡æè¿°ç¬¦
 		{
 			struct usb_device_descriptor *dev_dscrptr;
 
@@ -188,7 +188,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 #else
 			dev_dscrptr->bcdUSB             = 0x200;
 #endif
-			dev_dscrptr->bDeviceClass       = 0xff;		//Éè±¸Àà£º´óÈÝÁ¿´æ´¢
+			dev_dscrptr->bDeviceClass       = 0xff;		//è®¾å¤‡ç±»ï¼šå¤§å®¹é‡å­˜å‚¨
 			dev_dscrptr->bDeviceSubClass    = 0xff;
 			dev_dscrptr->bDeviceProtocol    = 0xff;
 			dev_dscrptr->bMaxPacketSize0    = 0x40;
@@ -204,7 +204,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 		}
 		break;
 
-		case USB_DT_CONFIG:		//ÅäÖÃÃèÊö·û
+		case USB_DT_CONFIG:		//é…ç½®æè¿°ç¬¦
 		{
 			struct usb_configuration_descriptor *config_dscrptr;
 			struct usb_interface_descriptor 	*inter_dscrptr;
@@ -240,7 +240,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 			config_dscrptr->bConfigurationValue	= 1;
 			config_dscrptr->iConfiguration     	= SUNXI_FASTBOOT_DEVICE_STRING_CONFIG_INDEX;
 			config_dscrptr->bmAttributes       	= 0xC0;
-			config_dscrptr->bMaxPower          	= 0xFA;		//×î´óµçÁ÷500ms(0xfa * 2)
+			config_dscrptr->bMaxPower          	= 0xFA;		//æœ€å¤§ç”µæµ500ms(0xfa * 2)
 
 			bytes_remaining 				   -= config_dscrptr->bLength;
 			/* interface */
@@ -1080,7 +1080,7 @@ static void sunxi_fastboot_reset(void)
 static void  sunxi_fastboot_usb_rx_dma_isr(void *p_arg)
 {
 	printf("dma int for usb rx occur\n");
-	//Í¨ÖªÖ÷Ñ­»·£¬¿ÉÒÔÐ´ÈëÊý¾Ý
+	//é€šçŸ¥ä¸»å¾ªçŽ¯ï¼Œå¯ä»¥å†™å…¥æ•°æ®
 	sunxi_usb_fastboot_write_enable = 1;
 }
 /*
@@ -1302,7 +1302,7 @@ static int sunxi_fastboot_state_loop(void  *buffer)
 	  	case SUNXI_USB_FASTBOOT_RECEIVE_DATA:
 
 	  		//tick_printf("SUNXI_USB_FASTBOOT_RECEIVE_DATA\n");
-	  		if((fastboot_data_flag == 1) && ((char *)sunxi_ubuf->rx_req_buffer == all_download_bytes + trans_data.base_recv_buffer))	//´«ÊäÍê±Ï
+	  		if((fastboot_data_flag == 1) && ((char *)sunxi_ubuf->rx_req_buffer == all_download_bytes + trans_data.base_recv_buffer))	//ä¼ è¾“å®Œæ¯•
 	  		{
 	  			tick_printf("fastboot transfer finish\n");
 	  			fastboot_data_flag = 0;

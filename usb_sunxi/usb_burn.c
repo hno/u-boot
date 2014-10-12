@@ -161,10 +161,10 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 {
 	int ret = SUNXI_USB_REQ_SUCCESSED;
 
-	//»ñÈ¡ÃèÊö·û
+	//è·å–æè¿°ç¬¦
 	switch(req->wValue >> 8)
 	{
-		case USB_DT_DEVICE:		//Éè±¸ÃèÊö·û
+		case USB_DT_DEVICE:		//è®¾å¤‡æè¿°ç¬¦
 		{
 			struct usb_device_descriptor *dev_dscrptr;
 
@@ -180,7 +180,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 #else
 			dev_dscrptr->bcdUSB             = 0x200;
 #endif
-			dev_dscrptr->bDeviceClass       = 0;		//Éè±¸Àà£º´óÈİÁ¿´æ´¢
+			dev_dscrptr->bDeviceClass       = 0;		//è®¾å¤‡ç±»ï¼šå¤§å®¹é‡å­˜å‚¨
 			dev_dscrptr->bDeviceSubClass    = 0;
 			dev_dscrptr->bDeviceProtocol    = 0;
 			dev_dscrptr->bMaxPacketSize0    = 0x40;
@@ -196,7 +196,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 		}
 		break;
 
-		case USB_DT_CONFIG:		//ÅäÖÃÃèÊö·û
+		case USB_DT_CONFIG:		//é…ç½®æè¿°ç¬¦
 		{
 			struct usb_configuration_descriptor *config_dscrptr;
 			struct usb_interface_descriptor 	*inter_dscrptr;
@@ -232,7 +232,7 @@ static int __usb_get_descriptor(struct usb_device_request *req, uchar *buffer)
 			config_dscrptr->bConfigurationValue	= 1;
 			config_dscrptr->iConfiguration     	= 0;
 			config_dscrptr->bmAttributes       	= 0xc0;
-			config_dscrptr->bMaxPower          	= 0xFA;		//×î´óµçÁ÷500ms(0xfa * 2)
+			config_dscrptr->bMaxPower          	= 0xFA;		//æœ€å¤§ç”µæµ500ms(0xfa * 2)
 
 			bytes_remaining 				   -= config_dscrptr->bLength;
 			/* interface */
@@ -522,7 +522,7 @@ static void sunxi_pburn_reset(void)
 static void  sunxi_pburn_usb_rx_dma_isr(void *p_arg)
 {
 	sunxi_usb_dbg("dma int for usb rx occur\n");
-	//Í¨ÖªÖ÷Ñ­»·£¬¿ÉÒÔĞ´ÈëÊı¾İ
+	//é€šçŸ¥ä¸»å¾ªç¯ï¼Œå¯ä»¥å†™å…¥æ•°æ®
 	sunxi_usb_pburn_write_enable = 1;
 }
 /*
@@ -638,7 +638,7 @@ static int sunxi_pburn_nonstandard_req_op(uint cmd, struct usb_device_request *r
 {
 	int ret = SUNXI_USB_REQ_SUCCESSED;
 
-	switch(req->bmRequestType)		//PBURN ÌØÓĞÇëÇó
+	switch(req->bmRequestType)		//PBURN ç‰¹æœ‰è¯·æ±‚
 	{
 		case 161:
 			if(req->bRequest == 0xFE)
@@ -783,9 +783,9 @@ static int sunxi_pburn_state_loop(void  *buffer)
 					sunxi_usb_dbg("asked size 0x%x\n", cbw->dCBWDataTransferLength);
 					{
 						trans_data.base_send_buffer[0] = 3;
-						trans_data.base_send_buffer[1] = 0;		//½éÖÊÀàĞÍ£¬Îª0
-						trans_data.base_send_buffer[2] = 0;		//Éè±¸±êÊ¶²ÎÊı, Îª0
-						trans_data.base_send_buffer[3] = 0;		//¿éÃèÊö·û³¤¶È£¬¿ÉÒÔÎª0
+						trans_data.base_send_buffer[1] = 0;		//ä»‹è´¨ç±»å‹ï¼Œä¸º0
+						trans_data.base_send_buffer[2] = 0;		//è®¾å¤‡æ ‡è¯†å‚æ•°, ä¸º0
+						trans_data.base_send_buffer[3] = 0;		//å—æè¿°ç¬¦é•¿åº¦ï¼Œå¯ä»¥ä¸º0
 
 						trans_data.act_send_buffer = (uint)trans_data.base_send_buffer;
 						trans_data.send_size = min(cbw->dCBWDataTransferLength, 4);
@@ -881,12 +881,12 @@ static int sunxi_pburn_state_loop(void  *buffer)
 
 	  				break;
 
-	  			case 0xf3:			//×Ô¶¨ÒåÃüÁî£¬ÓÃÓÚÉÕÂ¼ÓÃ»§Êı¾İ
+	  			case 0xf3:			//è‡ªå®šä¹‰å‘½ä»¤ï¼Œç”¨äºçƒ§å½•ç”¨æˆ·æ•°æ®
 	  				sunxi_usb_dbg("usb burn private\n");
 	  				printf("usb command = %d\n", cbw->CBWCDB[1]);
 	  				switch(cbw->CBWCDB[1])
 	  				{
-	  					case 0:				//ÎÕÊÖ
+	  					case 0:				//æ¡æ‰‹
 	  					{
 	  						__usb_handshake_t  *handshake = (__usb_handshake_t *)trans_data.base_send_buffer;
 
@@ -903,7 +903,7 @@ static int sunxi_pburn_state_loop(void  *buffer)
 						}
 						break;
 
-						case 1:				//Ğ¡»ú¶Ë½ÓÊÕÊı¾İ
+						case 1:				//å°æœºç«¯æ¥æ”¶æ•°æ®
 						{
 							pburn_flash_sectors  = *(int *)(cbw->CBWCDB + 8);
 							pburn_flash_start    = *(int *)(cbw->CBWCDB + 4);
@@ -919,7 +919,7 @@ static int sunxi_pburn_state_loop(void  *buffer)
 						}
 						break;
 
-						case 2:				//¹Ø±Õusb
+						case 2:				//å…³é—­usb
 						{
 							__usb_handshake_t  *handshake = (__usb_handshake_t *)trans_data.base_send_buffer;
 
@@ -939,13 +939,13 @@ static int sunxi_pburn_state_loop(void  *buffer)
 						}
 						break;
 
-						case 3:             //Ğ¡»ú¶Ë·¢ËÍÊı¾İ
+						case 3:             //å°æœºç«¯å‘é€æ•°æ®
 						{
 							uint start, sectors;
 							uint offset;
 
-							start   = *(int *)(cbw->CBWCDB + 4);		//¶ÁÊı¾İµÄÆ«ÒÆÁ¿
-							sectors = *(int *)(cbw->CBWCDB + 8);		//ÉÈÇøÊı;
+							start   = *(int *)(cbw->CBWCDB + 4);		//è¯»æ•°æ®çš„åç§»é‡
+							sectors = *(int *)(cbw->CBWCDB + 8);		//æ‰‡åŒºæ•°;
 
 							trans_data.send_size 	   = min(cbw->dCBWDataTransferLength, sectors * 512);
 							trans_data.act_send_buffer = (uint)trans_data.base_send_buffer;

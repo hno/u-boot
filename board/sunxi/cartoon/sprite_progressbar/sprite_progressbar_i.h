@@ -27,20 +27,20 @@
 
 typedef struct  _progressbar_t
 {
-	int  x1;					//×óÉÏ½Çx×ø±ê
-	int  y1;					//×óÉÏ½Çy×ø±ê
-	int  x2;					//ÓÒÏÂ½Çx×ø±ê
-	int  y2;					//ÓÒÏÂ½Çy×ø±ê
-	int  st_x;					//ÄÚ²¿ÆğÊ¼µãµÄx×ø±ê
-	int  st_y;					//ÄÚ²¿ÆğÊ¼µãµÄy×ø±ê
-	int  pr_x;					//µ±Ç°½ø¶ÈËùÔÚµÄx×ø±ê
-	int  pr_y;					//ÎŞĞ§
-	int  thick;					//¿òµÄºñ¶È£¬±ßÔµºñ¶È
-	int  width;					//ÕûÌå¿í¶È
-	int  height;				//ÕûÌå¸ß¶È
-	int  frame_color;			//±ß¿òÑÕÉ«
-	int  progress_color;		//ÄÚ²¿ÑÕÉ«
-	int  progress_ratio;		//µ±Ç°½ø¶È°Ù·Ö±È
+	int  x1;					//å·¦ä¸Šè§’xåæ ‡
+	int  y1;					//å·¦ä¸Šè§’yåæ ‡
+	int  x2;					//å³ä¸‹è§’xåæ ‡
+	int  y2;					//å³ä¸‹è§’yåæ ‡
+	int  st_x;					//å†…éƒ¨èµ·å§‹ç‚¹çš„xåæ ‡
+	int  st_y;					//å†…éƒ¨èµ·å§‹ç‚¹çš„yåæ ‡
+	int  pr_x;					//å½“å‰è¿›åº¦æ‰€åœ¨çš„xåæ ‡
+	int  pr_y;					//æ— æ•ˆ
+	int  thick;					//æ¡†çš„åšåº¦ï¼Œè¾¹ç¼˜åšåº¦
+	int  width;					//æ•´ä½“å®½åº¦
+	int  height;				//æ•´ä½“é«˜åº¦
+	int  frame_color;			//è¾¹æ¡†é¢œè‰²
+	int  progress_color;		//å†…éƒ¨é¢œè‰²
+	int  progress_ratio;		//å½“å‰è¿›åº¦ç™¾åˆ†æ¯”
 }
 progressbar_t;
 

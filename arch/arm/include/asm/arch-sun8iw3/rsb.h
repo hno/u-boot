@@ -104,7 +104,7 @@
 #define RSB_TERR_INT		(1U << 1)
 #define RSB_LBSY_INT		(1U << 2)
 #define RSB_TRANS_ERR_ID	(0xFF<<8)
-#define RSB_TRANS_ERR_ID1	(0xFF<<16)//8¡¯b00000001 ¨C no ack
+#define RSB_TRANS_ERR_ID1	(0xFF<<16)//8â€™b00000001 â€“ no ack
 
 #define RSB_PMU_INIT		(1U << 31)
 
@@ -163,7 +163,7 @@
 #define RSB_WRITE_FLAG	(0<<4)
 
 
-#define PMU_INIT_DAT_SHIFT		(16)//Value of PMU¡¯s initial data
+#define PMU_INIT_DAT_SHIFT		(16)//Value of PMUâ€™s initial data
 #define PMU_MOD_REG_ADDR_SHIFT	(8)//PMU MODE Control Register Address
 
 #define ERR_TRANS_1ST_BYTE		(0x1)//error happened with the transmission of the 1st byte of data

@@ -179,13 +179,13 @@ int sunxi_codec_start(void *buffer, uint length, uint loop_mode)
 	}
 
 	dma_cfg.cfg.src_drq_type 	 = DMAC_CFG_DEST_TYPE_DRAM;
-	dma_cfg.cfg.src_addr_mode 	 = 0;		//Ô´¶ËµØÖ·ÏßĞÔµİÔö
+	dma_cfg.cfg.src_addr_mode 	 = 0;		//æºç«¯åœ°å€çº¿æ€§é€’å¢
 	dma_cfg.cfg.src_burst_length = 0;		//burst = 1
-	dma_cfg.cfg.src_data_width   = 1;    	//Ò»´Î´«Êä16bit
+	dma_cfg.cfg.src_data_width   = 1;    	//ä¸€æ¬¡ä¼ è¾“16bit
 	dma_cfg.cfg.dst_drq_type     = DMAC_CFG_SRC_TYPE_CODEC;
-	dma_cfg.cfg.dst_addr_mode    = 1;    	//Ä¿µÄ¶ËµØÖ·²»±ä
+	dma_cfg.cfg.dst_addr_mode    = 1;    	//ç›®çš„ç«¯åœ°å€ä¸å˜
 	dma_cfg.cfg.dst_burst_length = 0;		//burst = 1
-	dma_cfg.cfg.dst_data_width   = 1;    	//Ò»´Î½ÓÊÕ16bit
+	dma_cfg.cfg.dst_data_width   = 1;    	//ä¸€æ¬¡æ¥æ”¶16bit
 
 	dma_cfg.loop_mode = loop_mode;
 	dma_cfg.wait_cyc  = 4;

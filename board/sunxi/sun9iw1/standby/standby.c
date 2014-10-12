@@ -56,13 +56,13 @@ int boot_standby_mode(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -73,9 +73,9 @@ static int boot_early_standby_mode(void)
 	__s32 key_status, usb_status;
 	__s32 status;
 
-	//¼ì²éÊÇ·ñÓĞ°´¼ü°´ÏÂ
+	//æ£€æŸ¥æ˜¯å¦æœ‰æŒ‰é”®æŒ‰ä¸‹
 	key_status = standby_axp_probe_key();
-	if(key_status & 0x01)			//³¤°´¼üµÄÇé¿öÏÂ£¬²»¹ÜµçÔ´ÊÇ·ñÒÆ³ı£¬Ö±½Ó½øÈëÏµÍ³
+	if(key_status & 0x01)			//é•¿æŒ‰é”®çš„æƒ…å†µä¸‹ï¼Œä¸ç®¡ç”µæºæ˜¯å¦ç§»é™¤ï¼Œç›´æ¥è¿›å…¥ç³»ç»Ÿ
 	{
 		if(standby_flag)
 		{
@@ -83,7 +83,7 @@ static int boot_early_standby_mode(void)
 		}
 		return 3;
 	}
-	//¼ì²éÍâ²¿µçÔ´ÊÇ·ñ´æÔÚ
+	//æ£€æŸ¥å¤–éƒ¨ç”µæºæ˜¯å¦å­˜åœ¨
 	if(standby_axp_probe_power_exist() <= 0)
 	{
 		if(standby_flag)
@@ -92,7 +92,7 @@ static int boot_early_standby_mode(void)
 		}
 		return 4;
 	}
-	if(key_status & 0x02)			//¶Ì°´µçÑ¹°´¼üµÄÇé¿öÏÂ£¬ÏÔÊ¾³äµç¶¯»­
+	if(key_status & 0x02)			//çŸ­æŒ‰ç”µå‹æŒ‰é”®çš„æƒ…å†µä¸‹ï¼Œæ˜¾ç¤ºå……ç”µåŠ¨ç”»
 	{
 		if(standby_flag)
 		{
@@ -102,9 +102,9 @@ static int boot_early_standby_mode(void)
 	}
 	if(!standby_flag)
 	{
-		boot_mod_enter_standby();      //¿ØÖÆÄ£¿é½øÈëstandby
+		boot_mod_enter_standby();      //æ§åˆ¶æ¨¡å—è¿›å…¥standby
 	}
-	//¼ì²éÊÇ·ñÓĞUSBµçÔ´²åÈë
+	//æ£€æŸ¥æ˜¯å¦æœ‰USBç”µæºæ’å…¥
 	usb_status = standby_axp_probe_usb();
 	if(usb_status > 0)
 	{
@@ -115,14 +115,14 @@ static int boot_early_standby_mode(void)
 	//while((*(volatile unsigned int *)(0)) != 0x1234);
 	do
 	{
-		//¿ªÊ¼Ñ­»·¼ì²éÊÇ·ñ¿ªÊ¼»½ĞÑ
+		//å¼€å§‹å¾ªç¯æ£€æŸ¥æ˜¯å¦å¼€å§‹å”¤é†’
 		boot_halt();
 		status = boot_standby_detect();
 	}
 	while(status <= 0);
-	//·¢ÏÖĞèÒª»½ĞÑ£¬ÍË³östandby
+	//å‘ç°éœ€è¦å”¤é†’ï¼Œé€€å‡ºstandby
 	boot_exit_standby();
-	//ÍË³öÄ£¿éµÄstandby
+	//é€€å‡ºæ¨¡å—çš„standby
 	if(status != 8)
 	{
 		boot_mod_exit_standby();
@@ -143,20 +143,20 @@ static int boot_early_standby_mode(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
 */
 //static int boot_enter_standby(void)
 //{
-//	//´¦ÀíÖĞ¶Ï
+//	//å¤„ç†ä¸­æ–­
 //	standby_int_disable();
 //
 //	//mctl_deep_sleep_test();
@@ -181,13 +181,13 @@ static int boot_early_standby_mode(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -212,13 +212,13 @@ static int boot_early_standby_mode(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -227,29 +227,29 @@ static int boot_early_standby_mode(void)
 //{
 //	__u8  power_int_status[8];
 //
-//	//¼ì²éÖĞ¶Ï´¥·¢
+//	//æ£€æŸ¥ä¸­æ–­è§¦å‘
 //	standby_axp_int_query(power_int_status);
 //	//standby_serial_putc('1');
-//	if(power_int_status[2] & 0x02)			//µçÔ´°´¼ü¶Ì°´
+//	if(power_int_status[2] & 0x02)			//ç”µæºæŒ‰é”®çŸ­æŒ‰
 //	{
 //		return 2;
 //	}
-//	if(power_int_status[2] & 0x01)			//µçÔ´°´¼ü³¤°´
+//	if(power_int_status[2] & 0x01)			//ç”µæºæŒ‰é”®é•¿æŒ‰
 //	{
 //		return 3;
 //	}
-//	if(power_int_status[0] & 0x24)			//Íâ²¿µçÔ´ÒÆ³ı
+//	if(power_int_status[0] & 0x24)			//å¤–éƒ¨ç”µæºç§»é™¤
 //	{
-//		if(standby_axp_probe_power_exist() <= 0)	//Ã»ÓĞÍâ²¿µçÔ´´æÔÚ
+//		if(standby_axp_probe_power_exist() <= 0)	//æ²¡æœ‰å¤–éƒ¨ç”µæºå­˜åœ¨
 //		{
 //			return 4;
 //		}
 //		else
 //		{
-//			return 8;						//»¹ÓĞÍâ²¿µçÔ´´æÔÚ
+//			return 8;						//è¿˜æœ‰å¤–éƒ¨ç”µæºå­˜åœ¨
 //		}
 //	}
-//	if(power_int_status[0] & 0x48)			//Íâ²¿µçÔ´²åÈë
+//	if(power_int_status[0] & 0x48)			//å¤–éƒ¨ç”µæºæ’å…¥
 //	{
 //		return 8;
 //	}
@@ -261,13 +261,13 @@ static int boot_early_standby_mode(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -289,13 +289,13 @@ static int boot_early_standby_mode(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
