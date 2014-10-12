@@ -56,9 +56,9 @@ static int board_probe_power_level(void)
 	int power_status;
 	int power_start;
 
-	//Çå³ıpower°´¼ü
+	//æ¸…é™¤poweræŒ‰é”®
 	axp_probe_key();
-	//»ñÈ¡µçÔ´×´Ì¬
+	//è·å–ç”µæºçŠ¶æ€
 	power_status = axp_get_power_vol_level();
 	debug("power status = %d\n", power_status);
 	if(power_status == BATTERY_RATIO_TOO_LOW_WITHOUT_DCIN)
@@ -70,17 +70,17 @@ static int board_probe_power_level(void)
 		return -1;
 	}
 	power_start = 0;
-	//power_startµÄº¬Òå
-	//0: ²»ÔÊĞí²å»ğÅ£Ö±½Ó¿ª»ú£¬±ØĞëÍ¨¹ıÅĞ¶Ï£ºÂú×ãÒÔÏÂÌõ¼ş¿ÉÒÔÖ±½Ó¿ª»ú£º³¤°´power°´¼ü£¬Ç°´ÎÊÇÏµÍ³×´Ì¬£¬Èç¹ûµç³ØµçÁ¿¹ıµÍ£¬Ôò²»ÔÊĞí¿ª»ú
-	//1: ÈÎÒâ×´Ì¬ÏÂ£¬ÔÊĞí²å»ğÅ£Ö±½Ó¿ª»ú£¬Í¬Ê±ÒªÇóµç³ØµçÁ¿×ã¹»¸ß
-	//2: ²»ÔÊĞí²å»ğÅ£Ö±½Ó¿ª»ú£¬±ØĞëÍ¨¹ıÅĞ¶Ï£ºÂú×ãÒÔÏÂÌõ¼ş¿ÉÒÔÖ±½Ó¿ª»ú£º³¤°´power°´¼ü£¬Ç°´ÎÊÇÏµÍ³×´Ì¬£¬²»ÒªÇóµç³ØµçÁ¿
-	//3: ÈÎÒâ×´Ì¬ÏÂ£¬ÔÊĞí²å»ğÅ£Ö±½Ó¿ª»ú£¬²»ÒªÇóµç³ØµçÁ¿
+	//power_startçš„å«ä¹‰
+	//0: ä¸å…è®¸æ’ç«ç‰›ç›´æ¥å¼€æœºï¼Œå¿…é¡»é€šè¿‡åˆ¤æ–­ï¼šæ»¡è¶³ä»¥ä¸‹æ¡ä»¶å¯ä»¥ç›´æ¥å¼€æœºï¼šé•¿æŒ‰poweræŒ‰é”®ï¼Œå‰æ¬¡æ˜¯ç³»ç»ŸçŠ¶æ€ï¼Œå¦‚æœç”µæ± ç”µé‡è¿‡ä½ï¼Œåˆ™ä¸å…è®¸å¼€æœº
+	//1: ä»»æ„çŠ¶æ€ä¸‹ï¼Œå…è®¸æ’ç«ç‰›ç›´æ¥å¼€æœºï¼ŒåŒæ—¶è¦æ±‚ç”µæ± ç”µé‡è¶³å¤Ÿé«˜
+	//2: ä¸å…è®¸æ’ç«ç‰›ç›´æ¥å¼€æœºï¼Œå¿…é¡»é€šè¿‡åˆ¤æ–­ï¼šæ»¡è¶³ä»¥ä¸‹æ¡ä»¶å¯ä»¥ç›´æ¥å¼€æœºï¼šé•¿æŒ‰poweræŒ‰é”®ï¼Œå‰æ¬¡æ˜¯ç³»ç»ŸçŠ¶æ€ï¼Œä¸è¦æ±‚ç”µæ± ç”µé‡
+	//3: ä»»æ„çŠ¶æ€ä¸‹ï¼Œå…è®¸æ’ç«ç‰›ç›´æ¥å¼€æœºï¼Œä¸è¦æ±‚ç”µæ± ç”µé‡
 	script_parser_fetch(PMU_SCRIPT_NAME, "power_start", &power_start, 1);
 	debug("power start cause = %d\n", power_start);
-	if(power_status == BATTERY_RATIO_TOO_LOW_WITH_DCIN)//µÍµç£¬Í¬Ê±´øÍâ²¿µçÔ´×´Ì¬ÏÂ
+	if(power_status == BATTERY_RATIO_TOO_LOW_WITH_DCIN)//ä½ç”µï¼ŒåŒæ—¶å¸¦å¤–éƒ¨ç”µæºçŠ¶æ€ä¸‹
 	{
-		if(!(power_start & 0x02))	//ĞèÒªÅĞ¶Ïµ±Ç°µç³ØµçÁ¿£¬ÒªÇópower_startµÄµÚ1bitµÄÖµÎª0
-		{							//´ËÖÖÇé¿öÏÂ£¬Ö±½Ó¹Ø»ú
+		if(!(power_start & 0x02))	//éœ€è¦åˆ¤æ–­å½“å‰ç”µæ± ç”µé‡ï¼Œè¦æ±‚power_startçš„ç¬¬1bitçš„å€¼ä¸º0
+		{							//æ­¤ç§æƒ…å†µä¸‹ï¼Œç›´æ¥å…³æœº
 			tick_printf("battery low power with dc or ac, should charge longer\n");
 			sunxi_bmp_display("bat\\bempty.bmp");
 			__msdelay(3000);
@@ -89,15 +89,15 @@ static int board_probe_power_level(void)
 		}
 		else
 		{
-			if(power_start == 3)	//²»ĞèÒªÅĞ¶Ïµ±Ç°µç³ØµçÁ¿£¬Èç¹ûÎª3£¬Ôò½øÈëÏµÍ³£¬Èç¹ûÎª0£¬Ôò½øĞĞºóĞøÅĞ¶Ï
+			if(power_start == 3)	//ä¸éœ€è¦åˆ¤æ–­å½“å‰ç”µæ± ç”µé‡ï¼Œå¦‚æœä¸º3ï¼Œåˆ™è¿›å…¥ç³»ç»Ÿï¼Œå¦‚æœä¸º0ï¼Œåˆ™è¿›è¡Œåç»­åˆ¤æ–­
 			{
 				return 0;
 			}
 		}
 	}
-	else							//µç³ØµçÁ¿×ã¹»Çé¿öÏÂ£¬»òÕßÃ»ÓĞµç³Ø
+	else							//ç”µæ± ç”µé‡è¶³å¤Ÿæƒ…å†µä¸‹ï¼Œæˆ–è€…æ²¡æœ‰ç”µæ± 
 	{
-		if(power_start & 0x01)		//Èç¹ûµÚ0bitµÄÖµÎª1£¬Ôò½øÈëÏµÍ³
+		if(power_start & 0x01)		//å¦‚æœç¬¬0bitçš„å€¼ä¸º1ï¼Œåˆ™è¿›å…¥ç³»ç»Ÿ
 		{
 			return 0;
 		}
@@ -124,9 +124,9 @@ static int board_probe_bat_status(int standby_mode)
 	int   bat_init = 0;
 	int   bat_cal = 1;
 	int   ret, chargemode = 0;
-	//µ±Ç°¿ÉÒÔÈ·¶¨ÊÇ»ğÅ£¿ª»ú£¬µ«ÊÇÊÇ·ñ¿ª»ú»¹²»È·¶¨£¬ĞèÒªÈ·ÈÏµç³ØÊÇ·ñ´æÔÚ
-	//µ±µç³Ø²»´æÔÚ¼´¿ª»ú£¬µç³Ø´æÔÚÔò¹Ø»ú
-	//ĞÂÌí¼Ó£¬¸ù¾İ»·¾³±äÁ¿£¬ÊÇÆô¶¯µ±Ç°µÄ´ı»ú£¬»òÕßandroid´ı»ú¹¦ÄÜ
+	//å½“å‰å¯ä»¥ç¡®å®šæ˜¯ç«ç‰›å¼€æœºï¼Œä½†æ˜¯æ˜¯å¦å¼€æœºè¿˜ä¸ç¡®å®šï¼Œéœ€è¦ç¡®è®¤ç”µæ± æ˜¯å¦å­˜åœ¨
+	//å½“ç”µæ± ä¸å­˜åœ¨å³å¼€æœºï¼Œç”µæ± å­˜åœ¨åˆ™å…³æœº
+	//æ–°æ·»åŠ ï¼Œæ ¹æ®ç¯å¢ƒå˜é‡ï¼Œæ˜¯å¯åŠ¨å½“å‰çš„å¾…æœºï¼Œæˆ–è€…androidå¾…æœºåŠŸèƒ½
 	ret = script_parser_fetch("charging_type", "charging_type", &chargemode, 1);
 	if((!ret) && chargemode)
 	{
@@ -225,24 +225,24 @@ static int board_standby_status(int source_bat_cal)
 	{
 		this_bat_cal = 100;
 	}
-	//Æô¶¯ÖĞ¶Ï¼ì²â
+	//å¯åŠ¨ä¸­æ–­æ£€æµ‹
 	usb_detect_for_charge(BOOT_USB_DETECT_DELAY_TIME + 200);
-	//Æô¶¯axp¼ì²â
+	//å¯åŠ¨axpæ£€æµ‹
 	power_limit_detect_enter();
 	status = 1;
 	goto __start_case_status__;
 /******************************************************************
 *
-*	standby ·µ»ØÖµËµÃ÷
+*	standby è¿”å›å€¼è¯´æ˜
 *
-*	   -1: ½øÈëstandbyÊ§°Ü
-*		1: ÆÕÍ¨°´¼ü»½ĞÑ
-*		2: µçÔ´°´¼ü¶Ì°´»½ĞÑ
-*		3: µçÔ´°´¼ü³¤°´»½ĞÑ
-*		4: Íâ²¿µçÔ´ÒÆ³ı»½ĞÑ
-*		5: µç³Ø³äµçÍê³É
-*		6: ÔÚ»½ĞÑ×´Ì¬ÏÂÍâ²¿µçÔ´±»ÒÆ³ı
-*		7: ÔÚ»½ĞÑ×´Ì¬ÏÂ³äµçÍê³É
+*	   -1: è¿›å…¥standbyå¤±è´¥
+*		1: æ™®é€šæŒ‰é”®å”¤é†’
+*		2: ç”µæºæŒ‰é”®çŸ­æŒ‰å”¤é†’
+*		3: ç”µæºæŒ‰é”®é•¿æŒ‰å”¤é†’
+*		4: å¤–éƒ¨ç”µæºç§»é™¤å”¤é†’
+*		5: ç”µæ± å……ç”µå®Œæˆ
+*		6: åœ¨å”¤é†’çŠ¶æ€ä¸‹å¤–éƒ¨ç”µæºè¢«ç§»é™¤
+*		7: åœ¨å”¤é†’çŠ¶æ€ä¸‹å……ç”µå®Œæˆ
 *
 ******************************************************************/
 	do
@@ -263,13 +263,13 @@ __start_case_status__:
 		tick_printf("status = %d\n", status);
 		switch(status)
 		{
-			case 2:		//¶Ì°´power°´¼üµ¼ÖÂ»½ĞÑ
-				//Æô¶¯ÖĞ¶Ï¼ì²â
+			case 2:		//çŸ­æŒ‰poweræŒ‰é”®å¯¼è‡´å”¤é†’
+				//å¯åŠ¨ä¸­æ–­æ£€æµ‹
 				boot_standby_action = 0;
 				power_limit_detect_enter();
 				board_display_layer_open();
 			case 1:
-				//ÖØĞÂ¼ÆËã¶¯»­ÑÓÊ±Ê±¼ä
+				//é‡æ–°è®¡ç®—åŠ¨ç”»å»¶æ—¶æ—¶é—´
 				if(this_bat_cal == 100)
 				{
 					one_delay = 1000;
@@ -278,30 +278,30 @@ __start_case_status__:
 				{
 					one_delay = 1000/(10 - (this_bat_cal/10));
 				}
-				//»æÖÆ¶¯»­
+				//ç»˜åˆ¶åŠ¨ç”»
 				for(j=0;j<3;j++)
 				{
 					for(i=this_bat_cal/(100/(SUNXI_BAT_BMP_MAX-1));i<SUNXI_BAT_BMP_MAX;i++)
 					{
 						battery_charge_cartoon_rate(i);
-						if(boot_standby_action & 0x08)		//´æÔÚÍâ²¿µçÔ´
+						if(boot_standby_action & 0x08)		//å­˜åœ¨å¤–éƒ¨ç”µæº
 						{
 							boot_standby_action &= ~0x08;
 							j = 0;
 						}
-						else if(boot_standby_action & 0x02)	//¶Ì°´
+						else if(boot_standby_action & 0x02)	//çŸ­æŒ‰
 						{
 							boot_standby_action &= ~2;
 							j = 0;
 						}
-						else if(boot_standby_action & 0x01) //³¤°´
+						else if(boot_standby_action & 0x01) //é•¿æŒ‰
 						{
 							battery_charge_cartoon_exit();
 							power_limit_detect_exit();
 
 							return 0;
 						}
-						else if(boot_standby_action & 0x10) //°ÎµôÍâ²¿µçÔ´£¬Ã»ÓĞÍâ²¿µçÔ´
+						else if(boot_standby_action & 0x10) //æ‹”æ‰å¤–éƒ¨ç”µæºï¼Œæ²¡æœ‰å¤–éƒ¨ç”µæº
 						{
 							status = 10;
 							boot_standby_action &= ~0x10;
@@ -311,23 +311,23 @@ __start_case_status__:
 						__msdelay(one_delay);
 					}
 				}
-				//Í£Ö¹¶¯»­£¬¹Ì¶¨ÏÔÊ¾µ±Ç°µçÁ¿
+				//åœæ­¢åŠ¨ç”»ï¼Œå›ºå®šæ˜¾ç¤ºå½“å‰ç”µé‡
 				battery_charge_cartoon_rate(this_bat_cal/(100/(SUNXI_BAT_BMP_MAX-1)));
 				for(j=0;j<4;j++)
 				{
-					if(boot_standby_action & 0x08)		//´æÔÚÍâ²¿µçÔ´
+					if(boot_standby_action & 0x08)		//å­˜åœ¨å¤–éƒ¨ç”µæº
 					{
 						boot_standby_action &= ~0x08;
 						j = 0;
 					}
-					else if(boot_standby_action & 0x10) //°ÎµôÍâ²¿µçÔ´£¬Ã»ÓĞÍâ²¿µçÔ´
+					else if(boot_standby_action & 0x10) //æ‹”æ‰å¤–éƒ¨ç”µæºï¼Œæ²¡æœ‰å¤–éƒ¨ç”µæº
 					{
 						status = 10;
 						boot_standby_action &= ~0x10;
 
 						goto __start_case_status__;
 					}
-					else if(boot_standby_action & 0x01) //³¤°´
+					else if(boot_standby_action & 0x01) //é•¿æŒ‰
 					{
 						battery_charge_cartoon_exit();
 						power_limit_detect_exit();
@@ -338,14 +338,14 @@ __start_case_status__:
 				}
 				break;
 
-			case 3:		//³¤°´µçÔ´°´¼üÖ®ºó£¬¹Ø±Õµç³ØÍ¼±ê£¬½øÈëÏµÍ³
+			case 3:		//é•¿æŒ‰ç”µæºæŒ‰é”®ä¹‹åï¼Œå…³é—­ç”µæ± å›¾æ ‡ï¼Œè¿›å…¥ç³»ç»Ÿ
 				battery_charge_cartoon_exit();
 
 				return 0;
 
-			case 4:		//µ±ÒÆ³ıÍâ²¿µçÔ´Ê±ºò£¬ÖØĞÂÏÔÊ¾µ±Ç°µç³ØÍ¼±êºó£¬3Ãëºó¹Ø»ú
-			case 5:		//µ±µç³Ø³äµçÍê³ÉµÄÊ±ºò£¬ĞèÒª¹Ø»ú
-				//Æô¶¯ÖĞ¶Ï¼ì²â
+			case 4:		//å½“ç§»é™¤å¤–éƒ¨ç”µæºæ—¶å€™ï¼Œé‡æ–°æ˜¾ç¤ºå½“å‰ç”µæ± å›¾æ ‡åï¼Œ3ç§’åå…³æœº
+			case 5:		//å½“ç”µæ± å……ç”µå®Œæˆçš„æ—¶å€™ï¼Œéœ€è¦å…³æœº
+				//å¯åŠ¨ä¸­æ–­æ£€æµ‹
 				boot_standby_action = 0;
 				power_limit_detect_enter();
 
@@ -383,13 +383,13 @@ __start_case_status__:
 
 				return -1;
 
-			case 8:		//standby¹ı³ÌÖĞ¼ì²âµ½vbus´æÔÚ±ä»¯
+			case 8:		//standbyè¿‡ç¨‹ä¸­æ£€æµ‹åˆ°vbuså­˜åœ¨å˜åŒ–
 			{
 				usb_detect_for_charge(BOOT_USB_DETECT_DELAY_TIME + 200);
 			}
 			break;
 
-			case 9:		//standby¹ı³ÌÖĞ¼ì²âµ½vbusÒÆ³ı£¬Í¬Ê±´æÔÚÆÕÍ¨dc
+			case 9:		//standbyè¿‡ç¨‹ä¸­æ£€æµ‹åˆ°vbusç§»é™¤ï¼ŒåŒæ—¶å­˜åœ¨æ™®é€šdc
 			{
 //					power_set_usbpc();
 			}
@@ -408,9 +408,9 @@ __start_case_status__:
 *
 *    name          :
 *
-*    parmeters     :  standby_mode: 0, ÆÕÍ¨Ä£Ê½£¬ĞèÒª¼ì²âµçÔ´×´Ì¬
+*    parmeters     :  standby_mode: 0, æ™®é€šæ¨¡å¼ï¼Œéœ€è¦æ£€æµ‹ç”µæºçŠ¶æ€
 *
-*					                1, ²âÊÔÄ£Ê½£¬Ç¿ÖÆ½øÈëstandbyÄ£Ê½£¬²»ÂÛµçÔ´×´Ì¬
+*					                1, æµ‹è¯•æ¨¡å¼ï¼Œå¼ºåˆ¶è¿›å…¥standbyæ¨¡å¼ï¼Œä¸è®ºç”µæºçŠ¶æ€
 *
 *    return        :
 *
@@ -424,12 +424,12 @@ void board_status_probe(int standby_mode)
 {
 	int ret;
 
-	//Çå³ıpower°´¼ü
+	//æ¸…é™¤poweræŒ‰é”®
 	axp_probe_key();
-	//Æô¶¯Ìõ¼şÅĞ¶Ï£¬µÚÒ»½×¶Î£¬¼ì²âµçÔ´µçÑ¹×´Ì¬
+	//å¯åŠ¨æ¡ä»¶åˆ¤æ–­ï¼Œç¬¬ä¸€é˜¶æ®µï¼Œæ£€æµ‹ç”µæºç”µå‹çŠ¶æ€
 	if(!standby_mode)
 	{
-		ret = board_probe_power_level();	//¸ºÊı£º¹Ø»ú£»0£º½øÈëÏµÍ³£»ÕıÊı£º´ı»ú
+		ret = board_probe_power_level();	//è´Ÿæ•°ï¼šå…³æœºï¼›0ï¼šè¿›å…¥ç³»ç»Ÿï¼›æ­£æ•°ï¼šå¾…æœº
 		debug("stage1 resule %d\n", ret);
 		if(ret < 0)
 		{
@@ -439,20 +439,20 @@ void board_status_probe(int standby_mode)
 		{
 			return ;
 		}
-		//Æô¶¯Ìõ¼şÅĞ¶Ï£¬µÚ¶ş½×¶Î£¬¼ì²â¿ª»úÔ­Òò
-		ret = board_probe_poweron_cause();		//¸ºÊı£¬0£º½øÈëÏµÍ³£»ÕıÊı£º´ı»ú»òÕßÖ±½Ó¹Ø»ú
+		//å¯åŠ¨æ¡ä»¶åˆ¤æ–­ï¼Œç¬¬äºŒé˜¶æ®µï¼Œæ£€æµ‹å¼€æœºåŸå› 
+		ret = board_probe_poweron_cause();		//è´Ÿæ•°ï¼Œ0ï¼šè¿›å…¥ç³»ç»Ÿï¼›æ­£æ•°ï¼šå¾…æœºæˆ–è€…ç›´æ¥å…³æœº
 		debug("stage2 resule %d\n", ret);
 		if(ret <= 0)
 		{
 			return ;
 		}
-		else if(ret == AXP_VBUS_DCIN_NOT_EXIST) //µ±Ç°Ò»´ÎÎªboot standby×´Ì¬£¬µ«ÊÇÆô¶¯Ê±¼ì²éÎŞÍâ²¿µçÔ´£¬Ö±½Ó¹Ø»ú
+		else if(ret == AXP_VBUS_DCIN_NOT_EXIST) //å½“å‰ä¸€æ¬¡ä¸ºboot standbyçŠ¶æ€ï¼Œä½†æ˜¯å¯åŠ¨æ—¶æ£€æŸ¥æ— å¤–éƒ¨ç”µæºï¼Œç›´æ¥å…³æœº
 		{
 			do_shutdown(NULL, 0, 1, NULL);
 		}
 	}
-	//Æô¶¯Ìõ¼şÅĞ¶Ï£¬µÚÈı½×¶Î£¬¼ì²âµç³Ø´æÔÚ
-	//¸ºÊı£º¹Ø»ú£»0£º½øÈëÏµÍ³£»ÕıÊı£º´ı»ú
+	//å¯åŠ¨æ¡ä»¶åˆ¤æ–­ï¼Œç¬¬ä¸‰é˜¶æ®µï¼Œæ£€æµ‹ç”µæ± å­˜åœ¨
+	//è´Ÿæ•°ï¼šå…³æœºï¼›0ï¼šè¿›å…¥ç³»ç»Ÿï¼›æ­£æ•°ï¼šå¾…æœº
 	ret = board_probe_bat_status(standby_mode);
 	debug("stage3 resule %d\n", ret);
 	if(ret < 0)
@@ -463,8 +463,8 @@ void board_status_probe(int standby_mode)
 	{
 		return ;
 	}
-	//Æô¶¯Ìõ¼şÅĞ¶Ï£¬µÚËÄ½×¶Î£¬½øÈëboot´ı»ú
-	//¸ºÊı£º¹Ø»ú£¬ÆäËü£º½øÈëÏµÍ³
+	//å¯åŠ¨æ¡ä»¶åˆ¤æ–­ï¼Œç¬¬å››é˜¶æ®µï¼Œè¿›å…¥bootå¾…æœº
+	//è´Ÿæ•°ï¼šå…³æœºï¼Œå…¶å®ƒï¼šè¿›å…¥ç³»ç»Ÿ
 	ret = board_standby_status(ret);
 	debug("stage4 resule %d\n", ret);
 	if(ret < 0)

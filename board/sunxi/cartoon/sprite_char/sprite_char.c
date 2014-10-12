@@ -58,7 +58,7 @@ int sprite_uichar_init(int char_size)
     	ui_char_info.word_size = 32;
 	}
     debug("ui_char_info.word_size is %d\n",ui_char_info.word_size);
-    if(open_font((const char *)font_name, ui_char_info.word_size, sprite_source.screen_width,  (uchar *)sprite_source.screen_buf))   //´ò¿ª×Ö¿â
+    if(open_font((const char *)font_name, ui_char_info.word_size, sprite_source.screen_width,  (uchar *)sprite_source.screen_buf))   //æ‰“å¼€å­—åº“
     {
     	printf("ui_char_info.word_size is %d\n",ui_char_info.word_size);
 		printf("boot_ui_char: open font failed\n");
@@ -66,11 +66,11 @@ int sprite_uichar_init(int char_size)
     }
 
     ui_char_info.crt_addr 	  = sprite_source.screen_buf;
-    ui_char_info.total_height = ((sprite_source.screen_size / 4) / (sprite_source.screen_width)) / (ui_char_info.word_size);   //×ÜµÄ¸ß¶È£¬¿ÉÒÔÏÔÊ¾µÄĞĞÊı
+    ui_char_info.total_height = ((sprite_source.screen_size / 4) / (sprite_source.screen_width)) / (ui_char_info.word_size);   //æ€»çš„é«˜åº¦ï¼Œå¯ä»¥æ˜¾ç¤ºçš„è¡Œæ•°
 
-    ui_char_info.rest_screen_height  = sprite_source.screen_height/(ui_char_info.word_size);  	//¼ÇÂ¼ÆÁÄ»µÄÊ£Óà¸ß¶È£¬ĞĞÊı, Ê£Óà1ĞĞ²»ÓÃ
-    ui_char_info.rest_display_height = ui_char_info.total_height;    						//¼ÇÂ¼ÏÔÊ¾µÄÊ£Óà¸ß¶È£¬ĞĞÊı£¬Ê£Óà1ĞĞ²»ÓÃ
-    ui_char_info.rest_screen_width   = sprite_source.screen_width;                        		//Ê£Óà¿í¶ÈµÈÓÚÏÔÊ¾¿í¶È, ÏñËØµ¥Î»
+    ui_char_info.rest_screen_height  = sprite_source.screen_height/(ui_char_info.word_size);  	//è®°å½•å±å¹•çš„å‰©ä½™é«˜åº¦ï¼Œè¡Œæ•°, å‰©ä½™1è¡Œä¸ç”¨
+    ui_char_info.rest_display_height = ui_char_info.total_height;    						//è®°å½•æ˜¾ç¤ºçš„å‰©ä½™é«˜åº¦ï¼Œè¡Œæ•°ï¼Œå‰©ä½™1è¡Œä¸ç”¨
+    ui_char_info.rest_screen_width   = sprite_source.screen_width;                        		//å‰©ä½™å®½åº¦ç­‰äºæ˜¾ç¤ºå®½åº¦, åƒç´ å•ä½
     ui_char_info.current_height 	 = 0;
     ui_char_info.x              	 = 0;
     ui_char_info.y              	 = 0;
@@ -96,7 +96,7 @@ static int uichar_change_newline(void)
 {
 	int ret = 0;
 
-    if(ui_char_info.rest_display_height <= 0)               //Ê£Óà¿í¶È²»¹»ÁË£¬ĞèÒªÇĞ»»»Øµ½µÚÒ»¸öÆÁÄ»
+    if(ui_char_info.rest_display_height <= 0)               //å‰©ä½™å®½åº¦ä¸å¤Ÿäº†ï¼Œéœ€è¦åˆ‡æ¢å›åˆ°ç¬¬ä¸€ä¸ªå±å¹•
     {
 		printf("boot ui char: not enough space to printf\n");
 
@@ -104,11 +104,11 @@ static int uichar_change_newline(void)
 	}
 	else
 	{
-	    ui_char_info.rest_screen_width   = sprite_source.screen_width;   //×÷ÎªĞÂµÄÒ»ĞĞµÄ³¤¶È,ÏñËØµ¥Î»
+	    ui_char_info.rest_screen_width   = sprite_source.screen_width;   //ä½œä¸ºæ–°çš„ä¸€è¡Œçš„é•¿åº¦,åƒç´ å•ä½
 
-	    ui_char_info.rest_screen_height  -= 1;           //Ê£ÓàµÄÆÁÄ»¸ß¶È, ĞĞÊı
-	    ui_char_info.rest_display_height -= 1;           //Ê£ÓàµÄÏÔÊ¾¸ß¶È£¬ĞĞÊı
-	    ui_char_info.current_height      += 1;           //µ±Ç°¸ß¶È±ä¶àÒ»ĞĞ
+	    ui_char_info.rest_screen_height  -= 1;           //å‰©ä½™çš„å±å¹•é«˜åº¦, è¡Œæ•°
+	    ui_char_info.rest_display_height -= 1;           //å‰©ä½™çš„æ˜¾ç¤ºé«˜åº¦ï¼Œè¡Œæ•°
+	    ui_char_info.current_height      += 1;           //å½“å‰é«˜åº¦å˜å¤šä¸€è¡Œ
 	    ui_char_info.x                    = 0;           //
 	    ui_char_info.y                    = ui_char_info.current_height * ui_char_info.word_size;
 	}
@@ -122,8 +122,8 @@ static int uichar_change_newline(void)
 *
 * Description:
 *
-* Arguments  :  ch         :  ĞèÒª´òÓ¡µÄ×Ö·û
-*               rest_width :  µ±Ç°ĞĞÊ£ÓàµÄ¿í¶È
+* Arguments  :  ch         :  éœ€è¦æ‰“å°çš„å­—ç¬¦
+*               rest_width :  å½“å‰è¡Œå‰©ä½™çš„å®½åº¦
 *
 * Returns    :
 *
@@ -136,25 +136,25 @@ static int uichar_putchar(__u8 ch)
     __s32 ret, width;
 
     ret = check_change_line(ui_char_info.x, ch);
-    if(ret == -1)             //·ÃÎÊÊ§°Ü£¬µ±Ç°×Ö·û²»´¦Àí
+    if(ret == -1)             //è®¿é—®å¤±è´¥ï¼Œå½“å‰å­—ç¬¦ä¸å¤„ç†
     {
         return 0;
     }
-    else if(ret == 0)        //·ÃÎÊ³É¹¦£¬µ±Ç°×Ö·û´¦Àí£¬µ«ÊÇ²»ĞèÒª»»ĞĞ
+    else if(ret == 0)        //è®¿é—®æˆåŠŸï¼Œå½“å‰å­—ç¬¦å¤„ç†ï¼Œä½†æ˜¯ä¸éœ€è¦æ¢è¡Œ
     {
         ;
     }
-    else if(ret == 1)        //·ÃÎÊ³É¹¦£¬µ±Ç°×Ö·û´¦Àí£¬ĞèÒª»»ĞĞ
+    else if(ret == 1)        //è®¿é—®æˆåŠŸï¼Œå½“å‰å­—ç¬¦å¤„ç†ï¼Œéœ€è¦æ¢è¡Œ
     {
         if(uichar_change_newline( ))
         {
         	ret = -1;
         }
     }
-    width = draw_bmp_ulc(ui_char_info.x, ui_char_info.y, sprite_source.color);    //ÏÔÊ¾×Ö·û,·µ»Øµ±Ç°ÏÔÊ¾×Ö·ûµÄ¿í¶È£¬ÏñËØµ¥Î»
+    width = draw_bmp_ulc(ui_char_info.x, ui_char_info.y, sprite_source.color);    //æ˜¾ç¤ºå­—ç¬¦,è¿”å›å½“å‰æ˜¾ç¤ºå­—ç¬¦çš„å®½åº¦ï¼Œåƒç´ å•ä½
     ui_char_info.x += width;
-    ui_char_info.rest_screen_width -= width;                        //¼ÇÂ¼µ±Ç°ĞĞÊ£ÓàµÄÏñËØ
-    //µ÷ÓÃ´òÓ¡º¯Êı
+    ui_char_info.rest_screen_width -= width;                        //è®°å½•å½“å‰è¡Œå‰©ä½™çš„åƒç´ 
+    //è°ƒç”¨æ‰“å°å‡½æ•°
 
 	return ret;
 }
@@ -180,8 +180,8 @@ static int uichar_putstr(const char * str, int length)
 	{
 		if(*str == '\n')
 		{
-            //ĞèÒª»»ĞĞµÄÊ±ºò£¬×Ô¶¯ÇĞ»»µ½ÏÂÒ»ĞĞ¿ªÊ¼½øĞĞÏÔÊ¾
-            //µ÷ÓÃ»»ĞĞº¯Êı
+            //éœ€è¦æ¢è¡Œçš„æ—¶å€™ï¼Œè‡ªåŠ¨åˆ‡æ¢åˆ°ä¸‹ä¸€è¡Œå¼€å§‹è¿›è¡Œæ˜¾ç¤º
+            //è°ƒç”¨æ¢è¡Œå‡½æ•°
             debug("get new line char!\n");
 			if(uichar_change_newline( ))
 	        {

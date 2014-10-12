@@ -10,12 +10,12 @@
 *
 * Author 		: javen
 *
-* Description 	: C¿âº¯Êı
+* Description 	: Cåº“å‡½æ•°
 *
 * History 		:
 *      <author>    		<time>       	<version >    		<desc>
 *       javen     	   2010-09-07          1.0         	create this word
-*		holi		   2010-12-03		   1.1			Ôö¼ÓÁËOSAL_io_remap
+*		holi		   2010-12-03		   1.1			å¢åŠ äº†OSAL_io_remap
 *************************************************************************************
 */
 
@@ -23,7 +23,7 @@
 
 extern int kdb_trap_printk;
 
-/* ÆÕÍ¨ÄÚ´æ·ÖÅä */
+/* æ™®é€šå†…å­˜åˆ†é… */
 void * OSAL_malloc(__u32 Size)
 {
     void * addr;
@@ -39,7 +39,7 @@ void OSAL_free(void *pAddr)
     return;
 }
 
-/* Á¬ĞøµÄÎïÀíÄÚ´æ·ÖÅä */
+/* è¿ç»­çš„ç‰©ç†å†…å­˜åˆ†é… */
 void * OSAL_PhyAlloc(__u32 Size)
 {
     void * addr;
@@ -56,7 +56,7 @@ void OSAL_PhyFree(void *pAddr, __u32 Size)
 }
 
 
-/* ĞéÄâÄÚ´æºÍÎïÀíÄÚ´æÖ®¼äµÄ×ª»¯ */
+/* è™šæ‹Ÿå†…å­˜å’Œç‰©ç†å†…å­˜ä¹‹é—´çš„è½¬åŒ– */
 unsigned int OSAL_VAtoPA(void *va)
 {
 	//if((unsigned int)(va) > 0x40000000)
@@ -94,25 +94,25 @@ char * OSAL_gets(char *value)
 }
 
 //----------------------------------------------------------------
-//  ÊµÓÃº¯Êı
+//  å®ç”¨å‡½æ•°
 //----------------------------------------------------------------
-/* ×Ö·û´®×ª³¤ÕûĞÎ */
+/* å­—ç¬¦ä¸²è½¬é•¿æ•´å½¢ */
 long OSAL_strtol (const char *str, const char **err, int base)
 {
 	return 0;
 }
 
-/* ÓĞ·ûºÅÊ®½øÖÆÕûĞÎ×ª×Ö·û´®*/
+/* æœ‰ç¬¦å·åè¿›åˆ¶æ•´å½¢è½¬å­—ç¬¦ä¸²*/
 void OSAL_int2str_dec(int input, char * str)
 {
 }
 
-/* Ê®Áù½øÖÆÕûĞÎ×ª×Ö·û´®*/
+/* åå…­è¿›åˆ¶æ•´å½¢è½¬å­—ç¬¦ä¸²*/
 void OSAL_int2str_hex(int input, char * str, int hex_flag)
 {
 }
 
-/* ÎŞ·ûºÅÊ®½øÖÆÕûĞÎ×ª×Ö·û´®*/
+/* æ— ç¬¦å·åè¿›åˆ¶æ•´å½¢è½¬å­—ç¬¦ä¸²*/
 void OSAL_uint2str_dec(unsigned int input, char * str)
 {
 }

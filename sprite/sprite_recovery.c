@@ -32,7 +32,7 @@
 #include "./firmware/imgdecode.h"
 #include "./firmware/imagefile_new.h"
 
-extern uint img_file_start;            //¹Ì¼şµÄÆğÊ¼Î»ÖÃ
+extern uint img_file_start;            //å›ºä»¶çš„èµ·å§‹ä½ç½®
 extern int sunxi_sprite_deal_part_from_sysrevoery(sunxi_download_info *dl_map);
 extern int __imagehd(HIMAGE tmp_himage);
 
@@ -41,13 +41,13 @@ typedef struct tag_IMAGE_HANDLE
 
 //	HANDLE  fp;			//
 
-	ImageHead_t  ImageHead;		//imgÍ·ĞÅÏ¢
+	ImageHead_t  ImageHead;		//imgå¤´ä¿¡æ¯
 
-	ImageItem_t *ItemTable;		//itemĞÅÏ¢±í
+	ImageItem_t *ItemTable;		//itemä¿¡æ¯è¡¨
 
-//	RC_ENDECODE_IF_t rc_if_decode[IF_CNT];//½âÃÜ½Ó¿Ú
+//	RC_ENDECODE_IF_t rc_if_decode[IF_CNT];//è§£å¯†æ¥å£
 
-//	BOOL			bWithEncpy; // ÊÇ·ñ¼ÓÃÜ
+//	BOOL			bWithEncpy; // æ˜¯å¦åŠ å¯†
 }IMAGE_HANDLE;
 
 /*
@@ -55,13 +55,13 @@ typedef struct tag_IMAGE_HANDLE
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -69,7 +69,7 @@ typedef struct tag_IMAGE_HANDLE
 HIMAGE 	Img_Open_from_sysrecovery(__u32 start)
 {
 	IMAGE_HANDLE * pImage = NULL;
-	uint ItemTableSize;					//¹Ì¼şË÷Òı±íµÄ´óĞ¡
+	uint ItemTableSize;					//å›ºä»¶ç´¢å¼•è¡¨çš„å¤§å°
 
 	img_file_start = start;
 	if(!img_file_start)
@@ -88,7 +88,7 @@ HIMAGE 	Img_Open_from_sysrecovery(__u32 start)
 	}
 	memset(pImage, 0, sizeof(IMAGE_HANDLE));
 	//------------------------------------------------
-	//¶ÁimgÍ·
+	//è¯»imgå¤´
 	//------------------------------------------------
 	//debug("try to read mmc start %d\n", img_file_start);
 	if(!sunxi_flash_read(img_file_start, IMAGE_HEAD_SIZE/512, &pImage->ImageHead))
@@ -99,7 +99,7 @@ HIMAGE 	Img_Open_from_sysrecovery(__u32 start)
 	}
 	debug("read mmc ok\n");
 	//------------------------------------------------
-	//±È½Ïmagic
+	//æ¯”è¾ƒmagic
 	//------------------------------------------------
 	if (memcmp(pImage->ImageHead.magic, IMAGE_MAGIC, 8) != 0)
 	{
@@ -108,7 +108,7 @@ HIMAGE 	Img_Open_from_sysrecovery(__u32 start)
 		goto _img_open_fail_;
 	}
 	//------------------------------------------------
-	//ÎªË÷Òı±í¿ª±Ù¿Õ¼ä
+	//ä¸ºç´¢å¼•è¡¨å¼€è¾Ÿç©ºé—´
 	//------------------------------------------------
 	ItemTableSize = pImage->ImageHead.itemcount * sizeof(ImageItem_t);
 	pImage->ItemTable = (ImageItem_t*)malloc(ItemTableSize);
@@ -119,7 +119,7 @@ HIMAGE 	Img_Open_from_sysrecovery(__u32 start)
 		goto _img_open_fail_;
 	}
 	//------------------------------------------------
-	//¶Á³öË÷Òı±í
+	//è¯»å‡ºç´¢å¼•è¡¨
 	//------------------------------------------------
 	if(!sunxi_flash_read(img_file_start + (IMAGE_HEAD_SIZE/512), ItemTableSize/512, pImage->ItemTable))
 	{
@@ -148,13 +148,13 @@ _img_open_fail_:
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -199,13 +199,13 @@ int  card_part_info(__u32 *part_start, __u32 *part_size, const char *str)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -221,7 +221,7 @@ int sprite_form_sysrecovery(void)
     
 	printf("sunxi sprite begin\n");
 	
-	//Æô¶¯¶¯»­ÏÔÊ¾
+	//å¯åŠ¨åŠ¨ç”»æ˜¾ç¤º
 	sprite_cartoon_create();
 	
 	src_buf = (char *)malloc(1024 * 1024);
@@ -231,7 +231,7 @@ int sprite_form_sysrecovery(void)
 		goto _update_error_;
 	}
 			
-	/*¿ªÊ¼¶ÔÑ¹Ëõ°ü½øĞĞ²Ù×÷*/
+	/*å¼€å§‹å¯¹å‹ç¼©åŒ…è¿›è¡Œæ“ä½œ*/
 //*************************************************************************************
 //*************************************************************************************
 	ret = card_part_info(&img_start, &part_size, "sysrecovery");
@@ -247,11 +247,11 @@ int sprite_form_sysrecovery(void)
 		printf("sprite update error: fail to open img\n");
 		goto _update_error_;
 	}
-	__imagehd(imghd);		//Õâ¸öº¯ÊıÆäÊµÃ»ÓÃ,ÎªÁËÀûÓÃspriteÌá¹©µÄ½Ó¿Ú,¼æÈİÒ»ÏÂ
+	__imagehd(imghd);		//è¿™ä¸ªå‡½æ•°å…¶å®æ²¡ç”¨,ä¸ºäº†åˆ©ç”¨spriteæä¾›çš„æ¥å£,å…¼å®¹ä¸€ä¸‹
 
 	sprite_cartoon_upgrade(10);
 
-	/*ÊµÏÖ²Á³ıdata·ÖÇø*/ 
+	/*å®ç°æ“¦é™¤dataåˆ†åŒº*/ 
 //*************************************************************************************
 //*************************************************************************************
 	ret = card_part_info(&img_start, &part_size, "data");
@@ -286,7 +286,7 @@ int sprite_form_sysrecovery(void)
 		printf("finish erase part data\n");
 	}
 	
-	/* dl info »ñÈ¡ÄÚ´æ¿Õ¼ä */
+	/* dl info è·å–å†…å­˜ç©ºé—´ */
 //*************************************************************************************
 //*************************************************************************************
 	dl_info = (sunxi_download_info  *)malloc(sizeof(sunxi_download_info ));
@@ -297,7 +297,7 @@ int sprite_form_sysrecovery(void)
 	}
 	memset(dl_info, 0, sizeof(sunxi_download_info ));
 	
-	/*»ñÈ¡ DOWNLOAD MAP	*/
+	/*è·å– DOWNLOAD MAP	*/
 	ret = sprite_card_fetch_download_map(dl_info);
 	if (ret) {
 		printf("sunxi sprite error: donn't download dl_map\n");
@@ -305,7 +305,7 @@ int sprite_form_sysrecovery(void)
 	}
 	sprite_cartoon_upgrade(20);
 
-	/*¿ªÊ¼ÉÕĞ´·ÖÇø*/
+	/*å¼€å§‹çƒ§å†™åˆ†åŒº*/
 //*************************************************************************************
 //*************************************************************************************
 	if (sunxi_sprite_deal_part_from_sysrevoery(dl_info))
@@ -319,7 +319,7 @@ int sprite_form_sysrecovery(void)
 	
 /*****************************************************************************
 *
-*   ¹Ø±ÕimghdºÍnand¾ä±ú
+*   å…³é—­imghdå’Œnandå¥æŸ„
 *
 *
 *****************************************************************************/
@@ -332,7 +332,7 @@ int sprite_form_sysrecovery(void)
 	{
 		free(src_buf);
 	}
-	//´¦ÀíÉÕĞ´Íê³ÉºóÖØÆô
+	//å¤„ç†çƒ§å†™å®Œæˆåé‡å¯
 	sunxi_board_restart(0);
 	return 0;
 	

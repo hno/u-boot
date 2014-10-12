@@ -255,7 +255,7 @@ __s32 IEP_CMU_Operation_In_Vblanking(__u32 sel)
 {
 	__u32 reg_val;
 
-	//³õÊ¼»¯³ÉÊÖ¶¯Ä£Ê½
+	//åˆå§‹åŒ–æˆæ‰‹åŠ¨æ¨¡å¼
 	CMU_WUINT32(sel,IMGEHC_CMU_REGBUFFCTL_REG_OFF,0x2);
 	reg_val = CMU_RUINT32(sel,IMGEHC_CMU_REGBUFFCTL_REG_OFF);
 	CMU_WUINT32(sel,IMGEHC_CMU_REGBUFFCTL_REG_OFF,reg_val|0x1);
@@ -264,7 +264,7 @@ __s32 IEP_CMU_Operation_In_Vblanking(__u32 sel)
 	return 0;
 }
 
-//Èç¹ûÃ»ÉèÖÃ²ÎÊı¾Íenable,È·±£¿ÉÊ¹ÓÃÒ»Ì×Ä¬ÈÏ²ÎÊı
+//å¦‚æœæ²¡è®¾ç½®å‚æ•°å°±enable,ç¡®ä¿å¯ä½¿ç”¨ä¸€å¥—é»˜è®¤å‚æ•°
 __s32 IEP_CMU_Enable(__u32 sel, __u32 enable)
 {
 	__u32 reg_val;

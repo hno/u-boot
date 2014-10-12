@@ -127,7 +127,7 @@ int sprite_card_fetch_download_map(sunxi_download_info  *dl_map)
 	}
 	Img_CloseItem(imghd, imgitemhd);
 	imgitemhd = NULL;
-	//¼ì²é»ñÈ¡µÄdlinfoÊÇ·ñÕıÈ·
+	//æ£€æŸ¥è·å–çš„dlinfoæ˜¯å¦æ­£ç¡®
 	return sunxi_sprite_verify_dlmap(dl_map);
 }
 /*
@@ -188,7 +188,7 @@ static int __download_udisk(dl_one_part_info *part_info,  uchar *source_buff)
 	s64  packet_len;
 	s32  ret = -1, ret1;
 
-	//´ò¿ª·ÖÇø¾µÏñ
+	//æ‰“å¼€åˆ†åŒºé•œåƒ
 	imgitemhd = Img_OpenItem(imghd, "RFSFAT16", (char *)part_info->dl_filename);
 	if(!imgitemhd)
 	{
@@ -196,7 +196,7 @@ static int __download_udisk(dl_one_part_info *part_info,  uchar *source_buff)
 
 		return -1;
 	}
-	//»ñÈ¡·ÖÇø¾µÏñ×Ö½ÚÊı
+	//è·å–åˆ†åŒºé•œåƒå­—èŠ‚æ•°
 	packet_len = Img_GetItemSize(imghd, imgitemhd);
 	if (packet_len <= 0)
 	{
@@ -211,7 +211,7 @@ static int __download_udisk(dl_one_part_info *part_info,  uchar *source_buff)
 		ret = 1;
 		goto __download_udisk_err1;
 	}
-	//·ÖÇø¾µÏñ¹»´ó£¬ĞèÒª½øĞĞÉÕÂ¼
+	//åˆ†åŒºé•œåƒå¤Ÿå¤§ï¼Œéœ€è¦è¿›è¡Œçƒ§å½•
 	flash_sector = sunxi_flash_size();
 	if(!flash_sector)
 	{
@@ -219,7 +219,7 @@ static int __download_udisk(dl_one_part_info *part_info,  uchar *source_buff)
 
 		goto __download_udisk_err1;
 	}
-	printf("the flash size is %d MB\n", flash_sector/2/1024);	//¼ÆËã³öMµ¥Î»
+	printf("the flash size is %d MB\n", flash_sector/2/1024);	//è®¡ç®—å‡ºMå•ä½
 	part_info->lenlo = flash_sector - part_info->addrlo;
 	part_info->lenhi = 0;
 	printf("UDISK low is 0x%x Sectors\n", part_info->lenlo);
@@ -255,18 +255,18 @@ __download_udisk_err1:
 */
 static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_buff)
 {
-	uint partstart_by_sector;		//·ÖÇøÆğÊ¼ÉÈÇø
+	uint partstart_by_sector;		//åˆ†åŒºèµ·å§‹æ‰‡åŒº
 	uint tmp_partstart_by_sector;
 
-	s64  partsize_by_byte;			//·ÖÇø´óĞ¡(×Ö½Úµ¥Î»)
+	s64  partsize_by_byte;			//åˆ†åŒºå¤§å°(å­—èŠ‚å•ä½)
 
-	s64  partdata_by_byte;			//ĞèÒªÏÂÔØµÄ·ÖÇøÊı¾İ(×Ö½Úµ¥Î»)
+	s64  partdata_by_byte;			//éœ€è¦ä¸‹è½½çš„åˆ†åŒºæ•°æ®(å­—èŠ‚å•ä½)
 	s64  tmp_partdata_by_bytes;
 
-	uint onetime_read_sectors;		//Ò»´Î¶ÁĞ´µÄÉÈÇøÊı
+	uint onetime_read_sectors;		//ä¸€æ¬¡è¯»å†™çš„æ‰‡åŒºæ•°
 	uint first_write_bytes;
 
-	uint imgfile_start;				//·ÖÇøÊı¾İËùÔÚµÄÉÈÇø
+	uint imgfile_start;				//åˆ†åŒºæ•°æ®æ‰€åœ¨çš„æ‰‡åŒº
 	uint tmp_imgfile_start;
 
 	u8 *down_buffer       = source_buff + SPRITE_CARD_HEAD_BUFF;
@@ -275,12 +275,12 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 
 	int  ret = -1;
 	//*******************************************************************
-	//»ñÈ¡·ÖÇøÆğÊ¼ÉÈÇø
+	//è·å–åˆ†åŒºèµ·å§‹æ‰‡åŒº
 	tmp_partstart_by_sector = partstart_by_sector = part_info->addrlo;
-	//»ñÈ¡·ÖÇø´óĞ¡£¬×Ö½ÚÊı
+	//è·å–åˆ†åŒºå¤§å°ï¼Œå­—èŠ‚æ•°
 	partsize_by_byte     = part_info->lenlo;
 	partsize_by_byte   <<= 9;
-	//´ò¿ª·ÖÇø¾µÏñ
+	//æ‰“å¼€åˆ†åŒºé•œåƒ
 	imgitemhd = Img_OpenItem(imghd, "RFSFAT16", (char *)part_info->dl_filename);
 	if(!imgitemhd)
 	{
@@ -288,7 +288,7 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 
 		return -1;
 	}
-	//»ñÈ¡·ÖÇø¾µÏñ×Ö½ÚÊı
+	//è·å–åˆ†åŒºé•œåƒå­—èŠ‚æ•°
 	partdata_by_byte = Img_GetItemSize(imghd, imgitemhd);
 	if (partdata_by_byte <= 0)
 	{
@@ -298,14 +298,14 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 	}
 	printf("partdata hi 0x%x\n", (uint)(partdata_by_byte>>32));
 	printf("partdata lo 0x%x\n", (uint)partdata_by_byte);
-	//Èç¹û·ÖÇøÊı¾İ³¬¹ı·ÖÇø´óĞ¡
+	//å¦‚æœåˆ†åŒºæ•°æ®è¶…è¿‡åˆ†åŒºå¤§å°
 	if(partdata_by_byte > partsize_by_byte)
 	{
 		printf("sunxi sprite: data size 0x%x is larger than part %s size 0x%x\n", (uint)(partdata_by_byte/512), part_info->dl_filename, (uint)(partsize_by_byte/512));
 
 		goto __download_normal_part_err1;
 	}
-	//×¼±¸¶ÁÈ¡·ÖÇø¾µÏñÊı¾İ
+	//å‡†å¤‡è¯»å–åˆ†åŒºé•œåƒæ•°æ®
 	tmp_partdata_by_bytes = partdata_by_byte;
 	if(tmp_partdata_by_bytes >= SPRITE_CARD_ONCE_DATA_DEAL)
 	{
@@ -317,7 +317,7 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 		onetime_read_sectors = (tmp_partdata_by_bytes + 511)>>9;
 		first_write_bytes    = (uint)tmp_partdata_by_bytes;
 	}
-	//¿ªÊ¼»ñÈ¡·ÖÇøÊı¾İ
+	//å¼€å§‹è·å–åˆ†åŒºæ•°æ®
 	imgfile_start = Img_GetItemStart(imghd, imgitemhd);
 	if(!imgfile_start)
 	{
@@ -326,20 +326,20 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 		goto __download_normal_part_err1;
 	}
 	tmp_imgfile_start = imgfile_start;
-	//¶Á³öµÚÒ»±Ê¹Ì¼şÖĞµÄ·ÖÇøÊı¾İ£¬´óĞ¡Îªbuffer×Ö½ÚÊı
+	//è¯»å‡ºç¬¬ä¸€ç¬”å›ºä»¶ä¸­çš„åˆ†åŒºæ•°æ®ï¼Œå¤§å°ä¸ºbufferå­—èŠ‚æ•°
 	if(sunxi_flash_read(tmp_imgfile_start, onetime_read_sectors, down_buffer) != onetime_read_sectors)
 	{
 		printf("sunxi sprite error : read sdcard block %d, total %d failed\n", tmp_imgfile_start, onetime_read_sectors);
 
 		goto __download_normal_part_err1;
 	}
-	//ÏÂÒ»¸öÒª¶Á³öµÄÊı¾İ
+	//ä¸‹ä¸€ä¸ªè¦è¯»å‡ºçš„æ•°æ®
 	tmp_imgfile_start += onetime_read_sectors;
-	//³¢ÊÔ²é¿´ÊÇ·ñsparse¸ñÊ½
-    partdata_format = unsparse_probe((char *)down_buffer, first_write_bytes, partstart_by_sector);		//ÅĞ¶ÏÊı¾İ¸ñÊ½
+	//å°è¯•æŸ¥çœ‹æ˜¯å¦sparseæ ¼å¼
+    partdata_format = unsparse_probe((char *)down_buffer, first_write_bytes, partstart_by_sector);		//åˆ¤æ–­æ•°æ®æ ¼å¼
     if(partdata_format != ANDROID_FORMAT_DETECT)
     {
-    	//Ğ´ÈëµÚÒ»±ÊÊı¾İ
+    	//å†™å…¥ç¬¬ä¸€ç¬”æ•°æ®
     	if(sunxi_sprite_write(tmp_partstart_by_sector, onetime_read_sectors, down_buffer) != onetime_read_sectors)
 		{
 			printf("sunxi sprite error: download rawdata error %s\n", part_info->dl_filename);
@@ -351,14 +351,14 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 
 		while(tmp_partdata_by_bytes >= SPRITE_CARD_ONCE_DATA_DEAL)
 		{
-			//¼ÌĞø¶Á³ö¹Ì¼şÖĞµÄ·ÖÇøÊı¾İ£¬´óĞ¡Îªbuffer×Ö½ÚÊı
+			//ç»§ç»­è¯»å‡ºå›ºä»¶ä¸­çš„åˆ†åŒºæ•°æ®ï¼Œå¤§å°ä¸ºbufferå­—èŠ‚æ•°
 			if(sunxi_flash_read(tmp_imgfile_start, SPRITE_CARD_ONCE_SECTOR_DEAL, down_buffer) != SPRITE_CARD_ONCE_SECTOR_DEAL)
 			{
 				printf("sunxi sprite error : read sdcard block %d, total %d failed\n", tmp_imgfile_start, SPRITE_CARD_ONCE_SECTOR_DEAL);
 
 				goto __download_normal_part_err1;
 			}
-			//Ğ´Èëflash
+			//å†™å…¥flash
 			if(sunxi_sprite_write(tmp_partstart_by_sector, SPRITE_CARD_ONCE_SECTOR_DEAL, down_buffer) != SPRITE_CARD_ONCE_SECTOR_DEAL)
 			{
 				printf("sunxi sprite error: download rawdata error %s, start 0x%x, sectors 0x%x\n", part_info->dl_filename, tmp_partstart_by_sector, SPRITE_CARD_ONCE_SECTOR_DEAL);
@@ -372,14 +372,14 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 		if(tmp_partdata_by_bytes > 0)
 		{
 			uint rest_sectors = (tmp_partdata_by_bytes + 511)>>9;
-			//¼ÌĞø¶Á³ö¹Ì¼şÖĞµÄ·ÖÇøÊı¾İ£¬´óĞ¡Îªbuffer×Ö½ÚÊı
+			//ç»§ç»­è¯»å‡ºå›ºä»¶ä¸­çš„åˆ†åŒºæ•°æ®ï¼Œå¤§å°ä¸ºbufferå­—èŠ‚æ•°
 			if(sunxi_flash_read(tmp_imgfile_start, rest_sectors, down_buffer) != rest_sectors)
 			{
 				printf("sunxi sprite error : read sdcard block %d, total %d failed\n", tmp_imgfile_start, rest_sectors);
 
 				goto __download_normal_part_err1;
 			}
-			//Ğ´Èëflash
+			//å†™å…¥flash
 			if(sunxi_sprite_write(tmp_partstart_by_sector, rest_sectors, down_buffer) != rest_sectors)
 			{
 				printf("sunxi sprite error: download rawdata error %s, start 0x%x, sectors 0x%x\n", part_info->dl_filename, tmp_partstart_by_sector, rest_sectors);
@@ -400,14 +400,14 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 
 		while(tmp_partdata_by_bytes >= SPRITE_CARD_ONCE_DATA_DEAL)
 		{
-			//¼ÌĞø¶Á³ö¹Ì¼şÖĞµÄ·ÖÇøÊı¾İ£¬´óĞ¡Îªbuffer×Ö½ÚÊı
+			//ç»§ç»­è¯»å‡ºå›ºä»¶ä¸­çš„åˆ†åŒºæ•°æ®ï¼Œå¤§å°ä¸ºbufferå­—èŠ‚æ•°
 			if(sunxi_flash_read(tmp_imgfile_start, SPRITE_CARD_ONCE_SECTOR_DEAL, down_buffer) != SPRITE_CARD_ONCE_SECTOR_DEAL)
 			{
 				printf("sunxi sprite error : read sdcard block 0x%x, total 0x%x failed\n", tmp_imgfile_start, SPRITE_CARD_ONCE_SECTOR_DEAL);
 
 				goto __download_normal_part_err1;
 			}
-			//Ğ´Èëflash
+			//å†™å…¥flash
 			if(unsparse_direct_write(down_buffer, SPRITE_CARD_ONCE_DATA_DEAL))
 			{
 				printf("sunxi sprite error: download sparse error %s\n", part_info->dl_filename);
@@ -420,14 +420,14 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 		if(tmp_partdata_by_bytes > 0)
 		{
 			uint rest_sectors = (tmp_partdata_by_bytes + 511)>>9;
-			//¼ÌĞø¶Á³ö¹Ì¼şÖĞµÄ·ÖÇøÊı¾İ£¬´óĞ¡Îªbuffer×Ö½ÚÊı
+			//ç»§ç»­è¯»å‡ºå›ºä»¶ä¸­çš„åˆ†åŒºæ•°æ®ï¼Œå¤§å°ä¸ºbufferå­—èŠ‚æ•°
 			if(sunxi_flash_read(tmp_imgfile_start, rest_sectors, down_buffer) != rest_sectors)
 			{
 				printf("sunxi sprite error : read sdcard block 0x%x, total 0x%x failed\n", tmp_imgfile_start, rest_sectors);
 
 				goto __download_normal_part_err1;
 			}
-			//Ğ´Èëflash
+			//å†™å…¥flash
 			if(unsparse_direct_write(down_buffer, tmp_partdata_by_bytes))
 			{
 				printf("sunxi sprite error: download sparse error %s\n", part_info->dl_filename);
@@ -444,7 +444,7 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
     	Img_CloseItem(imghd, imgitemhd);
     	imgitemhd = NULL;
     }
-	//ÅĞ¶ÏÊÇ·ñĞèÒª½øĞĞĞ£Ñé
+	//åˆ¤æ–­æ˜¯å¦éœ€è¦è¿›è¡Œæ ¡éªŒ
     if(part_info->verify)
     {
     	uint active_verify;
@@ -461,7 +461,7 @@ static int __download_normal_part(dl_one_part_info *part_info,  uchar *source_bu
 
 				goto __download_normal_part_err1;
 			}
-			if(!Img_ReadItem(imghd, imgitemhd, (void *)verify_data, 1024))   //¶Á³öÊı¾İ
+			if(!Img_ReadItem(imghd, imgitemhd, (void *)verify_data, 1024))   //è¯»å‡ºæ•°æ®
 	        {
 	            printf("sprite update warning: fail to read data from %s\n", part_info->vf_filename);
 
@@ -528,31 +528,31 @@ __download_normal_part_err1:
 */
 static int __download_sysrecover_part(dl_one_part_info *part_info,  uchar *source_buff)
 {
-	uint partstart_by_sector;		//·ÖÇøÆğÊ¼ÉÈÇø
+	uint partstart_by_sector;		//åˆ†åŒºèµ·å§‹æ‰‡åŒº
 	uint tmp_partstart_by_sector;
 
-	s64  partsize_by_byte;			//·ÖÇø´óĞ¡(×Ö½Úµ¥Î»)
+	s64  partsize_by_byte;			//åˆ†åŒºå¤§å°(å­—èŠ‚å•ä½)
 
-	s64  partdata_by_byte;			//ĞèÒªÏÂÔØµÄ·ÖÇøÊı¾İ(×Ö½Úµ¥Î»)
+	s64  partdata_by_byte;			//éœ€è¦ä¸‹è½½çš„åˆ†åŒºæ•°æ®(å­—èŠ‚å•ä½)
 	s64  tmp_partdata_by_bytes;
 
-	uint onetime_read_sectors;		//Ò»´Î¶ÁĞ´µÄÉÈÇøÊı
+	uint onetime_read_sectors;		//ä¸€æ¬¡è¯»å†™çš„æ‰‡åŒºæ•°
 
-	uint imgfile_start;				//·ÖÇøÊı¾İËùÔÚµÄÉÈÇø
+	uint imgfile_start;				//åˆ†åŒºæ•°æ®æ‰€åœ¨çš„æ‰‡åŒº
 	uint tmp_imgfile_start;
 
 	u8 *down_buffer       = source_buff + SPRITE_CARD_HEAD_BUFF;
 
 	int  ret = -1;
 	//*******************************************************************
-	//»ñÈ¡·ÖÇøÆğÊ¼ÉÈÇø
+	//è·å–åˆ†åŒºèµ·å§‹æ‰‡åŒº
 	tmp_partstart_by_sector = partstart_by_sector = part_info->addrlo;
-	//»ñÈ¡·ÖÇø´óĞ¡£¬×Ö½ÚÊı
+	//è·å–åˆ†åŒºå¤§å°ï¼Œå­—èŠ‚æ•°
 	partsize_by_byte     = part_info->lenlo;
 	partsize_by_byte   <<= 9;
-	//´ò¿ª·ÖÇø¾µÏñ
+	//æ‰“å¼€åˆ†åŒºé•œåƒ
 
-	//»ñÈ¡·ÖÇø¾µÏñ×Ö½ÚÊı
+	//è·å–åˆ†åŒºé•œåƒå­—èŠ‚æ•°
 	partdata_by_byte = Img_GetSize(imghd);
 	if (partdata_by_byte <= 0)
 	{
@@ -560,14 +560,14 @@ static int __download_sysrecover_part(dl_one_part_info *part_info,  uchar *sourc
 
 		goto __download_sysrecover_part_err1;
 	}
-	//Èç¹û·ÖÇøÊı¾İ³¬¹ı·ÖÇø´óĞ¡
+	//å¦‚æœåˆ†åŒºæ•°æ®è¶…è¿‡åˆ†åŒºå¤§å°
 	if(partdata_by_byte > partsize_by_byte)
 	{
 		printf("sunxi sprite: data size 0x%x is larger than part %s size 0x%x\n", (uint)(partdata_by_byte/512), part_info->dl_filename, (uint)(partsize_by_byte/512));
 
 		goto __download_sysrecover_part_err1;
 	}
-	//×¼±¸¶ÁÈ¡·ÖÇø¾µÏñÊı¾İ
+	//å‡†å¤‡è¯»å–åˆ†åŒºé•œåƒæ•°æ®
 	tmp_partdata_by_bytes = partdata_by_byte;
 	if(tmp_partdata_by_bytes >= SPRITE_CARD_ONCE_DATA_DEAL)
 	{
@@ -577,7 +577,7 @@ static int __download_sysrecover_part(dl_one_part_info *part_info,  uchar *sourc
 	{
 		onetime_read_sectors = (tmp_partdata_by_bytes + 511)>>9;
 	}
-	//¿ªÊ¼»ñÈ¡·ÖÇøÊı¾İ
+	//å¼€å§‹è·å–åˆ†åŒºæ•°æ®
 	imgfile_start = sprite_card_firmware_start();
 	if(!imgfile_start)
 	{
@@ -589,14 +589,14 @@ static int __download_sysrecover_part(dl_one_part_info *part_info,  uchar *sourc
 
 	while(tmp_partdata_by_bytes >= SPRITE_CARD_ONCE_DATA_DEAL)
 	{
-		//¼ÌĞø¶Á³ö¹Ì¼şÖĞµÄ·ÖÇøÊı¾İ£¬´óĞ¡Îªbuffer×Ö½ÚÊı
+		//ç»§ç»­è¯»å‡ºå›ºä»¶ä¸­çš„åˆ†åŒºæ•°æ®ï¼Œå¤§å°ä¸ºbufferå­—èŠ‚æ•°
 		if(sunxi_flash_read(tmp_imgfile_start, onetime_read_sectors, down_buffer) != onetime_read_sectors)
 		{
 			printf("sunxi sprite error : read sdcard block %d, total %d failed\n", tmp_imgfile_start, onetime_read_sectors);
 
 			goto __download_sysrecover_part_err1;
 		}
-		//Ğ´Èëflash
+		//å†™å…¥flash
 		if(sunxi_sprite_write(tmp_partstart_by_sector, onetime_read_sectors, down_buffer) != onetime_read_sectors)
 		{
 			printf("sunxi sprite error: download rawdata error %s, start 0x%x, sectors 0x%x\n", part_info->dl_filename, tmp_partstart_by_sector, onetime_read_sectors);
@@ -610,14 +610,14 @@ static int __download_sysrecover_part(dl_one_part_info *part_info,  uchar *sourc
 	if(tmp_partdata_by_bytes > 0)
 	{
 		uint rest_sectors = (tmp_partdata_by_bytes + 511)/512;
-		//¼ÌĞø¶Á³ö¹Ì¼şÖĞµÄ·ÖÇøÊı¾İ£¬´óĞ¡Îªbuffer×Ö½ÚÊı
+		//ç»§ç»­è¯»å‡ºå›ºä»¶ä¸­çš„åˆ†åŒºæ•°æ®ï¼Œå¤§å°ä¸ºbufferå­—èŠ‚æ•°
 		if(sunxi_flash_read(tmp_imgfile_start, rest_sectors, down_buffer) != rest_sectors)
 		{
 			printf("sunxi sprite error : read sdcard block %d, total %d failed\n", tmp_imgfile_start, rest_sectors);
 
 			goto __download_sysrecover_part_err1;
 		}
-		//Ğ´Èëflash
+		//å†™å…¥flash
 		if(sunxi_sprite_write(tmp_partstart_by_sector, rest_sectors, down_buffer) != rest_sectors)
 		{
 			printf("sunxi sprite error: download rawdata error %s, start 0x%x, sectors 0x%x\n", part_info->dl_filename, tmp_partstart_by_sector, rest_sectors);
@@ -668,14 +668,14 @@ int sunxi_sprite_deal_part(sunxi_download_info *dl_map)
 		return 0;
 	}
 	rate = (70-10)/dl_map->download_count;
-	//³õÊ¼»¯flash£¬nand»òÕßmmc
+	//åˆå§‹åŒ–flashï¼Œnandæˆ–è€…mmc
 	if(sunxi_sprite_init(1))
 	{
 		printf("sunxi sprite err: init flash err\n");
 
 		return -1;
 	}
- 	//ÉêÇëÄÚ´æ
+ 	//ç”³è¯·å†…å­˜
     down_buff = (uchar *)malloc(SPRITE_CARD_ONCE_DATA_DEAL + SPRITE_CARD_HEAD_BUFF);
     if(!down_buff)
     {
@@ -699,7 +699,7 @@ int sunxi_sprite_deal_part(sunxi_download_info *dl_map)
 			{
 				printf("do NOT need download UDISK\n");
 			}
-		}//Èç¹ûÊÇsysrecovery·ÖÇø£¬ÉÕÂ¼ÍêÕû·ÖÇø¾µÏñ
+		}//å¦‚æœæ˜¯sysrecoveryåˆ†åŒºï¼Œçƒ§å½•å®Œæ•´åˆ†åŒºé•œåƒ
 		else if(!strncmp("sysrecovery", (char*)part_info->name, strlen("sysrecovery")))
 		{
 			ret1 = __download_sysrecover_part(part_info, down_buff);
@@ -709,12 +709,12 @@ int sunxi_sprite_deal_part(sunxi_download_info *dl_map)
 
 				goto __sunxi_sprite_deal_part_err2;
 			}
-		}//Èç¹ûÊÇprivate·ÖÇø£¬¼ì²éÊÇ·ñĞèÒªÉÕÂ¼
+		}//å¦‚æœæ˜¯privateåˆ†åŒºï¼Œæ£€æŸ¥æ˜¯å¦éœ€è¦çƒ§å½•
 		else if(!strncmp("private", (char*)part_info->name, strlen("private")))
 		{
 			if(1)
 			{
-				//ĞèÒªÉÕÂ¼´Ë·ÖÇø
+				//éœ€è¦çƒ§å½•æ­¤åˆ†åŒº
 				printf("NEED down private part\n");
 				ret1 = __download_normal_part(part_info, down_buff);
 				if(ret1 != 0)
@@ -784,14 +784,14 @@ int sunxi_sprite_deal_uboot(int production_media)
         printf("sprite update error: fail to open uboot item\n");
         return -1;
     }
-    //uboot³¤¶È
+    //ubooté•¿åº¦
     item_original_size = Img_GetItemSize(imghd, imgitemhd);
     if(!item_original_size)
     {
         printf("sprite update error: fail to get uboot item size\n");
         return -1;
     }
-    /*»ñÈ¡ubootµÄÊı¾İ*/
+    /*è·å–ubootçš„æ•°æ®*/
     if(!Img_ReadItem(imghd, imgitemhd, (void *)buffer, 1024 * 1024))
     {
         printf("update error: fail to read data from for uboot\n");
@@ -843,14 +843,14 @@ int sunxi_sprite_deal_boot0(int production_media)
         printf("sprite update error: fail to open boot0 item\n");
         return -1;
     }
-    //boot0³¤¶È
+    //boot0é•¿åº¦
     item_original_size = Img_GetItemSize(imghd, imgitemhd);
     if(!item_original_size)
     {
         printf("sprite update error: fail to get boot0 item size\n");
         return -1;
     }
-    /*»ñÈ¡boot0µÄÊı¾İ*/
+    /*è·å–boot0çš„æ•°æ®*/
     if(!Img_ReadItem(imghd, imgitemhd, (void *)buffer, 32 * 1024))
     {
         printf("update error: fail to read data from for boot0\n");
@@ -1241,7 +1241,7 @@ __sunxi_card_probe_mmc0_boot_exit:
 *
 *                                             function
 *
-*    name          :  Ò»¼ü»Ö¸´ÉÕĞ´·ÖÇø
+*    name          :  ä¸€é”®æ¢å¤çƒ§å†™åˆ†åŒº
 *
 *    parmeters     :
 *
@@ -1268,7 +1268,7 @@ int sunxi_sprite_deal_part_from_sysrevoery(sunxi_download_info *dl_map)
 		return 0;
 	}
 	rate = (80)/dl_map->download_count;
-	//³õÊ¼»¯flash£¬nand»òÕßmmc
+	//åˆå§‹åŒ–flashï¼Œnandæˆ–è€…mmc
 	//
 /*
 	if(sunxi_sprite_init(1))
@@ -1278,7 +1278,7 @@ int sunxi_sprite_deal_part_from_sysrevoery(sunxi_download_info *dl_map)
 		return -1;
 	}
 */	
- 	//ÉêÇëÄÚ´æ
+ 	//ç”³è¯·å†…å­˜
     down_buff = (uchar *)malloc(SPRITE_CARD_ONCE_DATA_DEAL + SPRITE_CARD_HEAD_BUFF);
     if(!down_buff)
     {
@@ -1348,7 +1348,7 @@ __sunxi_sprite_deal_part_err2:
 *
 *                                             function
 *
-*    name          :  Õâ¸öº¯ÊıÖ÷ÒªÖ÷ÒªÎªÁËÓÃspriteµÄº¯Êı½Ó¿Ú
+*    name          :  è¿™ä¸ªå‡½æ•°ä¸»è¦ä¸»è¦ä¸ºäº†ç”¨spriteçš„å‡½æ•°æ¥å£
 *
 *    parmeters     :
 *

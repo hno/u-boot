@@ -623,7 +623,7 @@ int spinor_exit(int force)
 				ret = -1;
 			}
 		}
-		//ÕâÀï¹Ø±Õspinor¿ØÖÆÆ÷
+		//è¿™é‡Œå…³é—­spinoræ§åˆ¶å™¨
 		spic_exit(0);
 	}
 
@@ -793,7 +793,7 @@ int spinor_flush_cache(void)
 */
 int spinor_erase_all_blocks(int erase)
 {
-	if(erase)		//µ±²ÎÊıÎª0£¬±íÊ¾¸ù¾İÇé¿ö£¬×Ô¶¯ÅĞ¶ÏÊÇ·ñĞèÒª½øÈë²Á³ı
+	if(erase)		//å½“å‚æ•°ä¸º0ï¼Œè¡¨ç¤ºæ ¹æ®æƒ…å†µï¼Œè‡ªåŠ¨åˆ¤æ–­æ˜¯å¦éœ€è¦è¿›å…¥æ“¦é™¤
 	{
 		__spinor_erase_all();
 	}

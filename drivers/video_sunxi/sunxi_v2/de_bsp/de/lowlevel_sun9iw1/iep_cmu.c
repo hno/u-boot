@@ -345,7 +345,7 @@ s32 IEP_CMU_Operation_In_Vblanking(u32 sel)
 {
 	u32 reg_val;
 
-	//��ʼ�����ֶ�ģʽ
+	//锟斤拷始锟斤拷锟斤拷锟街讹拷模式
 	CMU_WUINT32(sel,IMGEHC_CMU_REGBUFFCTL_REG_OFF,0x2);
 	reg_val = CMU_RUINT32(sel,IMGEHC_CMU_REGBUFFCTL_REG_OFF);
 	CMU_WUINT32(sel,IMGEHC_CMU_REGBUFFCTL_REG_OFF,reg_val|0x1);
@@ -354,7 +354,7 @@ s32 IEP_CMU_Operation_In_Vblanking(u32 sel)
 	return 0;
 }
 
-//���û���ò�����enable,ȷ����ʹ��һ��Ĭ�ϲ���
+//锟斤拷锟矫伙拷锟斤拷貌锟斤拷锟斤拷锟絜nable,确锟斤拷锟斤拷使锟斤拷一锟斤拷默锟较诧拷锟斤拷
 s32 IEP_CMU_Enable(u32 sel, u32 enable)
 {
 	u32 reg_val;

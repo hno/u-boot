@@ -1,6 +1,6 @@
 /*
  * sun6i_gmac.c: Allwinnertech Gigabit Ethernet u-boot driver
- * Copyright © 2006-2012, AllWinner Technology. Co., Ltd.
+ * Copyright 漏 2006-2012, AllWinner Technology. Co., Ltd.
  *				All Rights Resvered                   
  *		Author: shuge <shuge@allwinnertech.com>
  *

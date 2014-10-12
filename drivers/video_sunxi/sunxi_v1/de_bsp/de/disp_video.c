@@ -104,7 +104,7 @@ static __inline __s32 Hal_Set_Frame(__u32 screen_id, __u32 tcon_index, __u32 id)
 			if(g_video[screen_id][id].dit_enable == TRUE) {
 				g_video[screen_id][id].dit_mode = dit_mode_default[scaler_index];
 				maf_linestride = (((scaler->src_win.width + 31) & 	0xffffffe0)*2/8 + 31) & 0xffffffe0;
-				// //g_video[screen_id][id].video_cur.flag_stride;//todo? ( (£¨720 + 31£©&0xffffffe0 ) * 2/8  + 31) & 0xffffffe0
+				// //g_video[screen_id][id].video_cur.flag_stride;//todo? ( (ï¼ˆ720 + 31ï¼‰&0xffffffe0 ) * 2/8  + 31) & 0xffffffe0
 
 				if(g_video[screen_id][id].video_cur.pre_frame_valid == TRUE) {
 					g_video[screen_id][id].tempdiff_en = TRUE;

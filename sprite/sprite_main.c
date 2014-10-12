@@ -106,9 +106,9 @@ static void __dump_mbr(sunxi_mbr_t *mbr_info)
 *
 *    name          :
 *
-*    parmeters     :	workmode: Éı¼¶Ä£Ê½Ñ¡Ôñ£º0£¬¿¨ÉÏ¹Ì¼şĞÎÊ½Éı¼¶£»1£¬ÎÄ¼şĞÎÊ½Éı¼¶
+*    parmeters     :	workmode: å‡çº§æ¨¡å¼é€‰æ‹©ï¼š0ï¼Œå¡ä¸Šå›ºä»¶å½¢å¼å‡çº§ï¼›1ï¼Œæ–‡ä»¶å½¢å¼å‡çº§
 *
-*						name    : ÎÄ¼şÉı¼¶Ê±µÄÃû´Ê
+*						name    : æ–‡ä»¶å‡çº§æ—¶çš„åè¯
 *
 *    return        :
 *
@@ -119,17 +119,17 @@ static void __dump_mbr(sunxi_mbr_t *mbr_info)
 */
 int sunxi_card_sprite_main(int workmode, char *name)
 {
-	int production_media;					//Éı¼¶½éÖÊ
+	int production_media;					//å‡çº§ä»‹è´¨
 	uchar  img_mbr[1024 * 1024];			//mbr
 	sunxi_download_info  dl_map;			//dlinfo
 	int    sprite_next_work;
 
 	tick_printf("sunxi sprite begin\n");
-	//»ñÈ¡µ±Ç°ÊÇÁ¿²ú½éÖÊÊÇnand»òÕß¿¨
+	//è·å–å½“å‰æ˜¯é‡äº§ä»‹è´¨æ˜¯nandæˆ–è€…å¡
 	production_media = uboot_spare_head.boot_data.storage_type;
-	//Æô¶¯¶¯»­ÏÔÊ¾
+	//å¯åŠ¨åŠ¨ç”»æ˜¾ç¤º
 	sprite_cartoon_create();
-	//¼ì²é¹Ì¼şºÏ·¨ĞÔ
+	//æ£€æŸ¥å›ºä»¶åˆæ³•æ€§
 	if(sprite_card_firmware_probe(name))
     {
     	printf("sunxi sprite firmware probe fail\n");
@@ -138,7 +138,7 @@ int sunxi_card_sprite_main(int workmode, char *name)
     }
 	sprite_cartoon_upgrade(5);
     tick_printf("firmware probe ok\n");
-    //»ñÈ¡dl_mapÎÄ¼ş£¬ÓÃÓÚÖ¸ÒıÏÂÔØµÄÊı¾İ
+    //è·å–dl_mapæ–‡ä»¶ï¼Œç”¨äºæŒ‡å¼•ä¸‹è½½çš„æ•°æ®
     tick_printf("fetch download map\n");
     if(sprite_card_fetch_download_map(&dl_map))
     {
@@ -147,7 +147,7 @@ int sunxi_card_sprite_main(int workmode, char *name)
     	return -1;
     }
 	__dump_dlmap(&dl_map);
-    //»ñÈ¡mbr
+    //è·å–mbr
     tick_printf("fetch mbr\n");
 	if(sprite_card_fetch_mbr(&img_mbr))
     {
@@ -156,7 +156,7 @@ int sunxi_card_sprite_main(int workmode, char *name)
     	return -1;
     }
 	__dump_mbr((sunxi_mbr_t *)img_mbr);
-    //¸ù¾İmbr£¬¾ö¶¨²Á³ıÊ±ºòÊÇ·ñÒª±£ÁôÊı¾İ
+    //æ ¹æ®mbrï¼Œå†³å®šæ“¦é™¤æ—¶å€™æ˜¯å¦è¦ä¿ç•™æ•°æ®
     tick_printf("begin to erase flash\n");
     nand_get_mbr((char *)img_mbr, 16 * 1024);
 	if(sunxi_sprite_erase_flash(img_mbr))
@@ -174,7 +174,7 @@ int sunxi_card_sprite_main(int workmode, char *name)
 	}
     sprite_cartoon_upgrade(10);
     tick_printf("begin to download part\n");
-    //¿ªÊ¼ÉÕĞ´·ÖÇø
+    //å¼€å§‹çƒ§å†™åˆ†åŒº
     if(sunxi_sprite_deal_part(&dl_map))
     {
     	printf("sunxi sprite error : download part error\n");
@@ -201,9 +201,9 @@ int sunxi_card_sprite_main(int workmode, char *name)
     }
     tick_printf("successed in downloading boot0\n");
     sprite_cartoon_upgrade(100);
-	//ÉÕĞ´½áÊø
+	//çƒ§å†™ç»“æŸ
 	__msdelay(3000);
-	//´¦ÀíÉÕĞ´Íê³ÉºóµÄ¶¯×÷
+	//å¤„ç†çƒ§å†™å®Œæˆåçš„åŠ¨ä½œ
 	if(script_parser_fetch("card_boot", "next_work", &sprite_next_work, 1))
 	{
 		sprite_next_work = SUNXI_UPDATE_NEXT_ACTION_SHUTDOWN;

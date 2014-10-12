@@ -30,12 +30,12 @@
 
 typedef struct tag_Picture
 {
-    void *Buffer;   		/* ´æ·ÅÍ¼Æ¬Êı¾İ     */
-    __u32 BufferSize;   	/* buffer³¤¶È       */
-    __u32 BitCount; 		/* Ò»¸öÏñËØµÄbitÊı  */
-    __u32 Width;    		/* Í¼Æ¬¿í¶È         */
-    __u32 Height;   		/* Í¼Æ¬¸ß¶È         */
-    __u32 RowSize;  		/* Í¼Æ¬Ò»ĞĞµÄ´óĞ¡   */
+    void *Buffer;   		/* å­˜æ”¾å›¾ç‰‡æ•°æ®     */
+    __u32 BufferSize;   	/* bufferé•¿åº¦       */
+    __u32 BitCount; 		/* ä¸€ä¸ªåƒç´ çš„bitæ•°  */
+    __u32 Width;    		/* å›¾ç‰‡å®½åº¦         */
+    __u32 Height;   		/* å›¾ç‰‡é«˜åº¦         */
+    __u32 RowSize;  		/* å›¾ç‰‡ä¸€è¡Œçš„å¤§å°   */
 }Picture_t;
 
 /*bmp header struct*/

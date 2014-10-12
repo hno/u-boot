@@ -25,7 +25,7 @@
 #ifndef   __AXP238_REGS_H__
 #define   __AXP238_REGS_H__
 
-#define   AXP238_ADDR              (0x11)  //chip id,Õ¼ÓÃ[ 7£º6£¬3£º0 ],Õâ¸öÖµ´æÔÚREG03ÀïÃæ
+#define   AXP238_ADDR              (0x11)  //chip id,å ç”¨[ 7ï¼š6ï¼Œ3ï¼š0 ],è¿™ä¸ªå€¼å­˜åœ¨REG03é‡Œé¢
 
 //define AXP809 REGISTER
 #define   BOOT_POWER238_STATUS              			(0x00)

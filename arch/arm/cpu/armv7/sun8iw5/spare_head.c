@@ -64,18 +64,18 @@ struct spare_boot_head_t  uboot_spare_head = {
 
 /*******************************************************************************
 *
-*                  ¹ØÓÚBoot_file_headÖĞµÄjump_instruction×Ö¶Î
+*                  å…³äºBoot_file_headä¸­çš„jump_instructionå­—æ®µ
 *
-*  jump_instruction×Ö¶Î´æ·ÅµÄÊÇÒ»ÌõÌø×ªÖ¸Áî£º( B  BACK_OF_Boot_file_head )£¬´ËÌø
-*×ªÖ¸Áî±»Ö´ĞĞºó£¬³ÌĞò½«Ìø×ªµ½Boot_file_headºóÃæµÚÒ»ÌõÖ¸Áî¡£
+*  jump_instructionå­—æ®µå­˜æ”¾çš„æ˜¯ä¸€æ¡è·³è½¬æŒ‡ä»¤ï¼š( B  BACK_OF_Boot_file_head )ï¼Œæ­¤è·³
+*è½¬æŒ‡ä»¤è¢«æ‰§è¡Œåï¼Œç¨‹åºå°†è·³è½¬åˆ°Boot_file_headåé¢ç¬¬ä¸€æ¡æŒ‡ä»¤ã€‚
 *
-*  ARMÖ¸ÁîÖĞµÄBÖ¸Áî±àÂëÈçÏÂ£º
+*  ARMæŒ‡ä»¤ä¸­çš„BæŒ‡ä»¤ç¼–ç å¦‚ä¸‹ï¼š
 *          +--------+---------+------------------------------+
 *          | 31--28 | 27--24  |            23--0             |
 *          +--------+---------+------------------------------+
 *          |  cond  | 1 0 1 0 |        signed_immed_24       |
 *          +--------+---------+------------------------------+
-*  ¡¶ARM Architecture Reference Manual¡·¶ÔÓÚ´ËÖ¸ÁîÓĞÈçÏÂ½âÊÍ£º
+*  ã€ŠARM Architecture Reference Manualã€‹å¯¹äºæ­¤æŒ‡ä»¤æœ‰å¦‚ä¸‹è§£é‡Šï¼š
 *  Syntax :
 *  B{<cond>}  <target_address>
 *    <cond>    Is the condition under which the instruction is executed. If the
@@ -89,12 +89,12 @@ struct spare_boot_head_t  uboot_spare_head = {
 *              3.  Adding to the contents of the PC, which contains the address
 *                  of the branch instruction plus 8.
 *
-*  ÓÉ´Ë¿ÉÖª£¬´ËÖ¸Áî±àÂëµÄ×î¸ß8Î»Îª£º0b11101010£¬µÍ24Î»¸ù¾İBoot_file_headµÄ´óĞ¡¶¯
-*Ì¬Éú³É£¬ËùÒÔÖ¸ÁîµÄ×é×°¹ı³ÌÈçÏÂ£º
-*  ( sizeof( boot_file_head_t ) + sizeof( int ) - 1 ) / sizeof( int )    Çó³öÎÄ¼şÍ·
-*                                              Õ¼ÓÃµÄ¡°×Ö¡±µÄ¸öÊı
-*  - 2                                         ¼õÈ¥PCÔ¤È¡µÄÖ¸ÁîÌõÊı
-*  & 0x00FFFFFF                                Çó³ösigned-immed-24
-*  | 0xEA000000                                ×é×°³ÉBÖ¸Áî
+*  ç”±æ­¤å¯çŸ¥ï¼Œæ­¤æŒ‡ä»¤ç¼–ç çš„æœ€é«˜8ä½ä¸ºï¼š0b11101010ï¼Œä½24ä½æ ¹æ®Boot_file_headçš„å¤§å°åŠ¨
+*æ€ç”Ÿæˆï¼Œæ‰€ä»¥æŒ‡ä»¤çš„ç»„è£…è¿‡ç¨‹å¦‚ä¸‹ï¼š
+*  ( sizeof( boot_file_head_t ) + sizeof( int ) - 1 ) / sizeof( int )    æ±‚å‡ºæ–‡ä»¶å¤´
+*                                              å ç”¨çš„â€œå­—â€çš„ä¸ªæ•°
+*  - 2                                         å‡å»PCé¢„å–çš„æŒ‡ä»¤æ¡æ•°
+*  & 0x00FFFFFF                                æ±‚å‡ºsigned-immed-24
+*  | 0xEA000000                                ç»„è£…æˆBæŒ‡ä»¤
 *
 *******************************************************************************/

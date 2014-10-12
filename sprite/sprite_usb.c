@@ -95,7 +95,7 @@ int sprite_card_fetch_download_map(download_info *dl_info)
 */
 int card_start_fetch_part_data(HIMAGEITEM imghd, HIMAGEITEM imgitemhd, queue_data qdata)
 {
-	//¶ÁÈ¡³É¹¦
+	//è¯»å–æˆåŠŸ
 	if(Img_ReadItemData(imghd, imgitemhd, (void *)qdata.data, qdata.length))
 	{
 		return 0;
@@ -129,15 +129,15 @@ int sunxi_sprite_card_download_part(void)
 
     for(i=0;i<dl_map.download_count;i++)
     {
-    	//ÈÎÒâÒ»¸ö·ÖÇø£¬ĞèÒªÉÕĞ´µÄÊı¾İÁ¿
-    	//Çå¿ÕËùÓĞbuffer
+    	//ä»»æ„ä¸€ä¸ªåˆ†åŒºï¼Œéœ€è¦çƒ§å†™çš„æ•°æ®é‡
+    	//æ¸…ç©ºæ‰€æœ‰buffer
     	sunxi_queue_reset();
-    	//USBÁ¿²ú£¬ÒªÇóËÍÈëÃûÎªdl_filenameµÄÊı¾İ
+    	//USBé‡äº§ï¼Œè¦æ±‚é€å…¥åä¸ºdl_filenameçš„æ•°æ®
     	base_part_start = dl_map.part_info[i].addrlo;
         part_flash_size  = dl_map.part_info[i].lenlo;
-    	//¿¨Á¿²ú£¬Ö±½Ó¶ÁÈ¡
-    	//¶şÕß¶¼½«²ÉÓÃÖĞ¶Ï×Ô¶¯Ö´ĞĞµÄ·½Ê½£¬²»Í£µÄÌî³äbuffer¿Õ¼ä
-    	//µ±Ìî³äÍê³É£¬Ã»ÓĞĞÂbuffer¿ÉÓÃ£¬ÔòÆô¶¯¶¨Ê±ÖĞ¶Ï²éÑ¯ÊÇ·ñÓĞĞÂ¿Õ¼ä
+    	//å¡é‡äº§ï¼Œç›´æ¥è¯»å–
+    	//äºŒè€…éƒ½å°†é‡‡ç”¨ä¸­æ–­è‡ªåŠ¨æ‰§è¡Œçš„æ–¹å¼ï¼Œä¸åœçš„å¡«å……bufferç©ºé—´
+    	//å½“å¡«å……å®Œæˆï¼Œæ²¡æœ‰æ–°bufferå¯ç”¨ï¼Œåˆ™å¯åŠ¨å®šæ—¶ä¸­æ–­æŸ¥è¯¢æ˜¯å¦æœ‰æ–°ç©ºé—´
 		imgitemhd = Img_OpenItem(imghd, dl_map.part_info[i].dl_style, dl_map.part_info[i].dl_filename);
 		if(!imgitemhd)
 		{
@@ -146,14 +146,14 @@ int sunxi_sprite_card_download_part(void)
 			return -1;
 		}
     	part_datasize = Img_GetItemSize(imghd, imgitemhd);
-        if(part_datasize > part_flash_size)      //¼ì²é·ÖÇø´óĞ¡ÊÇ·ñºÏ·¨
+        if(part_datasize > part_flash_size)      //æ£€æŸ¥åˆ†åŒºå¤§å°æ˜¯å¦åˆæ³•
         {
         	//data is larger than part size
         	printf("sunxi sprite: data size is larger than part %s size\n", dl_map.part_info[i].dl_filename);
 
         	return -1;
         }
-        //¿ªÊ¼»ñÈ¡·ÖÇøÊı¾İ£¬µÚÒ»±ÊÊı¾İÓÃÓÚÅĞ¶ÏÊı¾İµÄ¸ñÊ½
+        //å¼€å§‹è·å–åˆ†åŒºæ•°æ®ï¼Œç¬¬ä¸€ç¬”æ•°æ®ç”¨äºåˆ¤æ–­æ•°æ®çš„æ ¼å¼
 		sunxi_queue_pick(&qdata);
         if(!card_start_fetch_part_data(imghd, imgitemhd, qdata))
         {
@@ -161,7 +161,7 @@ int sunxi_sprite_card_download_part(void)
 
         	return -1;
         }
-        //ÅĞ¶Ï·ÖÇøÊı¾İµÄ¸ñÊ½
+        //åˆ¤æ–­åˆ†åŒºæ•°æ®çš„æ ¼å¼
         format = sunxi_sprite_probe_part_data_format(qdata.data);
         if(format == SUNXI_SPRITE_FORMAT_RAW)
         {
@@ -179,7 +179,7 @@ int sunxi_sprite_card_download_part(void)
         	return -1;
         }
 		Img_CloseItem(imghd, imgitemhd);
-		//Ğ£ÑéÊı¾İ
+		//æ ¡éªŒæ•°æ®
         if(dl_map.one_part_info[i].vf_filename)
         {
         	imgitemhd = Img_OpenItem(imghd, dl_map.part_info[i].dl_style, dl_map.part_info[i].vf_filename);
@@ -189,7 +189,7 @@ int sunxi_sprite_card_download_part(void)
 				Img_CloseItem(imghd, imgitemhd);
 				continue;
 			}
-        	if(!Img_ReadItemData(imghd, imgitemhd, (void *)&origin_verify, sizeof(int)))   //¶Á³öÊı¾İ
+        	if(!Img_ReadItemData(imghd, imgitemhd, (void *)&origin_verify, sizeof(int)))   //è¯»å‡ºæ•°æ®
 	        {
 	            printf("sprite update warning: fail to read data from %s\n", dl_info->one_part_info[i].vf_filename);
 				Img_CloseItem(imghd, imgitemhd);

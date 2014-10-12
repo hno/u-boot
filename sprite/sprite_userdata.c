@@ -106,7 +106,7 @@ int sunxi_sprite_erase_flash()
 *
 *    return        :
 *
-*    note          :  ´æ´¢ÓÃ»§Êı¾İ£¬°üÀ¨ËùÓĞµÄÓÃ»§Êı¾İ
+*    note          :  å­˜å‚¨ç”¨æˆ·æ•°æ®ï¼ŒåŒ…æ‹¬æ‰€æœ‰çš„ç”¨æˆ·æ•°æ®
 *
 *
 ************************************************************************************************************
@@ -122,7 +122,7 @@ int sprite_store_part_data(local_mbr);
 	{
 		if(mbr->array[i].private == 1)
 		{
-			//±íÊ¾´Ë·ÖÇøÊÇÓÃ»§Êı¾İ£¬ĞèÒª±£»¤ÆğÀ´
+			//è¡¨ç¤ºæ­¤åˆ†åŒºæ˜¯ç”¨æˆ·æ•°æ®ï¼Œéœ€è¦ä¿æŠ¤èµ·æ¥
 			sunxi_flash_read(mbr->array[i].addlo, mbr->array[i].lenlo, userdata[j].addr);
 			userdata[j + 1].addr  = userdata[j].addr + userdata[j].length;
 			userdata[j + 1].lenlo = mbr->array[i].lenlo;

@@ -325,7 +325,7 @@ int spic_init(u32 spi_no)
 
 		return -1;
 	}
-	//配置spi rx dma资源
+	//閰嶇疆spi rx dma璧勬簮
 	//spi_rx_dma->pgsz   = 0;
 	//spi_rx_dma->pgstp  = 0;
 	//spi_rx_dma->cmt_blk_cnt = 0;
@@ -342,7 +342,7 @@ int spic_init(u32 spi_no)
 
 	//spi_rx_dma->cfg.wait_state       = 4;
 	//spi_rx_dma->cfg.continuous_mode  = 0;
-	//配置spi tx dma资源
+	//閰嶇疆spi tx dma璧勬簮
 	//spi_tx_dma->pgsz   = 0;
 	//spi_tx_dma->pgstp  = 0;
 	//spi_tx_dma->cmt_blk_cnt = 0;

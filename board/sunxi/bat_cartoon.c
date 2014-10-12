@@ -89,14 +89,14 @@ int battery_charge_cartoon_init(int rate)
 	    	return -3;
 	    }
 	}
-	//设置参数
+	//璁剧疆鍙傛暟
 	if(board_display_framebuffer_set(bat_bmp_store[rate].x, bat_bmp_store[rate].y, bat_bmp_store[rate].bit, (void *)bat_bmp_store[rate].buffer))
 	{
 		tick_printf("cartoon init fail: set frame buffer error\n");
 
 		return -4;
 	}
-	//显示图片
+	//鏄剧ず鍥剧墖
 	board_display_show_until_lcd_open(0);
 	bat_catoon_has_init = 1;
 	pre_bat_cal = 0;

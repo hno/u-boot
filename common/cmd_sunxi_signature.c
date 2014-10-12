@@ -20,19 +20,19 @@
  */
 
  /*
- A. ¼ÓÃÜ½âÃÜ
- 1. ÃÜÔ¿µÄ²úÉú
-     1) ÕÒ³öÁ½¸öÏàÒìµÄ´óËØÊıPºÍQ£¬ÁîN£½P¡ÁQ£¬M£½£¨P£­1£©*£¨Q£­1£©¡£
-     2) ÕÒ³öÓëM»¥ËØµÄ´óÊıE£¬ÇÒE<M£»ÓÃÅ·ÊÏËã·¨¼ÆËã³ö´óÊıD£¬Ê¹D¡ÁE¡Ô1 MOD M¡£
-     3) ¶ªÆúPºÍQ£¬¹«¿ªE£¬DºÍN¡£EºÍN¼´¼ÓÃÜÃÜÔ¿(¹«Ô¿)£¬DºÍN¼´½âÃÜÃÜÔ¿(Ë½Ô¿)¡£
- 2. ¼ÓÃÜµÄ²½Öè
-     1) ¼ÆËãNµÄÓĞĞ§Î»Êıtn£¨ÒÔ×Ö½ÚÊı¼Æ£©£¬½«×î¸ßÎ»µÄÁãºöÂÔµô£¬Áîtn1£½tn£­1¡£±ÈÈçN£½0x012A05£¬ÆäÓĞĞ§Î»Êıtn£½5£¬tn1£½4
-     2) ½«Ã÷ÎÄÊı¾İA·Ö¸î³Étn1Î»£¨ÒÔ×Ö½ÚÊı¼Æ£©µÄ¿é£¬Ã¿¿é¿´³ÉÒ»¸ö´óÊı£¬¿éÊı¼ÇÎªbn¡£´Ó¶ø£¬±£Ö¤ÁËÃ¿¿é¶¼Ğ¡ÓÚN¡£
-     3) ¶ÔAµÄÃ¿Ò»¿éAi½øĞĞBi£½Ai^E MOD NÔËËã¡£Bi¾ÍÊÇÃÜÎÄÊı¾İµÄÒ»¿é£¬½«ËùÓĞÃÜÎÄ¿éºÏ²¢ÆğÀ´£¬¾ÍµÃµ½ÁËÃÜÎÄÊı¾İB¡£
- 3. ½âÃÜµÄ²½Öè
-     1) Í¬¼ÓÃÜµÄµÚÒ»²½¡£
-     2) ½«ÃÜÎÄÊı¾İB·Ö¸î³ÉtnÎ»£¨ÒÔ×Ö½ÚÊı¼Æ£©µÄ¿é£¬Ã¿¿é¿´³ÉÒ»¸ö´óÊı£¬¿éÊı¼ÇÎªbn¡£
-     3) ¶ÔBµÄÃ¿Ò»¿éBi½øĞĞCi£½Bi^D MOD NÔËËã¡£Ci¾ÍÊÇÃÜÎÄÊı¾İµÄÒ»¿é£¬½«ËùÓĞÃÜÎÄ¿éºÏ²¢ÆğÀ´£¬¾ÍµÃµ½ÁËÃÜÎÄÊı¾İC¡£
+ A. åŠ å¯†è§£å¯†
+ 1. å¯†é’¥çš„äº§ç”Ÿ
+     1) æ‰¾å‡ºä¸¤ä¸ªç›¸å¼‚çš„å¤§ç´ æ•°På’ŒQï¼Œä»¤Nï¼PÃ—Qï¼ŒMï¼ï¼ˆPï¼1ï¼‰*ï¼ˆQï¼1ï¼‰ã€‚
+     2) æ‰¾å‡ºä¸Mäº’ç´ çš„å¤§æ•°Eï¼Œä¸”E<Mï¼›ç”¨æ¬§æ°ç®—æ³•è®¡ç®—å‡ºå¤§æ•°Dï¼Œä½¿DÃ—Eâ‰¡1 MOD Mã€‚
+     3) ä¸¢å¼ƒPå’ŒQï¼Œå…¬å¼€Eï¼ŒDå’ŒNã€‚Eå’ŒNå³åŠ å¯†å¯†é’¥(å…¬é’¥)ï¼ŒDå’ŒNå³è§£å¯†å¯†é’¥(ç§é’¥)ã€‚
+ 2. åŠ å¯†çš„æ­¥éª¤
+     1) è®¡ç®—Nçš„æœ‰æ•ˆä½æ•°tnï¼ˆä»¥å­—èŠ‚æ•°è®¡ï¼‰ï¼Œå°†æœ€é«˜ä½çš„é›¶å¿½ç•¥æ‰ï¼Œä»¤tn1ï¼tnï¼1ã€‚æ¯”å¦‚Nï¼0x012A05ï¼Œå…¶æœ‰æ•ˆä½æ•°tnï¼5ï¼Œtn1ï¼4
+     2) å°†æ˜æ–‡æ•°æ®Aåˆ†å‰²æˆtn1ä½ï¼ˆä»¥å­—èŠ‚æ•°è®¡ï¼‰çš„å—ï¼Œæ¯å—çœ‹æˆä¸€ä¸ªå¤§æ•°ï¼Œå—æ•°è®°ä¸ºbnã€‚ä»è€Œï¼Œä¿è¯äº†æ¯å—éƒ½å°äºNã€‚
+     3) å¯¹Açš„æ¯ä¸€å—Aiè¿›è¡ŒBiï¼Ai^E MOD Nè¿ç®—ã€‚Biå°±æ˜¯å¯†æ–‡æ•°æ®çš„ä¸€å—ï¼Œå°†æ‰€æœ‰å¯†æ–‡å—åˆå¹¶èµ·æ¥ï¼Œå°±å¾—åˆ°äº†å¯†æ–‡æ•°æ®Bã€‚
+ 3. è§£å¯†çš„æ­¥éª¤
+     1) åŒåŠ å¯†çš„ç¬¬ä¸€æ­¥ã€‚
+     2) å°†å¯†æ–‡æ•°æ®Båˆ†å‰²æˆtnä½ï¼ˆä»¥å­—èŠ‚æ•°è®¡ï¼‰çš„å—ï¼Œæ¯å—çœ‹æˆä¸€ä¸ªå¤§æ•°ï¼Œå—æ•°è®°ä¸ºbnã€‚
+     3) å¯¹Bçš„æ¯ä¸€å—Biè¿›è¡ŒCiï¼Bi^D MOD Nè¿ç®—ã€‚Ciå°±æ˜¯å¯†æ–‡æ•°æ®çš„ä¸€å—ï¼Œå°†æ‰€æœ‰å¯†æ–‡å—åˆå¹¶èµ·æ¥ï¼Œå°±å¾—åˆ°äº†å¯†æ–‡æ•°æ®Cã€‚
  */
 
 #include <common.h>
@@ -117,7 +117,7 @@ unsigned rsa_init(void)
      m_value = M;
 
      k = 1;
-     if(probe_gcd(m_value, E) == 1)      //e,M»¥ÖÊ
+     if(probe_gcd(m_value, E) == 1)      //e,Mäº’è´¨
      {
          do
          {
@@ -204,7 +204,7 @@ int key = 0;
 *
 *    return        :
 *
-*    note          :  ·µ»ØÊı×é
+*    note          :  è¿”å›æ•°ç»„
 *
 *
 ************************************************************************************************************
@@ -240,7 +240,7 @@ void prepareCryptTable(void)
 *
 *    return        :
 *
-*    note          :  ·µ»ØhashÖµ
+*    note          :  è¿”å›hashå€¼
 *
 *
 ************************************************************************************************************
@@ -296,7 +296,7 @@ void HashString_init(void)
 //
 //		return ;
 //	}
-//	summary = HashString(buffer, 1, read_bytes);	//1Ààhash
+//	summary = HashString(buffer, 1, read_bytes);	//1ç±»hash
 //	 printf("the summary is 0x%x\n",summary);
 //	read_bytes = sizeof(struct image_header);
 //	if(!sunxi_flash_read(boot_start+ CFG_FASTBOOT_MKBOOTIMAGE_PAGE_SIZE/512, (read_bytes + 511)/512, buffer))
@@ -305,7 +305,7 @@ void HashString_init(void)
 //
 //		return ;
 //	}
-//	summary = HashString(buffer, 1, read_bytes);	//1Ààhash
+//	summary = HashString(buffer, 1, read_bytes);	//1ç±»hash
 //	 printf("the summary is 0x%x\n",summary);
 //	 rsa_init();
 //	 h_value[3] = (summary>>24)&0xff;
@@ -361,7 +361,7 @@ void HashString_init(void)
 //	  sblock->s_mnt_count = CFG_SUPER_BLOCK_STAMP_VALUE & 0xffff;
 //	  memset(sblock->s_last_mounted, 0, 64);
 //
-//	  summary = HashString(buffer, 1, (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list));	//1Ààhash
+//	  summary = HashString(buffer, 1, (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list));	//1ç±»hash
 //	  printf("the summary is 0x%x\n",summary);
 //	  rsa_init();
 //
@@ -441,8 +441,8 @@ static int __signature_add_for_boot_format(uint start, uint *sig_value)
 		return -1;
 	}
 
-	hash_value = HashString(buffer, 1, sizeof(struct fastboot_boot_img_hdr));	//1Ààhash
-	hash_value = HashString(buffer + CFG_FASTBOOT_MKBOOTIMAGE_PAGE_SIZE, 1, sizeof(struct image_header));	//1Ààhash
+	hash_value = HashString(buffer, 1, sizeof(struct fastboot_boot_img_hdr));	//1ç±»hash
+	hash_value = HashString(buffer + CFG_FASTBOOT_MKBOOTIMAGE_PAGE_SIZE, 1, sizeof(struct image_header));	//1ç±»hash
 
 	rsa_init();
 	h_value[0] = (hash_value>>0) & 0xff;
@@ -479,7 +479,7 @@ static int __signature_add_for_ext4_format(uint start, uint *sig_value)
 	sblock->s_mtime     = CFG_SUPER_BLOCK_STAMP_VALUE;
 	sblock->s_mnt_count = CFG_SUPER_BLOCK_STAMP_VALUE & 0xffff;
 	memset(sblock->s_last_mounted, 0, 64);
-	hash_value = HashString(buffer, 1, (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list));	//1Ààhash
+	hash_value = HashString(buffer, 1, (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list));	//1ç±»hash
 
 	rsa_init();
 	h_value[0] = (hash_value>>0) & 0xff;
@@ -541,8 +541,8 @@ static int __signature_verify_for_boot_format(uint start, uint *sig_value)
 		return -1;
 	}
 
-	summary1 = HashString(buffer, 1, sizeof(struct fastboot_boot_img_hdr));	//1Ààhash
-	summary1 = HashString(buffer + CFG_FASTBOOT_MKBOOTIMAGE_PAGE_SIZE, 1, sizeof(struct image_header));	//1Ààhash
+	summary1 = HashString(buffer, 1, sizeof(struct fastboot_boot_img_hdr));	//1ç±»hash
+	summary1 = HashString(buffer + CFG_FASTBOOT_MKBOOTIMAGE_PAGE_SIZE, 1, sizeof(struct image_header));	//1ç±»hash
 
 	s_value[0] = sig_value[0];
 	s_value[1] = sig_value[1];
@@ -585,7 +585,7 @@ static int __signature_verify_for_ext4_format(uint start, uint *sig_value)
 	sblock->s_mtime     = CFG_SUPER_BLOCK_STAMP_VALUE;
 	sblock->s_mnt_count = CFG_SUPER_BLOCK_STAMP_VALUE & 0xffff;
 	memset(sblock->s_last_mounted, 0, 64);
-	summary1 = HashString(buffer, 1, (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list));	//1Ààhash
+	summary1 = HashString(buffer, 1, (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list));	//1ç±»hash
 
 	s_value[0] = sig_value[0];
 	s_value[1] = sig_value[1];
@@ -646,9 +646,9 @@ static int __signature_verify(sunxi_partition *partition)
 //	unsigned int read_bytes;
 //
 //	memset(buffer, 0, HASH_BUFFER_BYTES);
-//	//¼ÆËãhashÖµ
-//	prepareCryptTable();		//×¼±¸hash±í
-//	//»ñÈ¡Ç©Ãû
+//	//è®¡ç®—hashå€¼
+//	prepareCryptTable();		//å‡†å¤‡hashè¡¨
+//	//è·å–ç­¾å
 //	printf("ras init\n");
 //	rsa_init();
 //	printf("ras start\n");
@@ -666,7 +666,7 @@ static int __signature_verify(sunxi_partition *partition)
 //
 //			return -1;
 //		}
-//		summary1 = HashString(buffer, 1, read_bytes);	//1Ààhash
+//		summary1 = HashString(buffer, 1, read_bytes);	//1ç±»hash
 //		read_bytes = sizeof(struct image_header);
 //		if(!sunxi_flash_read(tmp_start + CFG_FASTBOOT_MKBOOTIMAGE_PAGE_SIZE/512, (read_bytes + 511)/512, buffer))
 //		{
@@ -674,9 +674,9 @@ static int __signature_verify(sunxi_partition *partition)
 //
 //			return -1;
 //		}
-//		summary1 = HashString(buffer, 1, read_bytes);	//1Ààhash
+//		summary1 = HashString(buffer, 1, read_bytes);	//1ç±»hash
 //
-//		//»ñÈ¡±£´æµÄÇ©Ãû
+//		//è·å–ä¿å­˜çš„ç­¾å
 //		if(!sunxi_flash_read(tmp_start, 2, buffer))
 //		{
 //			printf("signature0 read flash sig3 err\n");
@@ -827,9 +827,9 @@ static int __signature_verify(sunxi_partition *partition)
 //		sblock->s_mtime     = CFG_SUPER_BLOCK_STAMP_VALUE;
 //		sblock->s_mnt_count = CFG_SUPER_BLOCK_STAMP_VALUE & 0xffff;
 //		memset(sblock->s_last_mounted, 0, 64);
-//		summary1 = HashString(buffer, 1, (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list));	//1Ààhash
+//		summary1 = HashString(buffer, 1, (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list));	//1ç±»hash
 //
-//		//»ñÈ¡±£´æµÄÇ©Ãû
+//		//è·å–ä¿å­˜çš„ç­¾å
 //		if(!sunxi_flash_read(tmp_start, 2, buffer))
 //		{
 //			printf("signature1 read flash sig3 err\n");
@@ -1018,11 +1018,11 @@ int sunxi_oem_op_lock(int request_flag, char *info, int force)
 	mbr = (sunxi_mbr_t *)buffer;
 	store_flag = mbr->lockflag;
 
-	if( (request_flag == SUNXI_RELOCKING) || (request_flag == SUNXI_LOCKING) )	//ÒªÇó¼ÓËø
+	if( (request_flag == SUNXI_RELOCKING) || (request_flag == SUNXI_LOCKING) )	//è¦æ±‚åŠ é”
 	{
-		if(  ((store_flag == SUNXI_UNLOCK) || (store_flag == SUNXI_NOLOCK)) || (force == 1)  )	//Èç¹ûÃ»ÓĞËøÉÏ
+		if(  ((store_flag == SUNXI_UNLOCK) || (store_flag == SUNXI_NOLOCK)) || (force == 1)  )	//å¦‚æœæ²¡æœ‰é”ä¸Š
 		{
-			if(!sunxi_resignature(mbr))  //Ö´ĞĞ¼ÓËø²Ù×÷
+			if(!sunxi_resignature(mbr))  //æ‰§è¡ŒåŠ é”æ“ä½œ
 			{
 				if(!force)
 				{
@@ -1044,7 +1044,7 @@ int sunxi_oem_op_lock(int request_flag, char *info, int force)
 					tmp_mbr ++;
 				}
 			}
-			else							//Èç¹û¼ÓËøÊ§°Ü
+			else							//å¦‚æœåŠ é”å¤±è´¥
 			{
 				strcpy(info_p, "the lock flag is invalid");
 
@@ -1053,8 +1053,8 @@ int sunxi_oem_op_lock(int request_flag, char *info, int force)
 				return -2;
 			}
 		}
-		//else if(lockflag == SUNXI_LOCKING)	//Èç¹ûÒÑ¾­ËøÉÏ
-		else							//Ä¬ÈÏ¶¼ÊÇËøÉÏ
+		//else if(lockflag == SUNXI_LOCKING)	//å¦‚æœå·²ç»é”ä¸Š
+		else							//é»˜è®¤éƒ½æ˜¯é”ä¸Š
 		{
 			strcpy(info_p, "system is already locked");
 			printf("%s\n", info_p);
@@ -1062,7 +1062,7 @@ int sunxi_oem_op_lock(int request_flag, char *info, int force)
 			return -3;
 		}
 	}
-	else if(request_flag == SUNXI_UNLOCK)	//ÒªÇó½âËø
+	else if(request_flag == SUNXI_UNLOCK)	//è¦æ±‚è§£é”
 	{
 		if(   ((store_flag == SUNXI_UNLOCK)	|| (store_flag == SUNXI_NOLOCK)) && (force != 1) )//
 		{
@@ -1071,11 +1071,11 @@ int sunxi_oem_op_lock(int request_flag, char *info, int force)
 
 			return -4;
 		}
-		//else if(store_flag == SUNXI_LOCKING)	//Èç¹ûÒÑ¾­ËøÉÏ
-		else								//Ä¬ÈÏ¶¼ÊÇËøÉÏ
+		//else if(store_flag == SUNXI_LOCKING)	//å¦‚æœå·²ç»é”ä¸Š
+		else								//é»˜è®¤éƒ½æ˜¯é”ä¸Š
 		{
 			puts("ready to erase all dedicate parts\n");
-			if(!signature_erase_all(mbr))//¿ªÊ¼²Á³ıÊı¾İ
+			if(!signature_erase_all(mbr))//å¼€å§‹æ“¦é™¤æ•°æ®
 			{
 				if(!force)
 				{
@@ -1192,7 +1192,7 @@ int __probe_sign_file(unsigned char *partition_name, char *sign_buffer)
         return -1;
     }
     f_read(&sign_file, sign_buffer, 256, &rbytes);
-	//¹«Ô¿½âÃÜrsa
+	//å…¬é’¥è§£å¯†rsa
 	f_close(&sign_file);
 	//sunxi_dump(sign_buffer, 256);
 
@@ -1219,7 +1219,7 @@ static int __calculate_for_bootimg_format(char *data_buffer, char *hash_buffer)
 	SHA256_CTX	ctx;
 
 	memset(hash_buffer, 0, SHA256_DIGEST_LENGTH);
-	//¼ÆËãsha256
+	//è®¡ç®—sha256
     SHA256_Init(&ctx);
     SHA256_Update(&ctx, (u_int8_t *)data_buffer, sizeof(struct fastboot_boot_img_hdr));
     //sunxi_dump(data_buffer, sizeof(struct fastboot_boot_img_hdr));
@@ -1263,7 +1263,7 @@ static int __calculate_for_sparse_format(char *data_buffer, char *hash_buffer)
 	sblock->s_mnt_count = CFG_SUPER_BLOCK_STAMP_VALUE & 0xffff;
 	memset(sblock->s_last_mounted, 0, 64);
 
-	//¼ÆËãsha256
+	//è®¡ç®—sha256
 	data_len = (unsigned int)&(((struct ext4_super_block *)0)->s_snapshot_list);
     SHA256_Init(&ctx);
     SHA256_Update(&ctx, (u_int8_t *)tmp_buffer, data_len);
@@ -1326,7 +1326,7 @@ static int __validata_verify(sunxi_partition *partition)
 		ret = __calculate_for_sparse_format(data_buffer, hash1_buffer);
 	}
 
-	//»ñÈ¡·ÖÇø¶ÔÓ¦µÄÇ©ÃûÎÄ¼ş
+	//è·å–åˆ†åŒºå¯¹åº”çš„ç­¾åæ–‡ä»¶
 	memset(sign_buffer, 0, SHA256_DIGEST_LENGTH);
 	memset(hash2_buffer, 0, 512);
 	if(__probe_sign_file(partition->name, sign_buffer))
@@ -1348,7 +1348,7 @@ static int __validata_verify(sunxi_partition *partition)
 
 	//printf("\n\n");
 	//sunxi_dump(hash2_buffer, 256);
-	//±È½ÏÁ½¸öÖµ
+	//æ¯”è¾ƒä¸¤ä¸ªå€¼
 	if(memcmp(hash1_buffer, hash2_buffer, 256))
 	{
 		free(data_buffer);

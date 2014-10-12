@@ -106,7 +106,7 @@ void sunxi_board_close_source(void)
 #ifdef CONFIG_SUN6I
 	p2wi_exit();
 #endif
-	sunxi_flash_exit(1);	//Ç¿ÖÆ¹Ø±ÕFLASH
+	sunxi_flash_exit(1);	//å¼ºåˆ¶å…³é—­FLASH
 	sunxi_sprite_exit(1);
 	sunxi_dma_exit();
 	disable_interrupts();
@@ -180,7 +180,7 @@ int sunxi_board_shutdown(void)
 #ifdef CONFIG_SUNXI_DISPLAY
     drv_disp_exit();
 #endif
-	sunxi_flash_exit(1);	//Ç¿ÖÆ¹Ø±ÕFLASH
+	sunxi_flash_exit(1);	//å¼ºåˆ¶å…³é—­FLASH
 	sunxi_sprite_exit(1);
 	disable_interrupts();
 	interrupt_exit();
@@ -319,13 +319,13 @@ void sunxi_update_subsequent_processing(int next_work)
 	printf("next work %d\n", next_work);
 	switch(next_work)
 	{
-		case SUNXI_UPDATE_NEXT_ACTION_REBOOT:	//ÖØÆô
+		case SUNXI_UPDATE_NEXT_ACTION_REBOOT:	//é‡å¯
 			printf("SUNXI_UPDATE_NEXT_ACTION_REBOOT\n");
 			//do_reset(NULL, 0, 0, NULL);
 			sunxi_board_restart(0);
 
 			break;
-		case SUNXI_UPDATE_NEXT_ACTION_SHUTDOWN:	//¹Ø»ú
+		case SUNXI_UPDATE_NEXT_ACTION_SHUTDOWN:	//å…³æœº
 			printf("SUNXI_UPDATE_NEXT_ACTION_SHUTDOWN\n");
 			//do_shutdown(NULL, 0, 0, NULL);
 			sunxi_board_shutdown();
@@ -333,7 +333,7 @@ void sunxi_update_subsequent_processing(int next_work)
 			break;
 		case SUNXI_UPDATE_NEXT_ACTION_REUPDATE:
 			printf("SUNXI_UPDATE_NEXT_ACTION_REUPDATE\n");
-			sunxi_board_run_fel();			//½øĞĞÁ¿²ú
+			sunxi_board_run_fel();			//è¿›è¡Œé‡äº§
 
 			break;
 		case SUNXI_UPDATE_NEXT_ACTION_BOOT:
@@ -420,13 +420,13 @@ void fastboot_partition_init(void)
 *
 *    return        :
 *
-*    note          :  °ÑÄ¿±ê×Ö·û´®dest_buf(¸ñÊ½£º¿Õ¸ñ¸ô¿ª£¬±ÈÈç"AAA BBB C DD EEE"£¬µ«ÊÇ²»°üÀ¨tab
-*                     ÖĞµÄgoal×Ó×Ö·û´®£¬Ìæ»»³Éreplace
-*                     Èç
+*    note          :  æŠŠç›®æ ‡å­—ç¬¦ä¸²dest_buf(æ ¼å¼ï¼šç©ºæ ¼éš”å¼€ï¼Œæ¯”å¦‚"AAA BBB C DD EEE"ï¼Œä½†æ˜¯ä¸åŒ…æ‹¬tab
+*                     ä¸­çš„goalå­å­—ç¬¦ä¸²ï¼Œæ›¿æ¢æˆreplace
+*                     å¦‚
 *					  sunxi_str_replace("abc def gh", "def", "replace")
-*					  Ö´ĞĞµÄ½á¹ûÊÇ  "abc def gh"±ä³ÉÁË "abc replace gh"
-*					  Èç¹ûÕÒ²»µ½²»¹»£¬Ôò²»Ìæ»»
-*					  ±ØĞë±£Ö¤¿Õ¼ä×ã¹»
+*					  æ‰§è¡Œçš„ç»“æœæ˜¯  "abc def gh"å˜æˆäº† "abc replace gh"
+*					  å¦‚æœæ‰¾ä¸åˆ°ä¸å¤Ÿï¼Œåˆ™ä¸æ›¿æ¢
+*					  å¿…é¡»ä¿è¯ç©ºé—´è¶³å¤Ÿ
 ************************************************************************************************************
 */
 static int sunxi_str_replace(char *dest_buf, char *goal, char *replace)
@@ -458,7 +458,7 @@ static int sunxi_str_replace(char *dest_buf, char *goal, char *replace)
 	j = 0;
 	for(i=0;tmp[i];)
 	{
-		//ÕÒ³ö¿Õ¸ñ×Ö·û
+		//æ‰¾å‡ºç©ºæ ¼å­—ç¬¦
 		k = 0;
 		while(((tmp[i] != ' ') && (tmp[i] != 0) )|| (tmp[i+1] == ' '))
 		{
@@ -468,7 +468,7 @@ static int sunxi_str_replace(char *dest_buf, char *goal, char *replace)
 				break;
 		}
 		i ++;
-		//¿ªÊ¼ÕÒ³öÒ»¸öÍêÕûµÄ×Ö·û´®
+		//å¼€å§‹æ‰¾å‡ºä¸€ä¸ªå®Œæ•´çš„å­—ç¬¦ä¸²
 		tmp_str[k] = 0;
 		if(!strcmp(tmp_str, goal))
 		{
@@ -656,7 +656,7 @@ int check_android_misc(void)
         memset(boot_commond, 0x0, 128);
 	strcpy(boot_commond, getenv("bootcmd"));
 	printf("base bootcmd=%s\n", boot_commond);
-	//ÅĞ¶Ï´æ´¢½éÖÊ
+	//åˆ¤æ–­å­˜å‚¨ä»‹è´¨
 	if((uboot_spare_head.boot_data.storage_type == 1) || (uboot_spare_head.boot_data.storage_type == 2))
 	{
 		sunxi_str_replace(boot_commond, "setargs_nand", "setargs_mmc");
@@ -666,14 +666,14 @@ int check_android_misc(void)
 	{
 		printf("bootcmd set setargs_nand\n");
 	}
-	//ÅĞ¶ÏÊÇ·ñ´æÔÚ°´¼ü½øÈëÆäËüÄ£Ê½
+	//åˆ¤æ–­æ˜¯å¦å­˜åœ¨æŒ‰é”®è¿›å…¥å…¶å®ƒæ¨¡å¼
 	misc_message = (struct bootloader_message *)misc_args;
 	memset(misc_args, 0x0, 2048);
 	memset(misc_fill, 0xff, 2048);
 	mode = detect_other_boot_mode();
 
 	misc_offset = sunxi_partition_get_offset_byname("misc");
-	//ÏÈÅĞ¶ÏÉÏÒ»´ÎÏµÍ³ÊÇ·ñÓĞĞ´ÈëÊı¾İµ½pmu¼Ä´æÆ÷
+	//å…ˆåˆ¤æ–­ä¸Šä¸€æ¬¡ç³»ç»Ÿæ˜¯å¦æœ‰å†™å…¥æ•°æ®åˆ°pmuå¯„å­˜å™¨
 	pmu_value = axp_probe_pre_sys_mode();
 	if(pmu_value == PMU_PRE_FASTBOOT_MODE)
 	{
@@ -702,21 +702,21 @@ int check_android_misc(void)
 	if((misc_message->command[0] == 0x00) ||(misc_message->command[0] == 0xff))
 	{
 		printf("misc_message->command = %x \n",misc_message->command[0]);
-		if(mode == USER_SELECT_MODE) //ËµÃ÷Ì½²â½×¶ÎÓĞ°´¼ü°´ÏÂ
+		if(mode == USER_SELECT_MODE) //è¯´æ˜æ¢æµ‹é˜¶æ®µæœ‰æŒ‰é”®æŒ‰ä¸‹
 		{
 			printf("enter user_select_mode\n");
 		#if 0
-			//Èç¹ûmisc·ÖÇøÃ»ÓĞÉÏ´ÎÏµÍ³Ğ´ÈëÊı¾İ£¬²¢ÇÒ¼ì²âµ½ÓĞ°´¼ü°´ÏÂ£¬ÄÇÃ´½øÈëÍ¼Æ¬ÏÔÊ¾²Ëµ¥
+			//å¦‚æœmiscåˆ†åŒºæ²¡æœ‰ä¸Šæ¬¡ç³»ç»Ÿå†™å…¥æ•°æ®ï¼Œå¹¶ä¸”æ£€æµ‹åˆ°æœ‰æŒ‰é”®æŒ‰ä¸‹ï¼Œé‚£ä¹ˆè¿›å…¥å›¾ç‰‡æ˜¾ç¤ºèœå•
 			user_select_current_status = FASTBOOT_MODE;
-			show_user_select_menu_ui(); //ÏÔÊ¾µ±Ç°Ä£Ê½µÄui
-			while(status != POWERON_KEY_PRESSED)//Í¼Æ¬ÏÔÊ¾²Ëµ¥
+			show_user_select_menu_ui(); //æ˜¾ç¤ºå½“å‰æ¨¡å¼çš„ui
+			while(status != POWERON_KEY_PRESSED)//å›¾ç‰‡æ˜¾ç¤ºèœå•
 			{
 				status = sunxi_probe_key_pressed();
 				if(( status == KEY_PRESSED))
 				{
 					debug("key_ststus = 0x%x\n ",status);
-					user_mode_status_update(status);     	//¸üĞÂ²Ëµ¥µÄÑ¡Ïî
-					show_user_select_menu_ui(); 				//ÏÔÊ¾µ±Ç°Ä£Ê½µÄui
+					user_mode_status_update(status);     	//æ›´æ–°èœå•çš„é€‰é¡¹
+					show_user_select_menu_ui(); 				//æ˜¾ç¤ºå½“å‰æ¨¡å¼çš„ui
 				}
 			}
 			if(user_select_current_status == RECOVERY_MODE )
@@ -741,7 +741,7 @@ int check_android_misc(void)
 		}
 	}
 
-	//×îÖÕÍ³Ò»ÅĞ¶ÏÃüÁî
+	//æœ€ç»ˆç»Ÿä¸€åˆ¤æ–­å‘½ä»¤
 	if(!loglel_change_flag)   //add by young,if you want to enter debug_mode ,so do enter boot_normal
 	{
 		if(!strcmp(misc_message->command, "efex"))
@@ -854,7 +854,7 @@ int check_android_misc(void)
 			printf("misc.recovery  : NULL\n");
 	}
 #endif
-	//ÅĞ¶ÏÃüÁî
+	//åˆ¤æ–­å‘½ä»¤
 	if(!strcmp(misc_message->command, "efex"))
 	{
 		/* there is a recovery command */
@@ -1038,8 +1038,8 @@ int check_update_key(void)
 		int key_value;
 		int fel_key_max, fel_key_min;
 		time_tick = 0;
-	    key_value = sunxi_key_read();  		//¶ÁÈ¡°´¼üĞÅÏ¢
-	    if(key_value < 0)             				//Ã»ÓĞ°´¼ü°´ÏÂ
+	    key_value = sunxi_key_read();  		//è¯»å–æŒ‰é”®ä¿¡æ¯
+	    if(key_value < 0)             				//æ²¡æœ‰æŒ‰é”®æŒ‰ä¸‹
 	    {
 	        printf("no key found\n");
 	        return 0;
@@ -1106,8 +1106,8 @@ int check_update_key(void)
 	    value_cnt = 0;
 	    new_key = 0;
 	    new_key_flag = 0;
-	    ret = sunxi_key_read();  				//¶ÁÈ¡°´¼üĞÅÏ¢
-	    if(ret < 0)             				//Ã»ÓĞ°´¼ü°´ÏÂ
+	    ret = sunxi_key_read();  				//è¯»å–æŒ‰é”®ä¿¡æ¯
+	    if(ret < 0)             				//æ²¡æœ‰æŒ‰é”®æŒ‰ä¸‹
 	    {
 	        printf("no key found\n");
 	        return 0;
@@ -1120,10 +1120,10 @@ int check_update_key(void)
 	    while(1)
 	    {
 	        time_tick ++;
-	        ret = axp_probe_key();  			//»ñÈ¡power°´¼üĞÅÏ¢
+	        ret = axp_probe_key();  			//è·å–poweræŒ‰é”®ä¿¡æ¯
 			new_power_status = axp_probe_power_source(); //detect vbus status
 			printf("new_power_status = %d \n",new_power_status);
-	        if(ret > 0)              	  		//¼ì²âµ½POWER°´¼ü°´ÏÂ
+	        if(ret > 0)              	  		//æ£€æµ‹åˆ°POWERæŒ‰é”®æŒ‰ä¸‹
 	        {
 	            count ++;
 	        }
@@ -1134,8 +1134,8 @@ int check_update_key(void)
 				old_power_status = new_power_status;
 			}
 	        __msdelay(KEY_DELAY_EACH_TIME);
-	        ret = sunxi_key_read();  			//¶ÁÈ¡°´¼üĞÅÏ¢
-	        if(ret < 0)             			//Ã»ÓĞ°´¼ü°´ÏÂ
+	        ret = sunxi_key_read();  			//è¯»å–æŒ‰é”®ä¿¡æ¯
+	        if(ret < 0)             			//æ²¡æœ‰æŒ‰é”®æŒ‰ä¸‹
 	        {
 	            printf("key not pressed anymore\n");
 	            if(count == 1)
@@ -1196,8 +1196,8 @@ int check_update_key(void)
 	else
 	{
 		int user_key_value;
-		user_key_value = sunxi_key_read();		 //¶ÁÈ¡°´¼üĞÅÏ¢
-		if(user_key_value < 0)					 //Ã»ÓĞ°´¼ü°´ÏÂ
+		user_key_value = sunxi_key_read();		 //è¯»å–æŒ‰é”®ä¿¡æ¯
+		if(user_key_value < 0)					 //æ²¡æœ‰æŒ‰é”®æŒ‰ä¸‹
 		{
 			printf("no user_key found\n");
 		}
@@ -1220,7 +1220,7 @@ int check_update_key(void)
 *
 *    return        :
 *
-*    note          :    ×÷ÓÃ£º³õÊ¼»¯ÓÃ»§ÅäÖÃµÄgpio 
+*    note          :    ä½œç”¨ï¼šåˆå§‹åŒ–ç”¨æˆ·é…ç½®çš„gpio 
 *
 *
 ************************************************************************************************************
@@ -1245,7 +1245,7 @@ int gpio_control(void)
 *
 *                                             function
 *
-*    name          :	usb-recovery Ğ´Èëmisc·ÖÇø¶ÔÓ¦µÄÃüÁî
+*    name          :	usb-recovery å†™å…¥miscåˆ†åŒºå¯¹åº”çš„å‘½ä»¤
 *
 *    parmeters     :
 *
@@ -1288,7 +1288,7 @@ int write_usb_recovery_to_misc(void)
 *
 *                                             function
 *
-*    name          :	Ò»¼ü»Ö¸´µÄ°´¼ü¼ì²â
+*    name          :	ä¸€é”®æ¢å¤çš„æŒ‰é”®æ£€æµ‹
 *
 *    parmeters     :
 *
@@ -1325,7 +1325,7 @@ int check_boot_recovery_key(void)
 	ret = script_parser_fetch("recovery_para", "recovery_key", (int *)&gpio_recovery, sizeof(user_gpio_set_t) / 4);
   if (!ret)
 	{
-		gpio_recovery.mul_sel = 0;		//Ç¿ÖÆÉèÖÃ³ÉÊäÈë
+		gpio_recovery.mul_sel = 0;		//å¼ºåˆ¶è®¾ç½®æˆè¾“å…¥
 		gpio_hd = gpio_request(&gpio_recovery, 1);
 		if (gpio_hd)
 		{

@@ -608,7 +608,7 @@ static void timer_test_usbdc(void *p_arg)
 	irq_disable(AW_IRQ_USB_OTG);
 	usb_working = 0;
 
-	//打开火牛限流
+	//鎵撳紑鐏墰闄愭祦
 	tick_printf("timer irq ,set dc\n");
 	axp_set_vbus_limit_dc();
 
@@ -647,7 +647,7 @@ static void usb_detect_irq_handler(void *p_arg)
 		del_timer(&timer_for_usb);
 		usb_working = 0;
 
-		//打开usb限流
+		//鎵撳紑usb闄愭祦
 		tick_printf("usb irq ,set pc\n");
 		axp_set_vbus_limit_pc();
 	}

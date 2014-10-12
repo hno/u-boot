@@ -27,14 +27,14 @@
 #include <asm/arch/dram.h>
 
 /* base drivers    */
-#define EGON2_EMOD_TYPE_DRV_NOP               0x00        /* 0号驱动，系统保留                                            */
-#define EGON2_EMOD_TYPE_DRV_RTC               0x01        /* rtc驱动type编号                                              */
-#define EGON2_EMOD_TYPE_DRV_KEY               0x02        /* 键盘驱动type编号                                             */
-#define EGON2_EMOD_TYPE_DRV_DISP              0x03        /* 显示驱动type编号                                             */
-#define EGON2_EMOD_TYPE_DRV_MOUSE             0x04        /* 鼠标驱动type编号                                             */
-#define EGON2_EMOD_TYPE_DRV_TP                0x05        /* touch pannel驱动type编号                                     */
-#define EGON2_EMOD_TYPE_DRV_FM                0x07        /* FM radio driver编号                                          */
-#define EGON2_EMOD_TYPE_DRV_POWER             0x08        /* PWOER    driver编号                                          */
+#define EGON2_EMOD_TYPE_DRV_NOP               0x00        /* 0鍙烽┍鍔紝绯荤粺淇濈暀                                            */
+#define EGON2_EMOD_TYPE_DRV_RTC               0x01        /* rtc椹卞姩type缂栧彿                                              */
+#define EGON2_EMOD_TYPE_DRV_KEY               0x02        /* 閿洏椹卞姩type缂栧彿                                             */
+#define EGON2_EMOD_TYPE_DRV_DISP              0x03        /* 鏄剧ず椹卞姩type缂栧彿                                             */
+#define EGON2_EMOD_TYPE_DRV_MOUSE             0x04        /* 榧犳爣椹卞姩type缂栧彿                                             */
+#define EGON2_EMOD_TYPE_DRV_TP                0x05        /* touch pannel椹卞姩type缂栧彿                                     */
+#define EGON2_EMOD_TYPE_DRV_FM                0x07        /* FM radio driver缂栧彿                                          */
+#define EGON2_EMOD_TYPE_DRV_POWER             0x08        /* PWOER    driver缂栧彿                                          */
 /* storage drivers */
 #define EGON2_EMOD_TYPE_DRV_NAND              0x09
 #define EGON2_EMOD_TYPE_DRV_SDMMC             0x0a

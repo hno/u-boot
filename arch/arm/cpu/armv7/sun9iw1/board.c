@@ -227,17 +227,17 @@ int power_config_gpio_bias(void)
 
 			if((port_index >= 'a') && (port_index <= 'h'))
 			{
-				//»ñÈ¡¼Ä´æÆ÷µØÖ·
+				//è·å–å¯„å­˜å™¨åœ°å€
 				port_bias_addr = SUNXI_PIO_BASE + 0x300 + 0x4 * (port_index - 'a');
 			}
 			else if(port_index == 'j')
 			{
-				//»ñÈ¡¼Ä´æÆ÷µØÖ·
+				//è·å–å¯„å­˜å™¨åœ°å€
 				port_bias_addr = SUNXI_PIO_BASE + 0x300 + 0x4 * (port_index - 'a');
 			}
 			else if((port_index == 'l') || (port_index == 'm'))
 			{
-				//»ñÈ¡¼Ä´æÆ÷µØÖ·
+				//è·å–å¯„å­˜å™¨åœ°å€
 				port_bias_addr = SUNXI_R_PIO_BASE + 0x300 + 0x4 * (port_index - 'l');
 			}
 			else
@@ -261,23 +261,23 @@ int power_config_gpio_bias(void)
 					continue;
 				}
 
-				if(pmu_vol > bias_vol_set)	//pmuÊµ¼ÊµçÑ¹³¬¹ıĞèÒªÉèÖÃµÄµçÑ¹
+				if(pmu_vol > bias_vol_set)	//pmuå®é™…ç”µå‹è¶…è¿‡éœ€è¦è®¾ç½®çš„ç”µå‹
 				{
-					//µçÑ¹½µµÍµ½ĞèÒªµçÑ¹
+					//ç”µå‹é™ä½åˆ°éœ€è¦ç”µå‹
 					axp_set_supply_status_byname(axp, supply, bias_vol_set, 1);
-					//ÉèÖÃ¼Ä´æÆ÷
+					//è®¾ç½®å¯„å­˜å™¨
 					writel(vol_index, port_bias_addr);
 				}
-				else if(pmu_vol < bias_vol_set)	//pmuÊµ¼ÊµçÑ¹µÍÓÚĞèÒªÉèÖÃµÄµçÑ¹
+				else if(pmu_vol < bias_vol_set)	//pmuå®é™…ç”µå‹ä½äºéœ€è¦è®¾ç½®çš„ç”µå‹
 				{
-					//ÉèÖÃ¼Ä´æÆ÷
+					//è®¾ç½®å¯„å­˜å™¨
 					writel(vol_index, port_bias_addr);
-					//°ÑpmuµçÑ¹µ÷Õûµ½ĞèÒªµÄµçÑ¹
+					//æŠŠpmuç”µå‹è°ƒæ•´åˆ°éœ€è¦çš„ç”µå‹
 					axp_set_supply_status_byname(axp, supply, bias_vol_set, 1);
 				}
 				else
 				{
-					//Èç¹ûÊµ¼ÊµçÑ¹µÈÓÚĞèÒªÉèÖÃµçÑ¹£¬Ö±½ÓÉèÖÃ¼´¿É
+					//å¦‚æœå®é™…ç”µå‹ç­‰äºéœ€è¦è®¾ç½®ç”µå‹ï¼Œç›´æ¥è®¾ç½®å³å¯
 					writel(vol_index, port_bias_addr);
 				}
 			}

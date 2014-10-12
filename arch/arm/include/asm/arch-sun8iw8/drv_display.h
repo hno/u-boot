@@ -384,8 +384,8 @@ typedef enum
 
 typedef struct
 {
-	unsigned int          addr[3];    // frame bufferµÄÄÚÈİµØÖ·£¬¶ÔÓÚrgbÀàĞÍ£¬Ö»ÓĞaddr[0]ÓĞĞ§
-	disp_size             size;//µ¥Î»ÊÇpixel
+	unsigned int          addr[3];    // frame bufferçš„å†…å®¹åœ°å€ï¼Œå¯¹äºrgbç±»å‹ï¼Œåªæœ‰addr[0]æœ‰æ•ˆ
+	disp_size             size;//å•ä½æ˜¯pixel
 	disp_pixel_format     format;
 	disp_cs_mode          cs_mode;    //color space
 	bool                  b_trd_src; //if 3d source, used for scaler mode layer
@@ -404,7 +404,7 @@ typedef struct
 {
     disp_layer_mode           mode;       //layer work mode
     unsigned char             pipe;       //layer pipe,0/1
-    unsigned char             zorder;     //layer priority,can get layer prio,but never set layer prio,´Óµ×ÖÁ¶¥,ÓÅÏÈ¼¶ÓÉµÍÖÁ¸ß
+    unsigned char             zorder;     //layer priority,can get layer prio,but never set layer prio,ä»åº•è‡³é¡¶,ä¼˜å…ˆçº§ç”±ä½è‡³é«˜
     unsigned char             alpha_mode;   //0: pixel alpha;  1: global alpha;  2: global pixel alpha
     unsigned char             alpha_value;  //layer global alpha value
     bool                      ck_enable;  //layer color key enable

@@ -339,11 +339,11 @@ exit_work_func:
     reg_addr = SUNXI_PIO_EINT_STATUS(port);
 	reg_value = *reg_addr;
 	printf("===== enter gpio_irq =======\n");
-	//Æ¥ÅägpioÖĞ¶ÏºÅ£¬²¢ÇÒµ÷ÓÃÏàÓ¦µÄgpioÖĞ¶Ïº¯Êı
+	//åŒ¹é…gpioä¸­æ–­å·ï¼Œå¹¶ä¸”è°ƒç”¨ç›¸åº”çš„gpioä¸­æ–­å‡½æ•°
 	if(reg_value & (0x01 << port_num))
 	{
 		goodix_ts_irq_hanbler();
-		//Çå³ıgpioÖĞ¶ÏpendingÎ»
+		//æ¸…é™¤gpioä¸­æ–­pendingä½
 		reg_value |= ( 0x01 << port_num );
 		*reg_addr =  reg_value ;
 		printf("clear pending_bit   \n ");

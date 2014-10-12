@@ -83,7 +83,7 @@ int irq_enable(int irq_no)
 		return -1;
 	}
 
-	offset   = irq_no >> 5; // ³ý32
+	offset   = irq_no >> 5; // é™¤32
 	reg_val  = readl(GIC_SET_EN(offset));
 	reg_val |= 1 << (irq_no & 0x1f);
 	writel(reg_val, GIC_SET_EN(offset));
@@ -117,7 +117,7 @@ int irq_disable(int irq_no)
 		return -1;
 	}
 
-	offset   = irq_no >> 5; // ³ý32
+	offset   = irq_no >> 5; // é™¤32
 	reg_val  = readl(GIC_SET_EN(offset));
 	reg_val &= ~(1 << (irq_no & 0x1f));
 	writel(reg_val, GIC_SET_EN(offset));
@@ -208,7 +208,7 @@ static void gic_clear_pending(uint irq_no)
 	uint reg_val;
 	uint offset;
 
-	offset = irq_no >> 5; // ³ý32
+	offset = irq_no >> 5; // é™¤32
 	reg_val = readl(GIC_PEND_CLR(offset));
 	reg_val |= (1 << (irq_no & 0x1f));
 	writel(reg_val, GIC_PEND_CLR(offset));

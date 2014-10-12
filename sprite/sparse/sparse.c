@@ -45,13 +45,13 @@ static uint  total_chunks;
 *
 *                                             unsparse_probe
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -90,13 +90,13 @@ int unsparse_probe(char *source, uint length, uint android_format_flash_start)
 *
 *                                             DRAM_Write
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -108,7 +108,7 @@ int  unsparse_direct_write(void *pbuf, uint length)
 	int   tmp_down_size;
 	char *tmp_buf, *tmp_dest_buf;
 	chunk_header_t   *chunk;
-    //Ê×ÏÈ¼ÆËã´«½øµÄÊı¾İµÄĞ£ÑéºÍ
+    //é¦–å…ˆè®¡ç®—ä¼ è¿›çš„æ•°æ®çš„æ ¡éªŒå’Œ
 	android_format_checksum += add_sum(pbuf, length);
 
     this_rest_size = last_rest_size + length;
@@ -143,9 +143,9 @@ int  unsparse_direct_write(void *pbuf, uint length)
 				}
 				chunk = (chunk_header_t *)tmp_buf;
 				/* move to next chunk */
-				tmp_buf += sizeof(chunk_header_t);        //´ËÊ±tmp_bufÒÑ¾­Ö¸ÏòÏÂÒ»¸öchunk»òÕßdataÆğÊ¼µØÖ·
-				this_rest_size -= sizeof(chunk_header_t); //Ê£ÓàµÄÊı¾İ³¤¶È
-				chunk_length = chunk->chunk_sz * globl_header.blk_sz;   //µ±Ç°Êı¾İ¿éĞèÒªĞ´ÈëµÄÊı¾İ³¤¶È
+				tmp_buf += sizeof(chunk_header_t);        //æ­¤æ—¶tmp_bufå·²ç»æŒ‡å‘ä¸‹ä¸€ä¸ªchunkæˆ–è€…dataèµ·å§‹åœ°å€
+				this_rest_size -= sizeof(chunk_header_t); //å‰©ä½™çš„æ•°æ®é•¿åº¦
+				chunk_length = chunk->chunk_sz * globl_header.blk_sz;   //å½“å‰æ•°æ®å—éœ€è¦å†™å…¥çš„æ•°æ®é•¿åº¦
 				printf("chunk %d(%d)\n", chunk_count ++, total_chunks);
 
 				switch (chunk->chunk_type)
@@ -158,7 +158,7 @@ int  unsparse_direct_write(void *pbuf, uint length)
 
 							return -1;
 						}
-						//ÕâÀï²»´¦ÀíÊı¾İ²¿·Ö£¬×ªµ½ÏÂÒ»¸ö×´Ì¬
+						//è¿™é‡Œä¸å¤„ç†æ•°æ®éƒ¨åˆ†ï¼Œè½¬åˆ°ä¸‹ä¸€ä¸ªçŠ¶æ€
 						sparse_format_type = SPARSE_FORMAT_TYPE_CHUNK_DATA;
 
 						break;
@@ -184,11 +184,11 @@ int  unsparse_direct_write(void *pbuf, uint length)
 			}
 			case SPARSE_FORMAT_TYPE_CHUNK_DATA:
 			{
-				//Ê×ÏÈÅĞ¶ÏÊı¾İÊÇ·ñ×ã¹»µ±Ç°chunkËùĞè,Èç¹û²»×ã£¬Ôò¼ÆËã³ö»¹ĞèÒªµÄÊı¾İ³¤¶È
+				//é¦–å…ˆåˆ¤æ–­æ•°æ®æ˜¯å¦è¶³å¤Ÿå½“å‰chunkæ‰€éœ€,å¦‚æœä¸è¶³ï¼Œåˆ™è®¡ç®—å‡ºè¿˜éœ€è¦çš„æ•°æ®é•¿åº¦
 				unenough_length = (chunk_length >= this_rest_size)? (chunk_length - this_rest_size):0;
 				if(!unenough_length)
 				{
-					//Êı¾İ×ã¹»£¬Ö±½ÓĞ´Èë
+					//æ•°æ®è¶³å¤Ÿï¼Œç›´æ¥å†™å…¥
 					if(!sunxi_sprite_write(flash_start, chunk_length>>9, tmp_buf))
 					{
 						printf("sparse: flash write failed\n");
@@ -208,11 +208,11 @@ int  unsparse_direct_write(void *pbuf, uint length)
 
 					sparse_format_type = SPARSE_FORMAT_TYPE_CHUNK_HEAD;
 				}
-				else  //´æÔÚÈ±Ê§Êı¾İµÄÇé¿ö
+				else  //å­˜åœ¨ç¼ºå¤±æ•°æ®çš„æƒ…å†µ
 				{
-					if(this_rest_size < 8 * 1024) //ÏÈ¿´ÒÑÓĞÊı¾İÊÇ·ñ²»×ã8k
+					if(this_rest_size < 8 * 1024) //å…ˆçœ‹å·²æœ‰æ•°æ®æ˜¯å¦ä¸è¶³8k
 					{
-						//µ±²»×ãÊ±£¬°ÑÕâ±ÊÊı¾İ·Åµ½ÏÂÒ»±ÊÊı¾İµÄÇ°²¿£¬µÈ´ıÏÂÒ»´Î´¦Àí
+						//å½“ä¸è¶³æ—¶ï¼ŒæŠŠè¿™ç¬”æ•°æ®æ”¾åˆ°ä¸‹ä¸€ç¬”æ•°æ®çš„å‰éƒ¨ï¼Œç­‰å¾…ä¸‹ä¸€æ¬¡å¤„ç†
 						tmp_dest_buf = (char *)pbuf - this_rest_size;
 						memcpy(tmp_dest_buf, tmp_buf, this_rest_size);
                         last_rest_size = this_rest_size;
@@ -220,17 +220,17 @@ int  unsparse_direct_write(void *pbuf, uint length)
 
 						break;
 					}
-					//µ±ÒÑÓĞÊı¾İ³¬¹ı16kÊ±
-					//µ±È±Ê§Êı¾İ³¤¶È²»×ã4kÊ±,¿ÉÄÜÖ»È±¼¸Ê®¸ö×Ö½Ú
+					//å½“å·²æœ‰æ•°æ®è¶…è¿‡16kæ—¶
+					//å½“ç¼ºå¤±æ•°æ®é•¿åº¦ä¸è¶³4kæ—¶,å¯èƒ½åªç¼ºå‡ åä¸ªå­—èŠ‚
 					if(unenough_length < 4 * 1024)
 					{
-						//²ÉÓÃÆ´½Ó·½·¨£¬ÏÈÉÕĞ´²¿·ÖÒÑÓĞÊı¾İ£¬È»ºóÔÚÏÂÒ»´Î°ÑÎ´ÉÕĞ´µÄÒÑÓĞÊı¾İºÍÈ±Ê§Êı¾İÒ»ÆğÉÕÂ¼
+						//é‡‡ç”¨æ‹¼æ¥æ–¹æ³•ï¼Œå…ˆçƒ§å†™éƒ¨åˆ†å·²æœ‰æ•°æ®ï¼Œç„¶ååœ¨ä¸‹ä¸€æ¬¡æŠŠæœªçƒ§å†™çš„å·²æœ‰æ•°æ®å’Œç¼ºå¤±æ•°æ®ä¸€èµ·çƒ§å½•
 						tmp_down_size = this_rest_size + unenough_length - 4 * 1024;
 					}
-					else //ÕâÀï´¦ÀíÈ±Ê§Êı¾İ³¬¹ı8k(°üº¬)µÄÇé¿ö,Í¬Ê±ÒÑÓĞÊı¾İÒ²³¬¹ı16k
+					else //è¿™é‡Œå¤„ç†ç¼ºå¤±æ•°æ®è¶…è¿‡8k(åŒ…å«)çš„æƒ…å†µ,åŒæ—¶å·²æœ‰æ•°æ®ä¹Ÿè¶…è¿‡16k
 					{
-						//Ö±½ÓÉÕÂ¼µ±Ç°È«²¿Êı¾İ;
-						tmp_down_size = this_rest_size & (~(512 -1));  //ÉÈÇø¶ÔÆë
+						//ç›´æ¥çƒ§å½•å½“å‰å…¨éƒ¨æ•°æ®;
+						tmp_down_size = this_rest_size & (~(512 -1));  //æ‰‡åŒºå¯¹é½
 					}
 					if(!sunxi_sprite_write(flash_start, tmp_down_size>>9, tmp_buf))
 					{
@@ -275,13 +275,13 @@ int  unsparse_direct_write(void *pbuf, uint length)
 *
 *                                             unsparse_checksum
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************

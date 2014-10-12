@@ -263,15 +263,15 @@ void do_irq (struct pt_regs *pt_regs)
 */
 int arch_interrupt_init (void)
 {
-	//¹Ø±ÕËùÓÐÖÐ¶ÏÊ¹ÄÜ
+	//å…³é—­æ‰€æœ‰ä¸­æ–­ä½¿èƒ½
 	writel(0, INTC_REG_ENABLE0);
 	writel(0, INTC_REG_ENABLE1);
 	writel(0, INTC_REG_ENABLE2);
-	//´ò¿ªËùÓÐÖÐ¶Ïmask
+	//æ‰“å¼€æ‰€æœ‰ä¸­æ–­mask
 	writel(0, INTC_REG_MASK0);
 	writel(0, INTC_REG_MASK1);
 	writel(0, INTC_REG_MASK2);
-	//Çå³ýËùÓÐÖÐ¶Ïpengding
+	//æ¸…é™¤æ‰€æœ‰ä¸­æ–­pengding
 	writel(0xffffffff, INTC_REG_FIQ_PENDCLR0);
 	writel(0xffffffff, INTC_REG_FIQ_PENDCLR1);
 	writel(0xffffffff, INTC_REG_FIQ_PENDCLR2);
@@ -300,24 +300,24 @@ int arch_interrupt_init (void)
 */
 int arch_interrupt_exit(void)
 {
-    //¹Ø±ÕTIMERÖÐ¶Ï
+    //å…³é—­TIMERä¸­æ–­
     *(volatile unsigned int *)(0x01c20c00 + 0x00) = 0;
     *(volatile unsigned int *)(0x01c20c00 + 0x04) |= 0x043f;
     *(volatile unsigned int *)(0x01c20c00 + 0x10) = 0;
     *(volatile unsigned int *)(0x01c20c00 + 0x20) = 0;
-    //¹Ø±ÕDMAÖÐ¶Ï
+    //å…³é—­DMAä¸­æ–­
     *(volatile unsigned int *)(0x01c02000 + 0x00) = 0;
     *(volatile unsigned int *)(0x01c02000 + 0x04) = 0xffffffff;
 
-	//¹Ø±ÕËùÓÐÖÐ¶ÏÊ¹ÄÜ
+	//å…³é—­æ‰€æœ‰ä¸­æ–­ä½¿èƒ½
 	writel(0, INTC_REG_ENABLE0);
 	writel(0, INTC_REG_ENABLE1);
 	writel(0, INTC_REG_ENABLE2);
-	//´ò¿ªËùÓÐÖÐ¶Ïmask
+	//æ‰“å¼€æ‰€æœ‰ä¸­æ–­mask
 	writel(0, INTC_REG_MASK0);
 	writel(0, INTC_REG_MASK1);
 	writel(0, INTC_REG_MASK2);
-	//Çå³ýËùÓÐÖÐ¶Ïpengding
+	//æ¸…é™¤æ‰€æœ‰ä¸­æ–­pengding
 	writel(0xffffffff, INTC_REG_FIQ_PENDCLR0);
 	writel(0xffffffff, INTC_REG_FIQ_PENDCLR1);
 	writel(0xffffffff, INTC_REG_FIQ_PENDCLR2);

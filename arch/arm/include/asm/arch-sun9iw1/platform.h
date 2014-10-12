@@ -28,7 +28,7 @@
 
 /* base address of modules */
 /* AHB BUS */
-#define REGS_AHB0_BASE	     0x01C00000		//¼Ä´æÆ÷ÎïÀíµØÖ·
+#define REGS_AHB0_BASE	     0x01C00000		//å¯„å­˜å™¨ç‰©ç†åœ°å€
 
 #define NFC_BASE			(REGS_AHB0_BASE + 0x3000)
 #define TSC_BASE			(REGS_AHB0_BASE + 0x4000)
@@ -49,7 +49,7 @@
 #define ARMA9_CPUIF_BASE	(REGS_AHB0_BASE + 0x42000)
 
 
-#define REGS_AHB1_BASE	     0x00800000		//¼Ä´æÆ÷ÎïÀíµØÖ·
+#define REGS_AHB1_BASE	     0x00800000		//å¯„å­˜å™¨ç‰©ç†åœ°å€
 
 #define DMAC_BASE           (REGS_AHB1_BASE + 0x002000)
 #define USBOTG_BASE			(REGS_AHB1_BASE + 0x100000)
@@ -57,7 +57,7 @@
 #define USBEHCI1_BASE		(REGS_AHB1_BASE + 0x201000)
 #define USBEHCI2_BASE		(REGS_AHB1_BASE + 0x202000)
 
-#define REGS_AHB2_BASE	     0x03000000		//¼Ä´æÆ÷ÎïÀíµØÖ·
+#define REGS_AHB2_BASE	     0x03000000		//å¯„å­˜å™¨ç‰©ç†åœ°å€
 
 #define FE0_BASE            (REGS_AHB2_BASE + 0x100000)
 #define FE1_BASE            (REGS_AHB2_BASE + 0x140000)
@@ -82,7 +82,7 @@
 
 #define HDMI_BASE			(REGS_AHB2_BASE + 0xd00000)
 
-#define REGS_APB0_BASE	     0x06000000		//¼Ä´æÆ÷ÎïÀíµØÖ·
+#define REGS_APB0_BASE	     0x06000000		//å¯„å­˜å™¨ç‰©ç†åœ°å€
 
 #define CCMPLL_BASE         (REGS_APB0_BASE + 0x0000)
 #define CCMMODULE_BASE      (REGS_APB0_BASE + 0x0400)
@@ -91,7 +91,7 @@
 #define PWM03_BASE			(REGS_APB0_BASE + 0x1400)
 #define LRADC01_BASE        (REGS_APB0_BASE + 0x1800)
 
-#define REGS_APB1_BASE	     0x07000000		//¼Ä´æÆ÷ÎïÀíµØÖ·
+#define REGS_APB1_BASE	     0x07000000		//å¯„å­˜å™¨ç‰©ç†åœ°å€
 
 #define UART0_BASE			(REGS_APB1_BASE + 0x0000)
 #define UART1_BASE			(REGS_APB1_BASE + 0x0400)
@@ -106,7 +106,7 @@
 #define TWI3_BASE			(REGS_APB1_BASE + 0x3400)
 #define TWI4_BASE			(REGS_APB1_BASE + 0x3800)
 
-#define REGS_RCPUS_BASE     0x08000000    //RCPU¼Ä´æÆ÷ÎïÀíµØÖ·
+#define REGS_RCPUS_BASE     0x08000000    //RCPUå¯„å­˜å™¨ç‰©ç†åœ°å€
 
 #define RPRCM_BASE          (REGS_RCPUS_BASE + 0x1400)
 

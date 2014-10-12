@@ -55,13 +55,13 @@ void standby_get_dram_para(void)
  *
  *                                             function
  *
- *    º¯ÊıÃû³Æ£º
+ *    å‡½æ•°åç§°ï¼š
  *
- *    ²ÎÊıÁĞ±í£º
+ *    å‚æ•°åˆ—è¡¨ï¼š
  *
- *    ·µ»ØÖµ  £º
+ *    è¿”å›å€¼  ï¼š
  *
- *    ËµÃ÷    £º
+ *    è¯´æ˜    ï¼š
  *
  *
  ************************************************************************************************************
@@ -87,13 +87,13 @@ int boot_standby_mode(void)
  *
  *                                             function
  *
- *    º¯ÊıÃû³Æ£º
+ *    å‡½æ•°åç§°ï¼š
  *
- *    ²ÎÊıÁĞ±í£º
+ *    å‚æ•°åˆ—è¡¨ï¼š
  *
- *    ·µ»ØÖµ  £º
+ *    è¿”å›å€¼  ï¼š
  *
- *    ËµÃ÷    £º
+ *    è¯´æ˜    ï¼š
  *
  *
  ************************************************************************************************************
@@ -178,51 +178,51 @@ static int boot_enter_standby(void)
 {
     volatile int i;
     //	__u8  power_int_status[5];
-    //ÏŞÖÆstandby³äµçµçÁ÷
+    //é™åˆ¶standbyå……ç”µç”µæµ
     standby_get_dram_para();
     boot_config_charge_current(1);
-    //ÉèÖÃVBUS³äµç²»ÏŞÁ÷
+    //è®¾ç½®VBUSå……ç”µä¸é™æµ
     //	boot_power_vbus_cur_limit();
-    //	//Çå³ıpowerµÄÖĞ¶Ïpending
+    //	//æ¸…é™¤powerçš„ä¸­æ–­pending
     //	boot_power_int_query(power_int_status);
-    //´¦ÀíÖĞ¶Ï
+    //å¤„ç†ä¸­æ–­
     //__debug("standby int init\n");
     standby_int_init();
-    //´¦Àíclock
+    //å¤„ç†clock
     standby_clock_store();
 #ifdef STANDBY_CHECK_CRC
     standby_before_check_crc();
 #endif
 #ifndef CONFIG_AW_FPGA_PLATFORM
-    //´¦Àídram£¬Ö®ºó²»ÔÊĞíÔÙ·ÃÎÊdram
+    //å¤„ç†dramï¼Œä¹‹åä¸å…è®¸å†è®¿é—®dram
     dram_power_save_process(&standby_dram_para);
-    //½ûÖ¹drampllÊä³öÊ¹ÄÜ
+    //ç¦æ­¢drampllè¾“å‡ºä½¿èƒ½
     standby_clock_drampll_ouput(0);
 #endif
     //__debug("after standby_clock_plldisable\n");
     //boot_power_set_dcdc3(DCDC3_STANDBY_VOL);
-    //Ê¹ÄÜµçÔ´ÖĞ¶Ï£¬µÈ´ı»½ĞÑ
+    //ä½¿èƒ½ç”µæºä¸­æ–­ï¼Œç­‰å¾…å”¤é†’
     boot_power_int_enable();
-    //ÇĞ»»µ½24M
+    //åˆ‡æ¢åˆ°24M
     standby_clock_to_source(24000000);
     //__debug("after standby_clock_to_source\n");
-    //¹Ø±ÕËùÓĞpllÊä³ö
+    //å…³é—­æ‰€æœ‰pllè¾“å‡º
     standby_clock_plldisable();
     // __debug("after standby_clock_plldisable\n");
 
-    //½µµÍµçÔ´µçÑ¹Êä³ö
+    //é™ä½ç”µæºç”µå‹è¾“å‡º
     boot_power_set_dcdc2(DCDC2_STANDBY_VOL);
-	////Ê¹ÄÜµçÔ´ÖĞ¶Ï£¬µÈ´ı»½ĞÑ
+	////ä½¿èƒ½ç”µæºä¸­æ–­ï¼Œç­‰å¾…å”¤é†’
     //boot_power_int_enable();	
-    //ÇĞ»»·ÖÆµ±ÈÈ«Îª0
+    //åˆ‡æ¢åˆ†é¢‘æ¯”å…¨ä¸º0
     standby_clock_divsetto0();
     //__debug("after standby_clock_divsetto0 fail\n");
-    //ÇĞ»»apb1µ½32k
+    //åˆ‡æ¢apb1åˆ°32k
     standby_clock_apb1_to_source(32000);
-    //ÇĞ»»Ê±ÖÓ£¬¹Ø±ÕÊ±ÖÓ
+    //åˆ‡æ¢æ—¶é’Ÿï¼Œå…³é—­æ—¶é’Ÿ
     for(i=0;i<2000;i++);
     standby_clock_to_source(32000);
-    //¹Ø±Õ24M¾§Õñ
+    //å…³é—­24Mæ™¶æŒ¯
     standby_clock_24m_op(0);
     return 0;
 }
@@ -231,13 +231,13 @@ static int boot_enter_standby(void)
  *
  *                                             function
  *
- *    º¯ÊıÃû³Æ£º
+ *    å‡½æ•°åç§°ï¼š
  *
- *    ²ÎÊıÁĞ±í£º
+ *    å‚æ•°åˆ—è¡¨ï¼š
  *
- *    ·µ»ØÖµ  £º
+ *    è¿”å›å€¼  ï¼š
  *
- *    ËµÃ÷    £º
+ *    è¯´æ˜    ï¼š
  *
  *
  ************************************************************************************************************
@@ -246,20 +246,20 @@ static int boot_exit_standby(void)
 {
     volatile int i;
 
-    ////¹Ø±ÕµçÔ´ÖĞ¶Ï
+    ////å…³é—­ç”µæºä¸­æ–­
     //boot_power_int_disable();
-    //ÉèÖÃµçÑ¹
+    //è®¾ç½®ç”µå‹
     boot_power_set_dcdc2(1400);
     //	boot_power_set_dcdc3(-1);
-    //»¹Ô­ËùÓĞpll£¬Ô­À´´ò¿ªµÄÔò´ò¿ª£¬Ô­À´¹Ø±ÕµÄ²»´¦Àí
+    //è¿˜åŸæ‰€æœ‰pllï¼ŒåŸæ¥æ‰“å¼€çš„åˆ™æ‰“å¼€ï¼ŒåŸæ¥å…³é—­çš„ä¸å¤„ç†
     standby_clock_restore();
     for(i=0;i<80000;i++);//0x100000
-    //ÇĞ»»Ê±ÖÓµ½PLL1
+    //åˆ‡æ¢æ—¶é’Ÿåˆ°PLL1
     standby_clock_to_source(0);
 #ifndef CONFIG_AW_FPGA_PLATFORM
-    //´ò¿ªdramÊä³öÊ¹ÄÜ
+    //æ‰“å¼€dramè¾“å‡ºä½¿èƒ½
     standby_clock_drampll_ouput(1);
-    //¼¤»îdram
+    //æ¿€æ´»dram
     standby_tmr_enable_watchdog();
     dram_power_up_process(&standby_dram_para);
     standby_tmr_disable_watchdog();
@@ -267,13 +267,13 @@ static int boot_exit_standby(void)
 #ifdef STANDBY_CHECK_CRC
     standby_after_check_crc();
 #endif
-    //¹Ø±ÕµçÔ´ÖĞ¶Ï
+    //å…³é—­ç”µæºä¸­æ–­
     boot_power_int_disable();
-    //»¹Ô­ÖĞ¶Ï×´Ì¬
+    //è¿˜åŸä¸­æ–­çŠ¶æ€
     standby_int_exit();
-    //»¹Ô­³äµçµçÁ÷
+    //è¿˜åŸå……ç”µç”µæµ
     boot_config_charge_current(0);
-    //»¹Ô­ËùÓĞµÄÇı¶¯Ä£¿é
+    //è¿˜åŸæ‰€æœ‰çš„é©±åŠ¨æ¨¡å—
     //boot_timer_delay(50);
 
     return 0;
@@ -283,13 +283,13 @@ static int boot_exit_standby(void)
  *
  *                                             function
  *
- *    º¯ÊıÃû³Æ£º
+ *    å‡½æ•°åç§°ï¼š
  *
- *    ²ÎÊıÁĞ±í£º
+ *    å‚æ•°åˆ—è¡¨ï¼š
  *
- *    ·µ»ØÖµ  £º
+ *    è¿”å›å€¼  ï¼š
  *
- *    ËµÃ÷    £º
+ *    è¯´æ˜    ï¼š
  *
  *
  ************************************************************************************************************
@@ -300,51 +300,51 @@ static int boot_standby_detect(void)
     __u32 dcin_exist, battery_exist;
     __u8  power_int_status[5];
 
-    //¿ªÆô24M¾§Õñ
+    //å¼€å¯24Mæ™¶æŒ¯
     standby_clock_24m_op(1);
-    //ÇĞ»»apb1µ½24M
+    //åˆ‡æ¢apb1åˆ°24M
     standby_clock_apb1_to_source(24000000);
-    //ÉèÖÃÆµÂÊµ½24M
+    //è®¾ç½®é¢‘ç‡åˆ°24M
     standby_clock_to_source(24000000);
     standby_clock_divsetback();
     for(i=0;i<2000;i++);
-    //¼ì²éÖĞ¶Ï´¥·¢
+    //æ£€æŸ¥ä¸­æ–­è§¦å‘
     boot_power_int_query(power_int_status);
-    //Çå³ıÖĞ¶Ï¿ØÖÆÆ÷µÄpending
+    //æ¸…é™¤ä¸­æ–­æ§åˆ¶å™¨çš„pending
     //	standby_int_query();
-    //	if(boot_key_get_status() == 1)			//ÆÕÍ¨ADC°´¼ü°´ÏÂ
+    //	if(boot_key_get_status() == 1)			//æ™®é€šADCæŒ‰é”®æŒ‰ä¸‹
     //	{
     //		return 1;
     //	}
     //	boot_power_vbus_unlimit();
-    if(power_int_status[2] & 0x02)			//µçÔ´°´¼ü¶Ì°´
+    if(power_int_status[2] & 0x02)			//ç”µæºæŒ‰é”®çŸ­æŒ‰
     {
         return 2;
     }
-    if(power_int_status[2] & 0x01)			//µçÔ´°´¼ü³¤°´
+    if(power_int_status[2] & 0x01)			//ç”µæºæŒ‰é”®é•¿æŒ‰
     {
         return 3;
     }
     dcin_exist = 100;
     battery_exist = 100;
     boot_power_get_dcin_battery_exist(&dcin_exist, &battery_exist);
-    if(!dcin_exist)							//Íâ²¿µçÔ´ÒÆ³ı
+    if(!dcin_exist)							//å¤–éƒ¨ç”µæºç§»é™¤
     {
         return 4;
     }
-    //	if((power_int_status[1] & 0x04) && (battery_exist==1))			//³äµçÍê³É
+    //	if((power_int_status[1] & 0x04) && (battery_exist==1))			//å……ç”µå®Œæˆ
     //	{
     //		return 5;
     //	}
-    if(power_int_status[0] & 0x08)			//usb»ğÅ£½ÓÈë
+    if(power_int_status[0] & 0x08)			//usbç«ç‰›æ¥å…¥
     {
         return 8;
     }
-    //if(power_int_status[0] & 0x04)			//usb»ğÅ£ÒÆ³ı
+    //if(power_int_status[0] & 0x04)			//usbç«ç‰›ç§»é™¤
     //{
     //    return 9;
     //}
-    //»¹Ô­µ½32K
+    //è¿˜åŸåˆ°32K
     standby_clock_divsetto0();
     standby_clock_apb1_to_source(32000);
     standby_clock_to_source(32000);
@@ -373,13 +373,13 @@ static int boot_mod_enter_standby(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -403,13 +403,13 @@ static int boot_mod_exit_standby(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -419,34 +419,34 @@ static int boot_early_standby_mode(void)
 	__u32 dcin_exist, battery_exist;//, charge_status;
 	__s32 key_status, usb_status;
     status = -1;	
-    //¼ì²éÊÇ·ñÓĞ°´¼ü°´ÏÂ
+    //æ£€æŸ¥æ˜¯å¦æœ‰æŒ‰é”®æŒ‰ä¸‹
     key_status = boot_power_get_key();
-    if(key_status & 0x01)			//³¤°´¼üµÄÇé¿öÏÂ£¬²»¹ÜµçÔ´ÊÇ·ñÒÆ³ı£¬Ö±½Ó½øÈëÏµÍ³
+    if(key_status & 0x01)			//é•¿æŒ‰é”®çš„æƒ…å†µä¸‹ï¼Œä¸ç®¡ç”µæºæ˜¯å¦ç§»é™¤ï¼Œç›´æ¥è¿›å…¥ç³»ç»Ÿ
     {
-        //ÍË³öËùÓĞµÄÇı¶¯Ä£¿é
+        //é€€å‡ºæ‰€æœ‰çš„é©±åŠ¨æ¨¡å—
         if(standby_flag)
         {
             boot_mod_exit_standby();
         }
         return 3;
     }
-    //¼ì²éÍâ²¿µçÔ´ÊÇ·ñ´æÔÚ
+    //æ£€æŸ¥å¤–éƒ¨ç”µæºæ˜¯å¦å­˜åœ¨
     dcin_exist = 100;
     battery_exist = 100;
     boot_power_get_dcin_battery_exist(&dcin_exist, &battery_exist);
-    if(!dcin_exist)							//Íâ²¿µçÔ´ÒÆ³ı
+    if(!dcin_exist)							//å¤–éƒ¨ç”µæºç§»é™¤
     {
-        //ÍË³öËùÓĞµÄÇı¶¯Ä£¿é
+        //é€€å‡ºæ‰€æœ‰çš„é©±åŠ¨æ¨¡å—
         if(standby_flag)
         {
             boot_mod_exit_standby();
         }
         return 4;
     }
-   	//charge_status = boot_power_battery_charge_status();		//³äµçÍê³É
+   	//charge_status = boot_power_battery_charge_status();		//å……ç”µå®Œæˆ
   	//	if((charge_status > 0) && (battery_exist == 1))
    	//{
-   	//    //ÍË³öËùÓĞµÄÇı¶¯Ä£¿é
+   	//    //é€€å‡ºæ‰€æœ‰çš„é©±åŠ¨æ¨¡å—
    	//	if(standby_flag)
    	//	{
    	//		boot_mod_exit_standby();
@@ -454,9 +454,9 @@ static int boot_early_standby_mode(void)
    	//	return 5;
    	//}
 
-    if(key_status & 0x02)			//µ±Íâ²¿µçÔ´´æÔÚ£¬¼ÌĞøstandby
+    if(key_status & 0x02)			//å½“å¤–éƒ¨ç”µæºå­˜åœ¨ï¼Œç»§ç»­standby
     {
-        //ÍË³öËùÓĞµÄÇı¶¯Ä£¿é
+        //é€€å‡ºæ‰€æœ‰çš„é©±åŠ¨æ¨¡å—
         if(standby_flag)
         {
             boot_mod_exit_standby();
@@ -468,7 +468,7 @@ static int boot_early_standby_mode(void)
         boot_mod_enter_standby();
     }
 
-	//¼ì²éÊÇ·ñÓĞUSBµçÔ´²åÈë
+	//æ£€æŸ¥æ˜¯å¦æœ‰USBç”µæºæ’å…¥
 	usb_status = standby_axp_probe_usb();
 
 	if(usb_status > 0)
@@ -477,17 +477,17 @@ static int boot_early_standby_mode(void)
 	}
 	status = -1;
 	boot_enter_standby();
-    //ÏÖÔÚ£¬clockÔËĞĞÔÚ32kÉÏ
+    //ç°åœ¨ï¼Œclockè¿è¡Œåœ¨32kä¸Š
     do
     {
-        //¿ªÊ¼Ñ­»·¼ì²éÊÇ·ñ¿ªÊ¼»½ĞÑ
+        //å¼€å§‹å¾ªç¯æ£€æŸ¥æ˜¯å¦å¼€å§‹å”¤é†’
         boot_halt();
         status = boot_standby_detect();
     }
     while(status <= 0);
-    //·¢ÏÖĞèÒª»½ĞÑ£¬ÍË³östandby
+    //å‘ç°éœ€è¦å”¤é†’ï¼Œé€€å‡ºstandby
     boot_exit_standby();
-    //ÍË³öÄ£¿éµÄstandby
+    //é€€å‡ºæ¨¡å—çš„standby
     if((status != 8) && (status != 9))
     {
         boot_mod_exit_standby();
@@ -508,13 +508,13 @@ static int boot_early_standby_mode(void)
  *
  *                                             function
  *
- *    º¯ÊıÃû³Æ£º
+ *    å‡½æ•°åç§°ï¼š
  *
- *    ²ÎÊıÁĞ±í£º
+ *    å‚æ•°åˆ—è¡¨ï¼š
  *
- *    ·µ»ØÖµ  £º
+ *    è¿”å›å€¼  ï¼š
  *
- *    ËµÃ÷    £º
+ *    è¯´æ˜    ï¼š
  *
  *
  ************************************************************************************************************
@@ -537,13 +537,13 @@ static int boot_mod_enter_standby(void)
  *
  *                                             function
  *
- *    º¯ÊıÃû³Æ£º
+ *    å‡½æ•°åç§°ï¼š
  *
- *    ²ÎÊıÁĞ±í£º
+ *    å‚æ•°åˆ—è¡¨ï¼š
  *
- *    ·µ»ØÖµ  £º
+ *    è¿”å›å€¼  ï¼š
  *
- *    ËµÃ÷    £º
+ *    è¯´æ˜    ï¼š
  *
  *
  ************************************************************************************************************

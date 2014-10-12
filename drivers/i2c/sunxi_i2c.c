@@ -95,11 +95,11 @@ static  struct sunxi_twi_reg *i2c=(struct sunxi_twi_reg *)SUNXI_TWI0_BASE;
 **********************************************************************************************************************
 *                                               sw_iic_exit
 *
-* Description:  Í¨¹ıIIC¿ØÖÆÆ÷¶ÁÈ¡IICÉè±¸Ò»¸ö×Ö½Ú£¬ÔİÊ±Ö»Ö§³Ö±ê×¼µÄÉè±¸
+* Description:  é€šè¿‡IICæ§åˆ¶å™¨è¯»å–IICè®¾å¤‡ä¸€ä¸ªå­—èŠ‚ï¼Œæš‚æ—¶åªæ”¯æŒæ ‡å‡†çš„è®¾å¤‡
 *
 * Arguments  :
 *
-* Returns    :   ¶ÁÈ¡³É¹¦·µ»Ø0£¬·ñÔò·µ»Ø -1
+* Returns    :   è¯»å–æˆåŠŸè¿”å›0ï¼Œå¦åˆ™è¿”å› -1
 *
 * Notes      :    none
 *
@@ -304,7 +304,7 @@ static __s32 i2c_getdata(__u8 *data_addr, __u32 data_count)
 		for(i=0; i< data_count - 1; i++)
 		{
 			time = 0xffff;
-			tmp_val = i2c->ctl | (0x01<<2);//´«ËÍ¶à±ÊÊı¾İµÄÊ±ºò£¬Ã¿´Î´«Ò»±ÊÊı¾İ£¬Ö÷»ú¾ÍÒª¸øÒ»´Îack
+			tmp_val = i2c->ctl | (0x01<<2);//ä¼ é€å¤šç¬”æ•°æ®çš„æ—¶å€™ï¼Œæ¯æ¬¡ä¼ ä¸€ç¬”æ•°æ®ï¼Œä¸»æœºå°±è¦ç»™ä¸€æ¬¡ack
 #if defined(CONFIG_ARCH_SUN5I)||defined(CONFIG_ARCH_SUN7I)
                         tmp_val = i2c->ctl & (0xf7);
 #else
@@ -330,7 +330,7 @@ static __s32 i2c_getdata(__u8 *data_addr, __u32 data_count)
 		}
 
         time = 0xffff;
-                i2c->ctl &= 0xFb;  //µ±×îºóÒ»±ÊÊı¾İµÄÊ±ºò£¬¾Í½«¸ÃÎ»ÇåÁã£¬¼´²»¸ø´Ó»úack£¬Ä¬ÈÏ´«Êä½áÊø
+                i2c->ctl &= 0xFb;  //å½“æœ€åä¸€ç¬”æ•°æ®çš„æ—¶å€™ï¼Œå°±å°†è¯¥ä½æ¸…é›¶ï¼Œå³ä¸ç»™ä»æœºackï¼Œé»˜è®¤ä¼ è¾“ç»“æŸ
 #if defined(CONFIG_ARCH_SUN5I)||defined(CONFIG_ARCH_SUN7I)
                 i2c->ctl &= 0xf7;
 #else

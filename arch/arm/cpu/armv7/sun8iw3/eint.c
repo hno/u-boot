@@ -17,7 +17,7 @@
  {
 	u32 reg_value = 0;
     volatile u32 * reg_addr = NULL;
-	//ÏÈ½«gpioµÄÍâ²¿ÖĞ¶Ï¼Ä´æÆ÷ÅäÖÃºÃ
+	//å…ˆå°†gpioçš„å¤–éƒ¨ä¸­æ–­å¯„å­˜å™¨é…ç½®å¥½
 	//gpio_enable(1,5);    
 	//sun8iw3p1 
 	//ctp_int_port        = port:PB05<4><default><default><default>
@@ -36,14 +36,14 @@
 		*reg_addr = reg_value;
 	//	printf("====SUNXI_EINT_GPIO_B reg 0X%x====\n",*((volatile unsigned int *)( SUNXI_EINT_GPIO_B)));
 		
-		//ÖĞ¶Ï´¥·¢·½Ê½,ÏÂ½µÑØ´¥·¢
+		//ä¸­æ–­è§¦å‘æ–¹å¼,ä¸‹é™æ²¿è§¦å‘
 		reg_addr = SUNXI_PIO_EINT_CFG(group);
 		reg_value = *reg_addr;
 		reg_value |= (0x01 << (4*number));
 		*reg_addr = reg_value;
 	//	*((volatile unsigned int *)( SUNXI_EINT_GPIO_B_INT_CFG)) = reg_value ;
 		
-		//ÔÙ½«gic¿ØÖÆÆ÷¶ÔÓ¦µÄgpio eintÎ»enable
+		//å†å°†gicæ§åˆ¶å™¨å¯¹åº”çš„gpio eintä½enable
 		switch(group)
 		{
 			case 1:
@@ -92,7 +92,7 @@
 		*reg_addr = reg_value;
 	//	*((volatile unsigned int *)( SUNXI_EINT_GPIO_B_INT_CFG)) = reg_value ;
 		
-		//ÔÙ½«gic¿ØÖÆÆ÷¶ÔÓ¦µÄgpio eintÎ»enable
+		//å†å°†gicæ§åˆ¶å™¨å¯¹åº”çš„gpio eintä½enable
 		switch(group)
 		{
 			case 1:

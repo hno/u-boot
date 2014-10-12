@@ -92,7 +92,7 @@ int usb_close_clock(void)
 {
     u32 reg_value = 0;
 
-	//¹ØUSB phyÊ±ÖÓ
+	//å…³USB phyæ—¶é’Ÿ
 	reg_value = readl(SUNXI_CCM_BASE + 0xcc);
 	reg_value &= ~((1 << 0) | (1 << 8));
 	writel(reg_value, (SUNXI_CCM_BASE + 0xcc));
@@ -104,11 +104,11 @@ int usb_close_clock(void)
     writel(reg_value, (SUNXI_CCM_BASE + 0x2C0));
     __msdelay(10);
 
-    //¹Øusb ahbÊ±ÖÓ
+    //å…³usb ahbæ—¶é’Ÿ
 	reg_value = readl(SUNXI_CCM_BASE + 0x60);
 	reg_value &= ~(1 << 24);
 	writel(reg_value, (SUNXI_CCM_BASE + 0x60));
-    //µÈsieµÄÊ±ÖÓ±äÎÈ
+    //ç­‰sieçš„æ—¶é’Ÿå˜ç¨³
 	__msdelay(10);
 
 	return 0;

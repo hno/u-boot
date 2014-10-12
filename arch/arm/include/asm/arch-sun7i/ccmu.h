@@ -108,7 +108,7 @@
 #define CCM_OUTA_SCLK_CTRL		(CCM_BASE+0x01f0)
 #define CCM_OUTB_SCLK_CTRL		(CCM_BASE+0x01f4)
 
-#define CCM_AHB_RST_REG0		(CCM_BASE+0x02C0)//a20Ã»ÓÐÕâ¸ö¼Ä´æÆ÷£¬·ÅÔÚÕâÀï²»Ó°Ïì
+#define CCM_AHB_RST_REG0		(CCM_BASE+0x02C0)//a20æ²¡æœ‰è¿™ä¸ªå¯„å­˜å™¨ï¼Œæ”¾åœ¨è¿™é‡Œä¸å½±å“
 
 
 #if 0

@@ -541,13 +541,13 @@ int sunxi_flash_handle_init(void)
 
 		tick_printf("sunxi flash init ok\n");
 #if defined(CONFIG_ARCH_SUN8IW1P1)
-		if((storage_type == 0) || (storage_type == 2))	//如果是A31非卡0启动，则需要跳转检测卡0
+		if((storage_type == 0) || (storage_type == 2))	//濡傛灉鏄疉31闈炲崱0鍚姩锛屽垯闇�瑕佽烦杞娴嬪崱0
 		{
 			sunxi_card_probe_mmc0_boot();
 		}
 #endif
 	}
-	else if((workmode & WORK_MODE_PRODUCT) || (workmode == 0x30))		/* 量产模式 */
+	else if((workmode & WORK_MODE_PRODUCT) || (workmode == 0x30))		/* 閲忎骇妯″紡 */
 	{
 	    if(!nand_uboot_probe())
         {
@@ -625,7 +625,7 @@ int sunxi_flash_handle_init(void)
 			sunxi_flash_exit_pt  = sunxi_flash_mmc_exit;
 		}
 	}
-	else if(workmode & WORK_MODE_UPDATE)		/* 升级模式 */
+	else if(workmode & WORK_MODE_UPDATE)		/* 鍗囩骇妯″紡 */
 	{
 	}
 	else   /* undefined mode */

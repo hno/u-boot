@@ -221,14 +221,14 @@ int board_display_set_exit_mode(int lcd_off_only)
 *                     board_display_layer_open
 *
 * Description:
-*    打开图层
+*    鎵撳紑鍥惧眰
 *
 * Parameters:
-*    Layer_hd    :  input. 图层句柄
+*    Layer_hd    :  input. 鍥惧眰鍙ユ焺
 *
 * Return value:
-*    0  :  成功
-*   !0  :  失败
+*    0  :  鎴愬姛
+*   !0  :  澶辫触
 *
 * note:
 *    void
@@ -259,14 +259,14 @@ int board_display_layer_open(void)
 *                     board_display_layer_close
 *
 * Description:
-*    关闭图层
+*    鍏抽棴鍥惧眰
 *
 * Parameters:
-*    Layer_hd    :  input. 图层句柄
+*    Layer_hd    :  input. 鍥惧眰鍙ユ焺
 *
 * Return value:
-*    0  :  成功
-*   !0  :  失败
+*    0  :  鎴愬姛
+*   !0  :  澶辫触
 *
 * note:
 *    void

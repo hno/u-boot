@@ -32,7 +32,7 @@
 
 #define  USBC_MAX_OPEN_NUM    8
 
-/* ¼ÇÂ¼USBµÄ¹«¹²ĞÅÏ¢ */
+/* è®°å½•USBçš„å…¬å…±ä¿¡æ¯ */
 typedef struct __fifo_info{
     uint port0_fifo_addr;
 	uint port0_fifo_size;
@@ -44,13 +44,13 @@ typedef struct __fifo_info{
 	uint port2_fifo_size;
 }__fifo_info_t;
 
-/* ¼ÇÂ¼µ±Ç°USB portËùÓĞµÄÓ²¼şĞÅÏ¢ */
+/* è®°å½•å½“å‰USB portæ‰€æœ‰çš„ç¡¬ä»¶ä¿¡æ¯ */
 typedef struct __usbc_otg{
     uint port_num;
 	uint base_addr;        /* usb base address 		*/
 
-	uint used;             /* ÊÇ·ñÕıÔÚ±»Ê¹ÓÃ   		*/
-    uint no;               /* ÔÚ¹ÜÀíÊı×éÖĞµÄÎ»ÖÃ 		*/
+	uint used;             /* æ˜¯å¦æ­£åœ¨è¢«ä½¿ç”¨   		*/
+    uint no;               /* åœ¨ç®¡ç†æ•°ç»„ä¸­çš„ä½ç½® 		*/
 }__usbc_otg_t;
 
 #endif   //__USBC_I_H__

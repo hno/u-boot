@@ -1019,7 +1019,7 @@ __s32  burn_boot0_1k_mode( __u32 read_retry_type, __u32 Boot0_buf )
 		goto error;
 	}
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	pages_per_block = NAND_GetPageCntPerBlk();
 	if(pages_per_block%64)
 	{
@@ -1035,7 +1035,7 @@ __s32  burn_boot0_1k_mode( __u32 read_retry_type, __u32 Boot0_buf )
     {
         printf("boot0 %x \n", i);
 
-		/* ²Á³ı¿é */
+		/* æ“¦é™¤å— */
 		para.chip  = 0;
 		para.block = i;
 		if( PHY_SimpleErase( &para ) <0 )
@@ -1044,7 +1044,7 @@ __s32  burn_boot0_1k_mode( __u32 read_retry_type, __u32 Boot0_buf )
     		continue;
     	}
 
-        /* ÔÚ¿éÖĞÉÕĞ´boot0±¸·İ */
+        /* åœ¨å—ä¸­çƒ§å†™boot0å¤‡ä»½ */
         for( j = 0;  j < copies_per_block;  j++ )
        	{
 
@@ -1101,7 +1101,7 @@ __s32  burn_boot0_lsb_mode(__u32 read_retry_type, __u32 Boot0_buf )
 
 
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	page_size = NAND_GetPageSize();
 	{
 		if(page_size %1024)
@@ -1110,7 +1110,7 @@ __s32  burn_boot0_lsb_mode(__u32 read_retry_type, __u32 Boot0_buf )
 			goto error;
 		}
 	}
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	if(page_size == 8192*2) //change for h27ucg8t2btr 16k pagesize
 		page_size = 8192;
 
@@ -1119,7 +1119,7 @@ __s32  burn_boot0_lsb_mode(__u32 read_retry_type, __u32 Boot0_buf )
     {
         printf("down boot0 %x \n", i);
 
-		/* ²Á³ı¿é */
+		/* æ“¦é™¤å— */
 		para.chip  = 0;
 		para.block = i;
 		if( PHY_SimpleErase( &para ) <0 )
@@ -1128,7 +1128,7 @@ __s32  burn_boot0_lsb_mode(__u32 read_retry_type, __u32 Boot0_buf )
     		continue;
     	}
 
-        /* ÔÚ¿éÖĞÉÕĞ´boot0±¸·İ, lsb modeÏÂ£¬Ã¿¸ö¿éÖ»ÄÜĞ´Ç°4¸öpage */
+        /* åœ¨å—ä¸­çƒ§å†™boot0å¤‡ä»½, lsb modeä¸‹ï¼Œæ¯ä¸ªå—åªèƒ½å†™å‰4ä¸ªpage */
 		for( k = 0;  k < 4;  k++ )
 		{
 			para.chip  = 0;
@@ -1158,7 +1158,7 @@ __s32  burn_boot0_lsb_mode(__u32 read_retry_type, __u32 Boot0_buf )
 
         printf("verify boot0 %x \n", i);
 
-        /* ÔÚ¿éÖĞÉÕĞ´boot0±¸·İ, lsb modeÏÂ£¬Ã¿¸ö¿éÖ»ÄÜĞ´Ç°4¸öpage */
+        /* åœ¨å—ä¸­çƒ§å†™boot0å¤‡ä»½, lsb modeä¸‹ï¼Œæ¯ä¸ªå—åªèƒ½å†™å‰4ä¸ªpage */
 		for( k = 0;  k < 4;  k++ )
 		{
 			para.chip  = 0;
@@ -1219,7 +1219,7 @@ __s32  burn_boot0_lsb_FF_mode(__u32 read_retry_type, __u32 Boot0_buf )
 		goto error;
 	}
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	pages_per_block = NAND_GetPageCntPerBlk();
 
 	page_size = NAND_GetPageSize();
@@ -1236,7 +1236,7 @@ __s32  burn_boot0_lsb_FF_mode(__u32 read_retry_type, __u32 Boot0_buf )
     {
         printf("down boot0 %x \n", i);
 
-		/* ²Á³ı¿é */
+		/* æ“¦é™¤å— */
 		para.chip  = 0;
 		para.block = i;
 		if( PHY_SimpleErase( &para ) <0 )
@@ -1247,7 +1247,7 @@ __s32  burn_boot0_lsb_FF_mode(__u32 read_retry_type, __u32 Boot0_buf )
 
 		if(page_size == 16384)
 		{
-			/* ÔÚ¿éÖĞÉÕĞ´boot0±¸·İ, lsb modeÏÂ£¬Ã¿¸ö¿éÖ»ÄÜĞ´Ç°2¸öpage */
+			/* åœ¨å—ä¸­çƒ§å†™boot0å¤‡ä»½, lsb modeä¸‹ï¼Œæ¯ä¸ªå—åªèƒ½å†™å‰2ä¸ªpage */
 			for( k = 0;  k < 5;  k++ )
 			{
 				if(k<2)
@@ -1403,7 +1403,7 @@ __s32 burn_uboot_in_one_blk(__u32 UBOOT_buf, __u32 length)
 	}
 
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	page_size = NAND_GetPageSize();
 	{
 		if(page_size %1024)
@@ -1413,7 +1413,7 @@ __s32 burn_uboot_in_one_blk(__u32 UBOOT_buf, __u32 length)
 		}
 	}
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	pages_per_block = NAND_GetPageCntPerBlk();
 	if(pages_per_block%64)
 	{
@@ -1423,7 +1423,7 @@ __s32 burn_uboot_in_one_blk(__u32 UBOOT_buf, __u32 length)
 
 	printf("pages_per_block: 0x%x\n", pages_per_block);
 
-	/* ¼ÆËãÃ¿¸ö±¸·İËùĞèpage */
+	/* è®¡ç®—æ¯ä¸ªå¤‡ä»½æ‰€éœ€page */
 	if(length%page_size)
 	{
 		printf("uboot length check error!\n");
@@ -1444,7 +1444,7 @@ __s32 burn_uboot_in_one_blk(__u32 UBOOT_buf, __u32 length)
     {
         printf("uboot %x \n", i);
 
-		/* ²Á³ı¿é */
+		/* æ“¦é™¤å— */
 		para.chip  = 0;
 		para.block = i;
 		if( PHY_SimpleErase( &para ) <0 )
@@ -1453,7 +1453,7 @@ __s32 burn_uboot_in_one_blk(__u32 UBOOT_buf, __u32 length)
     		continue;
     	}
 
-        /* ÔÚ¿éÖĞÉÕĞ´boot0±¸·İ, lsb modeÏÂ£¬Ã¿¸ö¿éÖ»ÄÜĞ´Ç°4¸öpage */
+        /* åœ¨å—ä¸­çƒ§å†™boot0å¤‡ä»½, lsb modeä¸‹ï¼Œæ¯ä¸ªå—åªèƒ½å†™å‰4ä¸ªpage */
 		for( k = 0;  k < pages_per_copy;  k++ )
 		{
 			para.chip  = 0;
@@ -1495,7 +1495,7 @@ __s32 burn_uboot_in_one_blk(__u32 UBOOT_buf, __u32 length)
     {
 	    printf("verify uboot blk %x \n", i);
 
-        /* ²Á³ı¿é */
+        /* æ“¦é™¤å— */
 
       	for( k = 0;  k < pages_per_copy;  k++ )
 		{
@@ -1542,7 +1542,7 @@ __s32 burn_uboot_in_many_blks(__u32 UBOOT_buf, __u32 length)
 	}
 
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	page_size = NAND_GetPageSize();
 	{
 		if(page_size %1024)
@@ -1552,7 +1552,7 @@ __s32 burn_uboot_in_many_blks(__u32 UBOOT_buf, __u32 length)
 		}
 	}
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	pages_per_block = NAND_GetPageCntPerBlk();
 	if(pages_per_block%64)
 	{
@@ -1560,7 +1560,7 @@ __s32 burn_uboot_in_many_blks(__u32 UBOOT_buf, __u32 length)
 		goto error;
 	}
 
-	/* ¼ÆËãÃ¿¸ö±¸·İËùĞèpage */
+	/* è®¡ç®—æ¯ä¸ªå¤‡ä»½æ‰€éœ€page */
 	if(length%page_size)
 	{
 		printf("uboot length check error!\n");
@@ -1580,7 +1580,7 @@ __s32 burn_uboot_in_many_blks(__u32 UBOOT_buf, __u32 length)
     {
         printf("uboot %x \n", i);
 
-		/* ²Á³ı¿é */
+		/* æ“¦é™¤å— */
 		para.chip  = 0;
 		para.block = i;
 		if( PHY_SimpleErase( &para ) <0 )
@@ -1589,7 +1589,7 @@ __s32 burn_uboot_in_many_blks(__u32 UBOOT_buf, __u32 length)
     		continue;
     	}
 
-        /* ÔÚ¿éÖĞÉÕĞ´boot0±¸·İ, lsb modeÏÂ£¬Ã¿¸ö¿éÖ»ÄÜĞ´Ç°4¸öpage */
+        /* åœ¨å—ä¸­çƒ§å†™boot0å¤‡ä»½, lsb modeä¸‹ï¼Œæ¯ä¸ªå—åªèƒ½å†™å‰4ä¸ªpage */
 		for( k = 0;  k < pages_per_block;  k++ )
 		{
 			para.chip  = 0;
@@ -1628,7 +1628,7 @@ int NAND_BurnUboot(uint length, void *buffer)
 //	int blk_index, page_index;
 	__u32 page_size, pages_per_block, block_size;
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	page_size = NAND_GetPageSize();
 	{
 		if(page_size %1024)
@@ -1638,7 +1638,7 @@ int NAND_BurnUboot(uint length, void *buffer)
 		}
 	}
 
-	/* ¼ì²é page count */
+	/* æ£€æŸ¥ page count */
 	pages_per_block = NAND_GetPageCntPerBlk();
 	if(pages_per_block%64)
 	{

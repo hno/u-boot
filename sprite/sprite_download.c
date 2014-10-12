@@ -114,7 +114,7 @@ int sunxi_sprite_download_uboot(void *buffer, int production_media, int mode)
 {
     struct spare_boot_head_t    *uboot  = (struct spare_boot_head_t *)buffer;
 
-	//校验特征字符是否正确
+	//鏍￠獙鐗瑰緛瀛楃鏄惁姝ｇ‘
 	debug("%s\n", uboot->boot_head.magic);
 	if(strncmp((const char *)uboot->boot_head.magic, UBOOT_MAGIC, MAGIC_SIZE))
 	{
@@ -122,7 +122,7 @@ int sunxi_sprite_download_uboot(void *buffer, int production_media, int mode)
 
 		return -1;
 	}
-	//校验数据是否正确
+	//鏍￠獙鏁版嵁鏄惁姝ｇ‘
 	if(!mode)
 	{
 		if(sunxi_sprite_verify_checksum(buffer, uboot->boot_head.length, uboot->boot_head.check_sum))
@@ -131,8 +131,8 @@ int sunxi_sprite_download_uboot(void *buffer, int production_media, int mode)
 
 			return -1;
 		}
-		//读出dram参数
-		//填充FLASH信息
+		//璇诲嚭dram鍙傛暟
+		//濉厖FLASH淇℃伅
 		if(!production_media)
 		{
 			nand_uboot_get_flash_info((void *)uboot->boot_data.nand_spare_data, STORAGE_BUFFER_SIZE);
@@ -140,7 +140,7 @@ int sunxi_sprite_download_uboot(void *buffer, int production_media, int mode)
 	}
 	/* regenerate check sum */
 	uboot->boot_head.check_sum = sunxi_sprite_generate_checksum(buffer, uboot->boot_head.length, uboot->boot_head.check_sum);
-	//校验数据是否正确
+	//鏍￠獙鏁版嵁鏄惁姝ｇ‘
 	if(sunxi_sprite_verify_checksum(buffer, uboot->boot_head.length, uboot->boot_head.check_sum))
 	{
 		printf("sunxi sprite: uboot checksum is error\n");
@@ -189,7 +189,7 @@ int sunxi_sprite_download_boot0(void *buffer, int production_media)
 {
     boot0_file_head_t    *boot0  = (boot0_file_head_t *)buffer;
 
-	//校验特征字符是否正确
+	//鏍￠獙鐗瑰緛瀛楃鏄惁姝ｇ‘
 	debug("%s\n", boot0->boot_head.magic);
 	if(strncmp((const char *)boot0->boot_head.magic, BOOT0_MAGIC, MAGIC_SIZE))
 	{
@@ -197,15 +197,15 @@ int sunxi_sprite_download_boot0(void *buffer, int production_media)
 
 		return -1;
 	}
-	//校验数据是否正确
+	//鏍￠獙鏁版嵁鏄惁姝ｇ‘
 	if(sunxi_sprite_verify_checksum(buffer, boot0->boot_head.length, boot0->boot_head.check_sum))
 	{
 		printf("sunxi sprite: boot0 checksum is error\n");
 
 		return -1;
 	}
-	//读出dram参数
-	//填充FLASH信息
+	//璇诲嚭dram鍙傛暟
+	//濉厖FLASH淇℃伅
 	if(!production_media)
 	{
 		nand_uboot_get_flash_info((void *)boot0->prvt_head.storage_data, STORAGE_BUFFER_SIZE);
@@ -222,7 +222,7 @@ int sunxi_sprite_download_boot0(void *buffer, int production_media)
 	memcpy((void *)&boot0->prvt_head.dram_para, (void *)DRAM_PARA_STORE_ADDR, 32 * 4);
 	/* regenerate check sum */
 	boot0->boot_head.check_sum = sunxi_sprite_generate_checksum(buffer, boot0->boot_head.length, boot0->boot_head.check_sum);
-	//校验数据是否正确
+	//鏍￠獙鏁版嵁鏄惁姝ｇ‘
 	if(sunxi_sprite_verify_checksum(buffer, boot0->boot_head.length, boot0->boot_head.check_sum))
 	{
 		printf("sunxi sprite: boot0 checksum is error\n");

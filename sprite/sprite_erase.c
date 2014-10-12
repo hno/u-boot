@@ -55,7 +55,7 @@ int sunxi_sprite_erase_flash(void  *img_mbr_buffer)
 		printf("flash already erased\n");
 		return 0;
 	}
-	//»ñÈ¡²Á³ıĞÅÏ¢£¬²é¿´ÊÇ·ñĞèÒª²Á³ıflash
+	//è·å–æ“¦é™¤ä¿¡æ¯ï¼ŒæŸ¥çœ‹æ˜¯å¦éœ€è¦æ“¦é™¤flash
     ret = script_parser_fetch("platform", "eraseflag", &need_erase_flag, 1);
     if((!ret) && (need_erase_flag))
     {
@@ -67,7 +67,7 @@ int sunxi_sprite_erase_flash(void  *img_mbr_buffer)
 
     	return 0;
     }
-	//µ±ÒªÇóÇ¿ÖÆ²Á³ı£¬²»´¦ÀíË½ÓĞÊı¾İ
+	//å½“è¦æ±‚å¼ºåˆ¶æ“¦é™¤ï¼Œä¸å¤„ç†ç§æœ‰æ•°æ®
 	if(need_erase_flag == 0x11)
 	{
 		printf("force erase flash\n");
@@ -75,7 +75,7 @@ int sunxi_sprite_erase_flash(void  *img_mbr_buffer)
 
 		return 0;
 	}
-	//¼ì²â²»µ½private·ÖÇø£¬¼´²»ÓÃ±£»¤ÓÃ»§Êı¾İ
+	//æ£€æµ‹ä¸åˆ°privateåˆ†åŒºï¼Œå³ä¸ç”¨ä¿æŠ¤ç”¨æˆ·æ•°æ®
 	if(!sunxi_sprite_probe_prvt(img_mbr_buffer))
 	{
 		printf("no part need to protect user data\n");
@@ -83,7 +83,7 @@ int sunxi_sprite_erase_flash(void  *img_mbr_buffer)
 
 		return 0;
 	}
-	//µ±³õÊ¼»¯Ê§°ÜµÄÊ±ºò£¬Ö±½Ó²Á³ı£¬²»´¦ÀíË½ÓĞÊı¾İ
+	//å½“åˆå§‹åŒ–å¤±è´¥çš„æ—¶å€™ï¼Œç›´æ¥æ“¦é™¤ï¼Œä¸å¤„ç†ç§æœ‰æ•°æ®
 	if(sunxi_sprite_init(1))
 	{
 		debug("sunxi sprite pre init fail, we have to erase it\n");
@@ -93,7 +93,7 @@ int sunxi_sprite_erase_flash(void  *img_mbr_buffer)
 		return 0;
 	}
 	debug("nand pre init ok\n");
-	//¶Á³öÁ¿²ú½éÖÊÉÏµÄMBR
+	//è¯»å‡ºé‡äº§ä»‹è´¨ä¸Šçš„MBR
 	if(!sunxi_sprite_read(0, (SUNXI_MBR_SIZE * SUNXI_MBR_COPY_NUM)/512, buf))
 	{
 		printf("read local mbr on flash failed\n");
@@ -102,7 +102,7 @@ int sunxi_sprite_erase_flash(void  *img_mbr_buffer)
 
 		return 0;
 	}
-	//Ğ£ÑéMBR
+	//æ ¡éªŒMBR
 	if(sunxi_sprite_verify_mbr(buf))
 	{
 		printf("the mbr on flash is bad\n");
@@ -120,10 +120,10 @@ int sunxi_sprite_erase_flash(void  *img_mbr_buffer)
 	}
 	sunxi_sprite_exit(1);
 	printf("need_erase_flag = %d\n", need_erase_flag);
-	//¿ªÊ¼²Á³ı
+	//å¼€å§‹æ“¦é™¤
 	printf("begin to erase\n");
 	sunxi_sprite_erase(need_erase_flag, img_mbr_buffer);
-	//¿ªÊ¼»ØĞ´private
+	//å¼€å§‹å›å†™private
 	printf("finish erase\n");
 	sunxi_sprite_init(0);
 	printf("rewrite\n");

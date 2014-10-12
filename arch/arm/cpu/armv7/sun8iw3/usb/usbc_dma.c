@@ -30,16 +30,16 @@
 *                     USBC_Dma_Set_ChannalPara
 *
 * Description:
-*    ²éÑ¯fifoÊÇ·ñÎª¿Õ
+*    æŸ¥è¯¢fifoæ˜¯å¦ä¸ºç©º
 *
 * Arguments:
-*    hUSB    :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB    :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *
 *
 * Returns:
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */
@@ -66,16 +66,16 @@ int USBC_Dma_Set_ChannalPara(__hdle hUSB, __u32 dma_chan, __u32 trans_dir, __u32
 *                     USBC_Dma_Set_PktLen
 *
 * Description:
-*    ²éÑ¯fifoÊÇ·ñÎª¿Õ
+*    æŸ¥è¯¢fifoæ˜¯å¦ä¸ºç©º
 *
 * Arguments:
-*    hUSB    :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB    :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *
 *
 * Returns:
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */
@@ -101,16 +101,16 @@ int USBC_Dma_Set_PktLen(__hdle hUSB, __u32 dma_chan, __u32 pkt_len)
 *                     USBC_Dma_Start
 *
 * Description:
-*    ²éÑ¯fifoÊÇ·ñÎª¿Õ
+*    æŸ¥è¯¢fifoæ˜¯å¦ä¸ºç©º
 *
 * Arguments:
-*    hUSB    :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB    :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *
 *
 * Returns:
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */
@@ -148,16 +148,16 @@ int USBC_Dma_Start(__hdle hUSB, __u32 dma_chan, __u32 addr, __u32 pkt_len)
 *                     USBC_Dma_Int_Stop
 *
 * Description:
-*    ²éÑ¯fifoÊÇ·ñÎª¿Õ
+*    æŸ¥è¯¢fifoæ˜¯å¦ä¸ºç©º
 *
 * Arguments:
-*    hUSB    :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB    :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *
 *
 * Returns:
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */
@@ -182,16 +182,16 @@ int USBC_Dma_Int_Stop(__hdle hUSB, __u32 dma_chan)
 *                     USBC_Dma_Int_Query
 *
 * Description:
-*    ²éÑ¯fifoÊÇ·ñÎª¿Õ
+*    æŸ¥è¯¢fifoæ˜¯å¦ä¸ºç©º
 *
 * Arguments:
-*    hUSB    :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB    :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *
 *
 * Returns:
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */
@@ -211,16 +211,16 @@ int USBC_Dma_Int_Query(__hdle hUSB)
 *                     USBC_Dma_Int_Clear
 *
 * Description:
-*    ²éÑ¯fifoÊÇ·ñÎª¿Õ
+*    æŸ¥è¯¢fifoæ˜¯å¦ä¸ºç©º
 *
 * Arguments:
-*    hUSB    :  input.  USBC_open_otg»ñµÃµÄ¾ä±ú, ¼ÇÂ¼ÁËUSBCËùĞèÒªµÄÒ»Ğ©¹Ø¼üÊı¾İ
+*    hUSB    :  input.  USBC_open_otgè·å¾—çš„å¥æŸ„, è®°å½•äº†USBCæ‰€éœ€è¦çš„ä¸€äº›å…³é”®æ•°æ®
 *
 *
 * Returns:
 *
 * note:
-*    ÎŞ
+*    æ— 
 *
 ***********************************************************************************
 */

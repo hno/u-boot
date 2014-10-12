@@ -21,21 +21,21 @@
 #ifndef __DOS_PART_H_
 #define __DOS_PART_H_
 
-//±ê×¼·ÖÇøĞÅÏ¢
+//æ ‡å‡†åˆ†åŒºä¿¡æ¯
 #pragma pack(push, 1)
 typedef struct tag_part_info_stand
 {
-	char 				indicator;			//±íÊ¾¸Ã·ÖÇøÊÇ·ñÊÇ»î¶¯·ÖÇø
-	char				start_head;			//·ÖÇø¿ªÊ¼µÄ´ÅÍ·
-	short				start_sector:6;		//·ÖÇø¿ªÊ¼µÄÉÈÇø
-	short				start_cylinder:10;	//·ÖÇø¿ªÊ¼µÄÖùÃæ
-	char				part_type;			//·ÖÇøÀàĞÍ			00H:Ã»ÓĞÖ¸Ã÷  01H:DOS12	02H:xenix	04H:DOS16 05H:À©Õ¹·ÖÇø	06H:FAT16
+	char 				indicator;			//è¡¨ç¤ºè¯¥åˆ†åŒºæ˜¯å¦æ˜¯æ´»åŠ¨åˆ†åŒº
+	char				start_head;			//åˆ†åŒºå¼€å§‹çš„ç£å¤´
+	short				start_sector:6;		//åˆ†åŒºå¼€å§‹çš„æ‰‡åŒº
+	short				start_cylinder:10;	//åˆ†åŒºå¼€å§‹çš„æŸ±é¢
+	char				part_type;			//åˆ†åŒºç±»å‹			00H:æ²¡æœ‰æŒ‡æ˜  01H:DOS12	02H:xenix	04H:DOS16 05H:æ‰©å±•åˆ†åŒº	06H:FAT16
 											//					07H:NTFS	  0BH:FAT32
-	char				end_head;			//·ÖÇø½áÊøµÄ´ÅÍ·
-	short				end_sector:6;		//·ÖÇø½áÊøµÄÉÈÇø
-	short				end_cylinder:10;	//·ÖÇø½áÊøµÄÖùÃæ
-	//int					start_sectors;		//ÆğÊ¼ÉÈÇø£¬Ç°ÃæËµµÄÉÈÇøÊÇÓ²ÅÌµÄ¸ÅÄî£¬ÕâÀïµÄÉÈÇøÊÇÂß¼­¸ÅÄî
-	//int					total_sectors;		//·ÖÇøÖĞµÄÉÈÇø×ÜÊı
+	char				end_head;			//åˆ†åŒºç»“æŸçš„ç£å¤´
+	short				end_sector:6;		//åˆ†åŒºç»“æŸçš„æ‰‡åŒº
+	short				end_cylinder:10;	//åˆ†åŒºç»“æŸçš„æŸ±é¢
+	//int					start_sectors;		//èµ·å§‹æ‰‡åŒºï¼Œå‰é¢è¯´çš„æ‰‡åŒºæ˜¯ç¡¬ç›˜çš„æ¦‚å¿µï¼Œè¿™é‡Œçš„æ‰‡åŒºæ˜¯é€»è¾‘æ¦‚å¿µ
+	//int					total_sectors;		//åˆ†åŒºä¸­çš„æ‰‡åŒºæ€»æ•°
 	short				start_sectorl;
 	short				start_sectorh;
 	short				total_sectorsl;
@@ -44,14 +44,14 @@ typedef struct tag_part_info_stand
 part_info_stand;
 #pragma pack(pop)
 
-//±ê×¼MBR
+//æ ‡å‡†MBR
 #pragma pack(push, 1)
 typedef struct tag_mbr_stand
 {
-	char				mbr[0x89];			//Ö÷Òıµ¼¼ÇÂ¼
-	char				err_info[0x135];	//³ö´íĞÅÏ¢
-	part_info_stand		part_info[4];		//·ÖÇø±íÏî
-	short				end_flag;			//¹Ì¶¨Öµ 0x55aa
+	char				mbr[0x89];			//ä¸»å¼•å¯¼è®°å½•
+	char				err_info[0x135];	//å‡ºé”™ä¿¡æ¯
+	part_info_stand		part_info[4];		//åˆ†åŒºè¡¨é¡¹
+	short				end_flag;			//å›ºå®šå€¼ 0x55aa
 }
 mbr_stand;
 #pragma pack(pop)

@@ -28,17 +28,17 @@
 *
 *                                             eGon2_int_enter_standby
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
 *
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º	½øÈëstandby
-*				1) Çå³ýDMA PENDING£¬±£´æDMA enable
-*				2) ¹Ø±ÕDMA AHB
+*    è¯´æ˜Ž    ï¼š	è¿›å…¥standby
+*				1) æ¸…é™¤DMA PENDINGï¼Œä¿å­˜DMA enable
+*				2) å…³é—­DMA AHB
 *
 ************************************************************************************************************
 */
@@ -55,17 +55,17 @@ int standby_int_disable(void)
 *
 *                                             eGon2_int_exit_standby
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
 *
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º	ÍË³östandby
-*				1) ´ò¿ªDMA AHB
-*				2) Çå³ýDMA PENDING£¬»Ö¸´DMA enable
+*    è¯´æ˜Ž    ï¼š	é€€å‡ºstandby
+*				1) æ‰“å¼€DMA AHB
+*				2) æ¸…é™¤DMA PENDINGï¼Œæ¢å¤DMA enable
 *
 *
 ************************************************************************************************************
@@ -82,9 +82,9 @@ int standby_int_enable(void)
 *********************************************************************************************************
 *										   EnableInt
 *
-* Description:  Ê¹ÄÜÖÐ¶Ï
+* Description:  ä½¿èƒ½ä¸­æ–­
 *
-* Arguments	 : irq_no     ÖÐ¶ÏºÅ
+* Arguments	 : irq_no     ä¸­æ–­å·
 *
 * Returns	 :
 *
@@ -100,7 +100,7 @@ static int standby_enable_irq(__u32 irq_no)
 		return -1;
 	}
 
-	offset   = irq_no >> 5; // ³ý32
+	offset   = irq_no >> 5; // é™¤32
 	reg_val  = readl(GIC_SET_EN(offset));
 	reg_val |= 1 << (irq_no & 0x1f);
 	writel(reg_val, GIC_SET_EN(offset));
@@ -111,9 +111,9 @@ static int standby_enable_irq(__u32 irq_no)
 *********************************************************************************************************
 *										   DisableInt
 *
-* Description:  ½ûÖ¹ÖÐ¶Ï
+* Description:  ç¦æ­¢ä¸­æ–­
 *
-* Arguments	 : irq_no     ÖÐ¶ÏºÅ
+* Arguments	 : irq_no     ä¸­æ–­å·
 *
 * Returns	 :
 *
@@ -129,7 +129,7 @@ static __s32 standby_disable_irq(__u32 irq_no)
 		return -1;
 	}
 
-	offset   = irq_no >> 5; // ³ý32
+	offset   = irq_no >> 5; // é™¤32
 	reg_val  = readl(GIC_SET_EN(offset));
 	reg_val &= ~(1 << (irq_no & 0x1f));
 	writel(reg_val, GIC_SET_EN(offset));
@@ -141,13 +141,13 @@ static __s32 standby_disable_irq(__u32 irq_no)
 *
 *                                             function
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜Ž    ï¼š
 *
 *
 ************************************************************************************************************
@@ -161,13 +161,13 @@ void standby_gic_store(void)
 *
 *                                             function
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜Ž    ï¼š
 *
 *
 ************************************************************************************************************
@@ -181,13 +181,13 @@ void standby_gic_restore(void)
 *
 *                                             function
 *
-*    º¯ÊýÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊýÁÐ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›žå€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜Ž    ï¼š
 *
 *
 ************************************************************************************************************
@@ -203,7 +203,7 @@ __u32 standby_gic_probe_pengding(void)
 	writel(idnum, GIC_END_INT_REG);
 	writel(idnum, GIC_DEACT_INT_REG);
 
-	offset = idnum >> 5; // ³ý32
+	offset = idnum >> 5; // é™¤32
 	reg_val = readl(GIC_PEND_CLR(offset));
 	reg_val |= (1 << (idnum & 0x1f));
 	writel(reg_val, GIC_PEND_CLR(offset));

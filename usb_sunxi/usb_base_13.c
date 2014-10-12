@@ -139,7 +139,7 @@ void sunxi_usb_irq(void *data)
 		return ;
     }
 
-	/* RESUME ÔİÊ±²»´¦Àí£¬½ö½öÇåÀíÖĞ¶Ï*/
+	/* RESUME æš‚æ—¶ä¸å¤„ç†ï¼Œä»…ä»…æ¸…ç†ä¸­æ–­*/
 	if (misc_irq & USBC_INTUSB_RESUME)
 	{
 		sunxi_usb_dbg("IRQ: resume\n");
@@ -179,7 +179,7 @@ void sunxi_usb_irq(void *data)
 		sunxi_usb_dbg("IRQ: EP0\n");
 
 		USBC_INT_ClearEpPending(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_TX, SUNXI_USB_CTRL_EP_INDEX);
-		//ÖĞ¶ÏÄÚÍê³Éep0´¦Àí
+		//ä¸­æ–­å†…å®Œæˆep0å¤„ç†
 		ep0_recv_op();
     }
 
@@ -217,7 +217,7 @@ void sunxi_usb_irq(void *data)
 *
 *    return        :
 *
-*    note          :   usb³õÊ¼»¯¶¯×÷£¬Íê³Éºó£¬¼´¿É¿ªÆôÖĞ¶Ïºó£¬Ê¹ÓÃÖĞ¶Ï´¦Àí³ÌĞò
+*    note          :   usbåˆå§‹åŒ–åŠ¨ä½œï¼Œå®Œæˆåï¼Œå³å¯å¼€å¯ä¸­æ–­åï¼Œä½¿ç”¨ä¸­æ–­å¤„ç†ç¨‹åº
 *
 *
 ************************************************************************************************************
@@ -233,11 +233,11 @@ int sunxi_usb_init(int delaytime)
 
 		return -1;
 	}
-	//Ô¤ÏÈ¹Ø±ÕusbÖĞ¶Ï
+	//é¢„å…ˆå…³é—­usbä¸­æ–­
 	irq_disable(AW_IRQ_USB_OTG);
-	//³õÊ¼»¯ sunxi_udcÓÃµ½µÄ×ÊÔ´
+	//åˆå§‹åŒ– sunxi_udcç”¨åˆ°çš„èµ„æº
     memset(&sunxi_udc_source, 0, sizeof(sunxi_udc_t));
-	//»ñÈ¡¿ØÖÆÆ÷µØÖ·×ÊÔ´
+	//è·å–æ§åˆ¶å™¨åœ°å€èµ„æº
     sunxi_udc_source.usbc_hd = USBC_open_otg(0);
 	if(sunxi_udc_source.usbc_hd == 0)
 	{
@@ -245,14 +245,14 @@ int sunxi_usb_init(int delaytime)
 
 		return -1;
 	}
-	//¶Ï¿ªusb
+	//æ–­å¼€usb
 	USBC_Dev_ConectSwitch(sunxi_udc_source.usbc_hd, USBC_DEVICE_SWITCH_OFF);
-	//Ô¤ÏÈ¹Ø±ÕusbÊ±ÖÓ
+	//é¢„å…ˆå…³é—­usbæ—¶é’Ÿ
 	usb_close_clock();
-	//ÑÓÊ± delaytime  ms
+	//å»¶æ—¶ delaytime  ms
 	printf("delay time %d\n", delaytime);
 	__msdelay(delaytime);
-	//ÉêÇëDMA×ÊÔ´
+	//ç”³è¯·DMAèµ„æº
 	sunxi_udc_source.dma_send_channal = sunxi_dma_request(0);
 	if(!sunxi_udc_source.dma_send_channal)
 	{
@@ -267,7 +267,7 @@ int sunxi_usb_init(int delaytime)
 
 		goto __sunxi_usb_init_fail;
 	}
-	//ÅäÖÃdma×ÊÔ´
+	//é…ç½®dmaèµ„æº
 	usb_recv_by_dma.pgsz   = 0;
 	usb_recv_by_dma.pgstp  = 0;
 	usb_recv_by_dma.cmt_blk_cnt = 0;
@@ -284,15 +284,15 @@ int sunxi_usb_init(int delaytime)
 
 	usb_recv_by_dma.cfg.wait_state       = 4;
 	usb_recv_by_dma.cfg.continuous_mode  = 0;
-	//×¢²ádmaÖĞ¶Ïº¯Êı
+	//æ³¨å†Œdmaä¸­æ–­å‡½æ•°
 	sunxi_usb_dbg("install dma isr\n");
 	sunxi_dma_install_int(sunxi_udc_source.dma_recv_channal, __usb_recv_by_dma_isr, 0);
 	//sunxi_dma_install_int(sunxi_udc_source.dma_recv_channal, __usb_recv_by_dma_isr, 0);
-	//Ê¹ÄÜdmaÖĞ¶Ï
+	//ä½¿èƒ½dmaä¸­æ–­
 	sunxi_usb_dbg("enable dma isr\n");
 	sunxi_dma_enable_int(sunxi_udc_source.dma_recv_channal);
 
-	//ÅäÖÃdma×ÊÔ´
+	//é…ç½®dmaèµ„æº
 	usb_recv_by_dma.pgsz   = 0;
 	usb_recv_by_dma.pgstp  = 0;
 	usb_recv_by_dma.cmt_blk_cnt = 0;
@@ -313,7 +313,7 @@ int sunxi_usb_init(int delaytime)
 
 	sunxi_dma_setting(sunxi_udc_source.dma_recv_channal, &usb_recv_by_dma);
 	sunxi_dma_setting(sunxi_udc_source.dma_send_channal, &usb_send_by_dma);
-	//¼Ù¶¨usbÔËĞĞÔÚ¸ßËÙÄ£Ê½ÏÂ
+	//å‡å®šusbè¿è¡Œåœ¨é«˜é€Ÿæ¨¡å¼ä¸‹
 	sunxi_udc_source.address = 0;
 	sunxi_udc_source.speed = USB_SPEED_HIGH;
 	sunxi_udc_source.bulk_ep_max = HIGH_SPEED_EP_MAX_PACKET_SIZE;
@@ -333,22 +333,22 @@ int sunxi_usb_init(int delaytime)
 	sunxi_ubuf.rx_req_buffer = sunxi_ubuf.rx_base_buffer;
 
 	usb_open_clock();
-	//ÉèÖÃÎªdeviceÄ£Ê½
+	//è®¾ç½®ä¸ºdeviceæ¨¡å¼
     USBC_ForceId(sunxi_udc_source.usbc_hd, USBC_ID_TYPE_DEVICE);
-	//ÉèÖÃVBUSÎª¸ß
+	//è®¾ç½®VBUSä¸ºé«˜
 	USBC_ForceVbusValid(sunxi_udc_source.usbc_hd, USBC_VBUS_TYPE_HIGH);
 
     USBC_Dev_ConectSwitch(sunxi_udc_source.usbc_hd, USBC_DEVICE_SWITCH_OFF);
 	//soft connect
     USBC_EnableDpDmPullUp(sunxi_udc_source.usbc_hd);
     USBC_EnableIdPullUp(sunxi_udc_source.usbc_hd);
-    //Ñ¡ÔñÊ¹ÓÃPIOÄ£Ê½°áÒÆÊı¾İ
+    //é€‰æ‹©ä½¿ç”¨PIOæ¨¡å¼æ¬ç§»æ•°æ®
     USBC_SelectBus(sunxi_udc_source.usbc_hd, USBC_IO_TYPE_PIO, 0, 0);
-    //Ó³ÉäSRAM buffer
+    //æ˜ å°„SRAM buffer
     USBC_ConfigFIFO_Base(sunxi_udc_source.usbc_hd, 0, 0);
 	//
     USBC_EnhanceSignal(sunxi_udc_source.usbc_hd);
-	//Ä¬ÈÏ²ÉÓÃ¸ßËÙÄ£Ê½´«Êä
+	//é»˜è®¤é‡‡ç”¨é«˜é€Ÿæ¨¡å¼ä¼ è¾“
 #ifdef	CONFIG_USB_1_1_DEVICE
 	USBC_Dev_ConfigTransferMode(sunxi_udc_source.usbc_hd, USBC_TS_TYPE_BULK, USBC_TS_MODE_FS);
 #else
@@ -359,7 +359,7 @@ int sunxi_usb_init(int delaytime)
     USBC_INT_DisableEpAll(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX);
     USBC_INT_DisableEpAll(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_TX);
 
-    /* ¿ªÆô reset¡¢resume¡¢suspendÖĞ¶Ï */
+    /* å¼€å¯ resetã€resumeã€suspendä¸­æ–­ */
 	USBC_INT_EnableUsbMiscUint(sunxi_udc_source.usbc_hd, USBC_INTUSB_SUSPEND | USBC_INTUSB_RESUME	\
 													   | USBC_INTUSB_RESET);
 
@@ -483,15 +483,15 @@ static void __usb_recv_by_dma_isr(void *p_arg)
 	u32 old_ep_idx;
 
 	old_ep_idx = USBC_GetActiveEp(sunxi_udc_source.usbc_hd);
-	USBC_SelectActiveEp(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);			//Ñ¡ÔñRXEP
-	//Èç¹ûµ±Ç°dma´«ÊäµÄ²»ÊÇÍêÕû°ü£¬ÔòĞèÒªÊÖ¶¯Çå³ıÖĞ¶Ï
+	USBC_SelectActiveEp(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);			//é€‰æ‹©RXEP
+	//å¦‚æœå½“å‰dmaä¼ è¾“çš„ä¸æ˜¯å®Œæ•´åŒ…ï¼Œåˆ™éœ€è¦æ‰‹åŠ¨æ¸…é™¤ä¸­æ–­
 	//printf("sunxi_ubuf.request_size=0x%x\n",sunxi_ubuf.request_size);
 	if(sunxi_ubuf.request_size % sunxi_udc_source.bulk_ep_max)
 	{
 		USBC_Dev_ReadDataStatus(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);
 		//printf("clear rx pending manually\n");
 	}
-	//Ñ¡ÔñÊ¹ÓÃIO·½Ê½°áÔËÊı¾İ
+	//é€‰æ‹©ä½¿ç”¨IOæ–¹å¼æ¬è¿æ•°æ®
 	sunxi_usb_dbg("select io mode to transfer data\n");
 	USBC_Dev_ClearEpDma(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX);
 
@@ -703,9 +703,9 @@ static int __usb_read_fifo(void *buffer, unsigned int buffer_size)
     u32 this_len;
 
 	old_ep_idx = USBC_GetActiveEp(sunxi_udc_source.usbc_hd);
-	USBC_SelectActiveEp(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);			//Ñ¡Ôñµ±Ç°EP
+	USBC_SelectActiveEp(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);			//é€‰æ‹©å½“å‰EP
 
-	fifo = USBC_SelectFIFO(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);		//Ñ¡Ôñfifo
+	fifo = USBC_SelectFIFO(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);		//é€‰æ‹©fifo
 
 	left = buffer_size;
 
@@ -721,7 +721,7 @@ static int __usb_read_fifo(void *buffer, unsigned int buffer_size)
 				transfered += this_len;
 	        	left -= this_len;
 
-	        	__usb_readcomplete(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);		//·µ»Ø×´Ì¬
+	        	__usb_readcomplete(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);		//è¿”å›çŠ¶æ€
 			}
 		}
 		USBC_INT_ClearEpPending(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, SUNXI_USB_BULK_OUT_EP_INDEX);
@@ -734,7 +734,7 @@ static int __usb_read_fifo(void *buffer, unsigned int buffer_size)
 			this_len = USBC_ReadPacket(sunxi_udc_source.usbc_hd, fifo, this_len, buffer);
 
 			transfered = this_len;
-			__usb_readcomplete(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);		//·µ»Ø×´Ì¬
+			__usb_readcomplete(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);		//è¿”å›çŠ¶æ€
 		}
 		else
 		{
@@ -855,19 +855,19 @@ int sunxi_udc_start_recv_by_dma(uint mem_buf, uint length)
 	uint fifo;
 
 	old_ep_idx = USBC_GetActiveEp(sunxi_udc_source.usbc_hd);
-	USBC_SelectActiveEp(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);			//Ñ¡Ôñµ±Ç°EP
-	//usb¿ØÖÆÆ÷Ñ¡Ôñdma´«Êä·½Ê½
+	USBC_SelectActiveEp(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);			//é€‰æ‹©å½“å‰EP
+	//usbæ§åˆ¶å™¨é€‰æ‹©dmaä¼ è¾“æ–¹å¼
 	USBC_Dev_ConfigEpDma(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX);
-	//Ñ¡Ôñbuffer
+	//é€‰æ‹©buffer
 	fifo = USBC_SelectFIFO(sunxi_udc_source.usbc_hd, SUNXI_USB_BULK_OUT_EP_INDEX);
-	//Ë¢µôcache
+	//åˆ·æ‰cache
 	flush_cache(mem_buf, length);
-	//Ê¹ÄÜdma´«Êä
+	//ä½¿èƒ½dmaä¼ è¾“
 	sunxi_ubuf.request_size = length;
 	sunxi_usb_dbg("dma start\n");
 	sunxi_dma_start(sunxi_udc_source.dma_recv_channal, fifo, mem_buf, length);
-	//»Ö¸´EP
-	USBC_SelectActiveEp(sunxi_udc_source.usbc_hd, old_ep_idx);			//»Ö¸´Ô­ÓĞEP
+	//æ¢å¤EP
+	USBC_SelectActiveEp(sunxi_udc_source.usbc_hd, old_ep_idx);			//æ¢å¤åŸæœ‰EP
 
 	return 0;
 }
@@ -1064,7 +1064,7 @@ static int ep0_recv_op(void)
 	{
    	    USBC_Dev_Ctrl_ClearSetupEnd(sunxi_udc_source.usbc_hd);
 	}
-	//¼ì²é¶Áep0Êı¾İÊÇ·ñÍê³É
+	//æ£€æŸ¥è¯»ep0æ•°æ®æ˜¯å¦å®Œæˆ
 	if(USBC_Dev_IsReadDataReady(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_EP0))
 	{
 		uint status;
@@ -1085,7 +1085,7 @@ static int ep0_recv_op(void)
 			goto __ep0_recv_op_err;
 		}
 	}
-	else		//´ËÇé¿öÍ¨³£ÓÉÓÚep0·¢ËÍ¿Õ°üÒıÆğ£¬¿ÉÒÔ²»´¦Àí
+	else		//æ­¤æƒ…å†µé€šå¸¸ç”±äºep0å‘é€ç©ºåŒ…å¼•èµ·ï¼Œå¯ä»¥ä¸å¤„ç†
 	{
 		sunxi_usb_dbg("sunxi usb msg: ep0 rx data is not ready\n");
 
@@ -1326,7 +1326,7 @@ static int eprx_recv_op(void)
 				sunxi_ubuf.rx_req_buffer += this_len;
 
 				sunxi_usb_dbg("special read ep bytes 0x%x\n", sunxi_ubuf.rx_req_length);
-				__usb_readcomplete(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);		//·µ»Ø×´Ì¬
+				__usb_readcomplete(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);		//è¿”å›çŠ¶æ€
 			}
 			else if(!sunxi_ubuf.rx_ready_for_data)
 			{
@@ -1337,7 +1337,7 @@ static int eprx_recv_op(void)
 				sunxi_ubuf.rx_ready_for_data = 1;
 
 				sunxi_usb_dbg("read ep bytes 0x%x\n", sunxi_ubuf.rx_req_length);
-				__usb_readcomplete(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);		//·µ»Ø×´Ì¬
+				__usb_readcomplete(sunxi_udc_source.usbc_hd, USBC_EP_TYPE_RX, 1);		//è¿”å›çŠ¶æ€
 			}
 			else
 			{

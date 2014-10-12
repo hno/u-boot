@@ -53,12 +53,12 @@ uint add_sum(void *buffer, uint length)
 	unsigned int count;
 	unsigned int sum;
 
-	count = length >> 2;                         // ÒÔ ×Ö£¨4bytes£©Îªµ¥Î»¼ÆÊı
+	count = length >> 2;                         // ä»¥ å­—ï¼ˆ4bytesï¼‰ä¸ºå•ä½è®¡æ•°
 	sum = 0;
 	buf = (unsigned int *)buffer;
 	while(count--)
 	{
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
 	};
 
 	switch(length & 0x03)
@@ -207,16 +207,16 @@ uint sunxi_sprite_generate_checksum(void *buffer, uint length, uint src_sum)
 	uint count;
 	uint sum;
 
-	/* Éú³ÉĞ£ÑéºÍ */
-	count = length >> 2;                       // ÒÔ ×Ö£¨4bytes£©Îªµ¥Î»¼ÆÊı
+	/* ç”Ÿæˆæ ¡éªŒå’Œ */
+	count = length >> 2;                       // ä»¥ å­—ï¼ˆ4bytesï¼‰ä¸ºå•ä½è®¡æ•°
 	sum = 0;
 	buf = (__u32 *)buffer;
 	do
 	{
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
 	}while( ( count -= 4 ) > (4-1) );
 
 	while( count-- > 0 )
@@ -253,16 +253,16 @@ int sunxi_sprite_verify_checksum(void *buffer, uint length, uint src_sum)
 	uint count;
 	uint sum;
 
-	/* Éú³ÉĞ£ÑéºÍ */
-	count = length >> 2;                       // ÒÔ ×Ö£¨4bytes£©Îªµ¥Î»¼ÆÊı
+	/* ç”Ÿæˆæ ¡éªŒå’Œ */
+	count = length >> 2;                       // ä»¥ å­—ï¼ˆ4bytesï¼‰ä¸ºå•ä½è®¡æ•°
 	sum = 0;
 	buf = (__u32 *)buffer;
 	do
 	{
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
-		sum += *buf++;                         // ÒÀ´ÎÀÛ¼Ó£¬ÇóµÃĞ£ÑéºÍ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
+		sum += *buf++;                         // ä¾æ¬¡ç´¯åŠ ï¼Œæ±‚å¾—æ ¡éªŒå’Œ
 	}while( ( count -= 4 ) > (4-1) );
 
 	while( count-- > 0 )
@@ -276,9 +276,9 @@ int sunxi_sprite_verify_checksum(void *buffer, uint length, uint src_sum)
 
 	debug("src sum=%x, check sum=%x\n", src_sum, sum);
 	if( sum == src_sum )
-		return 0;               // Ğ£Ñé³É¹¦
+		return 0;               // æ ¡éªŒæˆåŠŸ
 	else
-		return -1;              // Ğ£ÑéÊ§°Ü
+		return -1;              // æ ¡éªŒå¤±è´¥
 }
 /*
 ***************************************************************

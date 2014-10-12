@@ -37,13 +37,13 @@ static __u32 sprite_led_hd;
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -64,13 +64,13 @@ static void sprite_timer_func(void *p)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -83,7 +83,7 @@ int sprite_led_init(void)
 	
 	sprite_led_status = 1;
 	
-	//Õı³£¹¤×÷Ê±£¬µÆÉÁË¸µÄÊ±¼ä
+	//æ­£å¸¸å·¥ä½œæ—¶ï¼Œç¯é—ªçƒçš„æ—¶é—´
 	ret = script_parser_fetch("card_boot", "sprite_work_delay", (void *)&delay, 1);
 	if((ret) || (!delay))
 	{
@@ -92,7 +92,7 @@ int sprite_led_init(void)
 	
 	printf("try sprite_led_gpio config\n");
 	memset(&gpio_init, 0, sizeof(user_gpio_set_t));
-	//ÅäÖÃÊä³ögpio¿Ú
+	//é…ç½®è¾“å‡ºgpioå£
 	ret = script_parser_fetch("card_boot", "sprite_gpio0", (void *)&gpio_init, sizeof(user_gpio_set_t)>>2);
 	if(!ret)
 	{
@@ -123,13 +123,13 @@ int sprite_led_init(void)
 *
 *                                             function
 *
-*    º¯ÊıÃû³Æ£º
+*    å‡½æ•°åç§°ï¼š
 *
-*    ²ÎÊıÁĞ±í£º
+*    å‚æ•°åˆ—è¡¨ï¼š
 *
-*    ·µ»ØÖµ  £º
+*    è¿”å›å€¼  ï¼š
 *
-*    ËµÃ÷    £º
+*    è¯´æ˜    ï¼š
 *
 *
 ************************************************************************************************************
@@ -141,7 +141,7 @@ int sprite_led_exit(int status)
 
 	del_timer(&TIMER0);
 	
-	//³ö´íµÄÊ±ºò£¬ledµÄÉÁË¸¼Ó¿ì
+	//å‡ºé”™çš„æ—¶å€™ï¼Œledçš„é—ªçƒåŠ å¿«
 	if(status < 0)
 	{
 		ret = script_parser_fetch("card_boot", "sprite_err_delay", (void *)&delay, 1);
